@@ -1,0 +1,16 @@
+{
+  "name": "hebiko-astro",
+  "version": "1.0.0",
+  "description": "A photography portfolio site inspired by hebiko.cn, built with Astro",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "astro": "^5.3.0",
+    "typescript": "^5.7.0"
+  }
+}

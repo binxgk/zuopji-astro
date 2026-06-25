@@ -1,0 +1,177 @@
+---
+// BaseLayout.astro — 全站通用布局：导航栏 + 模糊背景 + 内容区 + 页脚
+export interface Props {
+  title?: string;
+  description?: string;
+  currentPage?: 'gallery' | 'schedule';
+}
+const { title = '蛇窝', description = '二次元摄影记录', currentPage } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- 随机背景图脚本（内联，避免闪烁） -->
+    <script is:inline>
+      (function() {
+        const backgrounds = ['/previews/01.jpg','/previews/02.jpg','/previews/03.jpg'];
+        const bg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        document.documentElement.style.setProperty('--bg-image', `url(${bg})`);
+      })();
+    </script>
+    <style is:inline>
+      .bg-blur-layer { background-image: var(--bg-image); }
+    </style>
+  </head>
+  <body>
+    <!-- 模糊背景 -->
+    <div class="bg-blur-layer"></div>
+
+    <!-- 导航栏 -->
+    <nav class="top-nav">
+      <a href="/" class="nav-logo">{title}</a>
+      <div class="nav-links">
+        <a href="/" class:list={[{ active: currentPage === 'gallery' || !currentPage }]}>作品</a>
+        <a href="/schedule" class:list={[{ active: currentPage === 'schedule' }]}>日程</a>
+        <button class="nav-portal-trigger" onclick="togglePortal()" type="button">
+          模特选图
+        </button>
+      </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="container">
+      <slot />
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+      &copy; {new Date().getFullYear()} {title}. All rights reserved.
+    </footer>
+
+    <!-- 模特选图密码弹窗 -->
+    <div class="portal-overlay" id="portalOverlay" onclick="closePortalOverlay(event)">
+      <div class="portal-popup" onclick="event.stopPropagation()">
+        <button class="portal-close" onclick="togglePortal()" aria-label="关闭">&times;</button>
+        <h2>模特选图入口</h2>
+        <p class="portal-desc">请输入摄影师或模特特征码</p>
+        <input
+          type="password"
+          id="portalCode"
+          class="portal-input"
+          placeholder="特征码"
+          autocomplete="off"
+        />
+        <button class="portal-submit" onclick="verifyPortal()">进入</button>
+        <div class="portal-error" id="portalError"></div>
+      </div>
+    </div>
+
+    <!-- 灯箱组件 -->
+    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+      <div class="lightbox-content" onclick="event.stopPropagation()">
+        <button class="lightbox-close" onclick="closeLightbox()" aria-label="关闭">&times;</button>
+        <button class="lightbox-prev" onclick="navigateLightbox(-1)" aria-label="上一张">&larr;</button>
+        <button class="lightbox-next" onclick="navigateLightbox(1)" aria-label="下一张">&rarr;</button>
+        <img id="lightboxImg" src="" alt="" />
+        <div class="lightbox-info" id="lightboxInfo"></div>
+      </div>
+    </div>
+
+    <!-- 页面交互脚本 -->
+    <script>
+      // --- 筛选逻辑 ---
+      function initFilters() {
+        const bar = document.getElementById('filterBar');
+        if (!bar) return;
+        bar.addEventListener('click', (e) => {
+          const btn = (e.target as HTMLElement).closest('.filter-btn');
+          if (!btn) return;
+          const tag = btn.dataset.tag || '全部';
+          // 更新 active 状态
+          bar.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+          // 过滤卡片
+          document.querySelectorAll('.artwork-card').forEach((card) => {
+            if (tag === '全部') {
+              card.classList.remove('hidden');
+              return;
+            }
+            const cardTags = card.getAttribute('data-tags') || '';
+            card.classList.toggle('hidden', !cardTags.includes(tag));
+          });
+        });
+      }
+
+      // --- 灯箱逻辑 ---
+      declare global { interface Window { lightboxImages: any[]; } }
+      window.lightboxImages = [];
+      function openLightbox(index: number) {
+        const imgs = window.lightboxImages;
+        if (!imgs.length) return;
+        const photo = imgs[index];
+        const overlay = document.getElementById('lightboxOverlay')!;
+        const img = document.getElementById('lightboxImg') as HTMLImageElement;
+        const info = document.getElementById('lightboxInfo')!;
+        img.src = photo.image;
+        img.alt = photo.title;
+        info.textContent = `${photo.title} — ${photo.ip} | 出镜：${photo.model}`;
+        overlay.classList.add('active');
+        overlay.dataset.currentIndex = String(index);
+      }
+      function closeLightbox() {
+        document.getElementById('lightboxOverlay')!.classList.remove('active');
+      }
+      function navigateLightbox(dir: number) {
+        const overlay = document.getElementById('lightboxOverlay')!;
+        const current = parseInt(overlay.dataset.currentIndex || '0');
+        const imgs = window.lightboxImages;
+        const next = (current + dir + imgs.length) % imgs.length;
+        openLightbox(next);
+      }
+      document.addEventListener('keydown', (e) => {
+        const overlay = document.getElementById('lightboxOverlay')!;
+        if (!overlay.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') navigateLightbox(-1);
+        if (e.key === 'ArrowRight') navigateLightbox(1);
+      });
+
+      // --- 密码弹窗 ---
+      function togglePortal() {
+        document.getElementById('portalOverlay')!.classList.toggle('active');
+        (document.getElementById('portalCode') as HTMLInputElement).value = '';
+        document.getElementById('portalError')!.textContent = '';
+      }
+      function closePortalOverlay(e: MouseEvent) {
+        if ((e.target as HTMLElement).id === 'portalOverlay') {
+          togglePortal();
+        }
+      }
+      function verifyPortal() {
+        const code = (document.getElementById('portalCode') as HTMLInputElement).value.trim();
+        const errorEl = document.getElementById('portalError')!;
+        // 在此处配置合法特征码
+        const validCodes = ['demo123', 'test456'];
+        if (validCodes.includes(code)) {
+          errorEl.textContent = '';
+          togglePortal();
+          alert('验证成功！此处可跳转到模特选图页面。');
+        } else {
+          errorEl.textContent = '特征码不正确，请重试';
+        }
+      }
+
+      // --- 初始化 ---
+      document.addEventListener('DOMContentLoaded', () => {
+        initFilters();
+      });
+    </script>
+  </body>
+</html>

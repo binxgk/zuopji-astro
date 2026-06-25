@@ -1,0 +1,64 @@
+---
+// index.astro — 首页：Hero + 筛选栏 + 瀑布流作品集
+import BaseLayout from '../layouts/BaseLayout.astro';
+import photos, { getAllTags } from '../data/photos.ts';
+import '../styles/global.css';
+
+const tags = getAllTags();
+---
+
+<BaseLayout title="蛇窝" description="二次元摄影记录" currentPage="gallery">
+  <!-- Hero 区域 -->
+  <section class="hero">
+    <h1>蛇窝</h1>
+    <div class="divider"></div>
+    <p class="subhead">Cosplay / 二次元摄影</p>
+  </section>
+
+  <p class="contact-line">📷 约拍请联系：蛇窝 | 小红书/微博@蛇窝</p>
+
+  <!-- 筛选栏 -->
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" data-tag="全部">全部</button>
+    {tags.map((tag) => (
+      <button class="filter-btn" data-tag={tag}>{tag}</button>
+    ))}
+  </div>
+
+  <!-- 瀑布流作品集 -->
+  <div class="gallery">
+    {photos.map((photo, idx) => (
+      <div
+        class="artwork-card"
+        data-tags={photo.tags.join(',')}
+        onclick={`openLightbox(${idx})`}
+      >
+        <div class="image-mask">
+          <img
+            src={photo.image}
+            alt={photo.title}
+            loading="lazy"
+            width="800"
+            height="1200"
+          />
+        </div>
+        <div class="card-info">
+          <span class="ip-tag">{photo.ip}</span>
+          <h3>{photo.title}</h3>
+          <p class="credit-line">出镜：{photo.model}</p>
+          <div class="card-tags">
+            {photo.tags.map((t) => (
+              <span class="card-tag-badge">{t}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</BaseLayout>
+
+<!-- 将照片数据注入全局，供灯箱使用 -->
+<script>
+  import photos from '../data/photos.ts';
+  window.lightboxImages = photos;
+</script>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>蛇窝 — 二次元摄影记录</title>
+<meta name="description" content="二次元摄影记录">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' stroke='%233a6ea5' stroke-width='2' fill='%230a0c10'/%3E%3Cpath d='M8 20c3-4 6-6 8-6 2 0 5 2 8 6' stroke='%235a8ec5' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='12' r='3' stroke='%235a8ec5' stroke-width='1.5'/%3E%3C/svg%3E">
+
+<style>
+/* ============================================
+   hebiko — 暗色主题摄影作品集
+   灵感来源：hebiko.cn
+   ============================================ */
+
+/* 基础重置 */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:#1e1f24}
+::-webkit-scrollbar-thumb{background:#3e3f46;border-radius:8px}
+
+/* 根变量 */
+:root{
+  --bg-deep:#0a0c10;
+  --bg-card:#111317;
+  --text-primary:#eef2f5;
+  --text-secondary:#9aa2b5;
+  --text-muted:#7c8ba0;
+  --accent:#3a6ea5;
+  --accent-light:#5a8ec5;
+  --accent-glow:rgba(58,110,165,0.2);
+  --border:rgba(255,255,255,0.06);
+  --border-light:rgba(255,255,255,0.1);
+  --radius:20px;
+  --radius-sm:12px;
+  --shadow-card:0 8px 20px rgba(0,0,0,0.3);
+  --shadow-hover:0 15px 30px rgba(0,0,0,0.4);
+}
+
+body{
+  font-family:'Inter',system-ui,-apple-system,'Helvetica Neue',sans-serif;
+  color:var(--text-primary);
+  line-height:1.5;
+  background-color:var(--bg-deep);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* 模糊背景层 */
+.bg-blur-layer{
+  position:fixed;inset:0;width:100vw;height:100vh;
+  background-size:cover;background-position:center;
+  background-color:var(--bg-deep);
+  filter:blur(30px) brightness(0.25);
+  z-index:-1;transform:scale(1.1);
+  transition:background-image 1s ease;
+}
+
+/* 导航 */
+.top-nav{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0.8rem 1.5rem;border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;
+  background:rgba(10,12,16,0.85);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.nav-logo{color:var(--text-primary);font-size:1rem;font-weight:600;text-decoration:none;letter-spacing:-0.01em}
+.nav-links{display:flex;gap:0.5rem;align-items:center}
+.nav-links a{
+  color:var(--text-secondary);font-size:0.8rem;cursor:pointer;text-decoration:none;
+  transition:color 0.2s;padding:4px 10px;border-radius:20px;
+  background:none;border:none;font-family:inherit;
+}
+.nav-links a:hover{color:var(--text-primary)}
+.nav-links a.active{color:var(--text-primary);background:rgba(255,255,255,0.06)}
+
+/* 容器 */
+.container{max-width:1200px;margin:0 auto;padding:2rem 1rem 4rem}
+.page-section{display:none}
+.page-section.active{display:block}
+
+/* Hero */
+.hero{margin-bottom:2rem;text-align:center}
+.hero h1{
+  font-size:clamp(1.8rem,7vw,3.2rem);font-weight:500;letter-spacing:-0.02em;
+  background:linear-gradient(135deg,#f5f7fc 0%,#b9c2d4 100%);
+  background-clip:text;-webkit-background-clip:text;color:transparent;
+  margin-bottom:0.5rem;
+}
+.hero .subhead{font-size:0.9rem;color:var(--text-secondary)}
+.divider{width:50px;height:2px;background:#2c2f36;margin:1rem auto}
+.contact-line{text-align:center;margin-bottom:1rem;font-size:0.8rem;color:var(--text-muted)}
+
+/* 筛选条 */
+.filter-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin:1rem 0 1.8rem}
+.filter-btn{
+  background:rgba(30,31,44,0.6);backdrop-filter:blur(4px);
+  border:1px solid var(--border-light);border-radius:40px;
+  padding:6px 14px;font-size:0.7rem;font-weight:500;
+  color:var(--text-primary);cursor:pointer;transition:0.2s;font-family:inherit;
+}
+.filter-btn:hover{background:rgba(58,110,165,0.3);border-color:var(--accent-light)}
+.filter-btn.active{background:var(--accent);border-color:var(--accent-light);color:white}
+
+/* 瀑布流画廊 */
+.gallery{column-count:2;column-gap:1.2rem}
+@media(max-width:768px){.gallery{column-count:1}}
+
+/* 作品卡片 */
+.artwork-card{
+  background:var(--bg-card);border-radius:var(--radius);overflow:hidden;
+  transition:transform 0.2s ease,box-shadow 0.2s;box-shadow:var(--shadow-card);
+  border:1px solid rgba(255,255,255,0.05);cursor:pointer;
+  break-inside:avoid;margin-bottom:1.2rem;
+}
+.artwork-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.artwork-card.hidden{display:none}
+.image-mask{width:100%;background:#1a1c22;line-height:0;overflow:hidden}
+.image-mask .placeholder-img{
+  width:100%;display:block;transition:transform 0.5s ease;
+  background:linear-gradient(135deg,#1a1c22 0%,#252830 50%,#1a1c22 100%);
+}
+.artwork-card:hover .image-mask .placeholder-img{transform:scale(1.02)}
+.card-info{
+  padding:0.9rem 1rem 1rem;
+  background:linear-gradient(0deg,#0e1015,#111317);
+}
+.card-info h3{font-size:1rem;font-weight:600;margin-bottom:0.2rem;color:var(--text-primary)}
+.card-info .ip-tag{
+  font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;
+  color:var(--text-muted);display:inline-block;margin-bottom:0.5rem;
+}
+.card-info .credit-line{font-size:0.65rem;color:#8a92aa;margin-bottom:0.5rem}
+.card-tags{display:flex;flex-wrap:wrap;gap:0.3rem}
+.card-tag-badge{
+  font-size:0.6rem;padding:2px 8px;border-radius:20px;
+  background:rgba(255,255,255,0.05);color:var(--text-secondary);
+}
+
+/* 灯箱 */
+.lightbox-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.92);backdrop-filter:blur(10px);
+  z-index:1000;display:flex;align-items:center;justify-content:center;
+  visibility:hidden;opacity:0;transition:opacity 0.25s;
+}
+.lightbox-overlay.active{visibility:visible;opacity:1}
+.lightbox-content{position:relative;max-width:90vw;max-height:90vh;display:flex;flex-direction:column;align-items:center}
+.lightbox-content img{max-width:90vw;max-height:75vh;object-fit:contain;border-radius:var(--radius-sm)}
+.lightbox-info{margin-top:1rem;text-align:center;color:var(--text-secondary);font-size:0.85rem}
+.lightbox-close{
+  position:absolute;top:-40px;right:0;font-size:1.8rem;
+  color:var(--text-secondary);cursor:pointer;background:none;border:none;transition:color 0.2s;
+}
+.lightbox-close:hover{color:#fff}
+.lightbox-prev,.lightbox-next{
+  position:absolute;top:50%;transform:translateY(-50%);
+  font-size:1.5rem;color:var(--text-secondary);cursor:pointer;
+  background:rgba(0,0,0,0.4);border:none;border-radius:50%;
+  width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  transition:color 0.2s,background 0.2s;
+}
+.lightbox-prev:hover,.lightbox-next:hover{color:#fff;background:rgba(58,110,165,0.4)}
+.lightbox-prev{left:-56px}.lightbox-next{right:-56px}
+@media(max-width:768px){.lightbox-prev{left:10px}.lightbox-next{right:10px}}
+
+/* 日程页 */
+.schedule-page{max-width:900px;margin:0 auto}
+.schedule-page h1{
+  font-size:clamp(1.4rem,5vw,2.2rem);font-weight:500;text-align:center;margin-bottom:1.5rem;
+  background:linear-gradient(135deg,#f5f7fc 0%,#b9c2d4 100%);
+  background-clip:text;-webkit-background-clip:text;color:transparent;
+}
+
+/* FullCalendar 暗色覆写 */
+.fc{
+  --fc-border-color:#2c2f36;
+  --fc-page-bg-color:transparent;
+  --fc-neutral-bg-color:transparent;
+  color:var(--text-primary);font-size:0.85rem;
+}
+.fc .fc-toolbar-title{font-size:1.1rem;font-weight:500;color:var(--text-primary)}
+.fc .fc-button{
+  background:rgba(30,31,44,0.6);border:1px solid var(--border-light);
+  border-radius:8px;padding:4px 12px;font-size:0.8rem;color:var(--text-primary);
+  transition:0.2s;font-family:inherit;text-transform:none;
+}
+.fc .fc-button:hover{background:rgba(58,110,165,0.3)}
+.fc .fc-button-primary:not(:disabled).fc-button-active{background:var(--accent);border-color:var(--accent-light)}
+.fc .fc-daygrid-day{background:rgba(17,19,23,0.5)}
+.fc .fc-day-today{background:rgba(58,110,165,0.1)!important}
+.fc .fc-daygrid-event{background:var(--accent);border:none;border-radius:6px;padding:3px 8px;font-size:0.7rem;margin:1px 2px}
+.fc .fc-daygrid-day-number{color:var(--text-secondary);font-size:0.8rem;padding:6px}
+.fc .fc-col-header-cell-cushion{color:var(--text-muted);font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:1px}
+.fc th{border-color:var(--border)}
+.fc-scrollgrid{border-color:var(--border)!important}
+
+/* 页脚 */
+.site-footer{text-align:center;padding:1.5rem;font-size:0.75rem;color:var(--text-muted);border-top:1px solid var(--border)}
+
+/* Placeholder 图片样式 */
+.placeholder-img{
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-muted);font-size:0.8rem;
+  min-height:180px;
+}
+.placeholder-img::after{
+  content:attr(data-label);
+  position:absolute;bottom:8px;right:10px;
+  font-size:0.6rem;color:rgba(255,255,255,0.3);
+  background:rgba(0,0,0,0.5);padding:2px 6px;border-radius:4px;
+}
+</style>
+</head>
+<body>
+
+<!-- 模糊背景 -->
+<div class="bg-blur-layer" id="bgLayer"></div>
+
+<!-- 导航栏 -->
+<nav class="top-nav">
+  <a href="#" class="nav-logo" onclick="switchPage('gallery')">蛇窝</a>
+  <div class="nav-links">
+    <a href="#" id="nav-gallery" class="active" onclick="switchPage('gallery')">作品</a>
+    <a href="#" id="nav-schedule" onclick="switchPage('schedule')">日程</a>
+  </div>
+</nav>
+
+<!-- 主内容 -->
+<main class="container">
+
+  <!-- ===== 作品页 ===== -->
+  <section class="page-section active" id="page-gallery">
+    <div class="hero">
+      <h1>蛇窝</h1>
+      <div class="divider"></div>
+      <p class="subhead">Cosplay / 二次元摄影</p>
+    </div>
+    <p class="contact-line">📷 约拍请联系：蛇窝 | 小红书/微博@蛇窝</p>
+
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-tag="全部">全部</button>
+    </div>
+
+    <div class="gallery" id="galleryGrid"></div>
+  </section>
+
+  <!-- ===== 日程页 ===== -->
+  <section class="page-section" id="page-schedule">
+    <div class="schedule-page">
+      <h1>约拍日程</h1>
+      <div id="calendar"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  &copy; 2026 蛇窝. All rights reserved.
+</footer>
+
+<!-- 灯箱 -->
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+  <div class="lightbox-content" onclick="event.stopPropagation()">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="关闭">&times;</button>
+    <button class="lightbox-prev" onclick="navigateLightbox(-1)" aria-label="上一张">&larr;</button>
+    <button class="lightbox-next" onclick="navigateLightbox(1)" aria-label="下一张">&rarr;</button>
+    <img id="lightboxImg" src="" alt="">
+    <div class="lightbox-info" id="lightboxInfo"></div>
+  </div>
+</div>
+
+<!-- ============ 数据 & 逻辑 ============ -->
+<script>
+// ========== 作品数据 ==========
+const photos = [
+  { id:'01',title:'toki',ip:'蔚蓝档案',model:'小甄',tags:['#低调','#实景棚','#人造光'],color:'#2a3f5f',h:1.4 },
+  { id:'02',title:'爱弥斯',ip:'鸣潮',model:'小甄',tags:['#高调','#白棚','#人造光','#动态'],color:'#3f2a3f',h:1.0 },
+  { id:'03',title:'伊德海莉',ip:'zzz',model:'松子',tags:['#中间调','#场照','#人造光'],color:'#2f3a2a',h:1.3 },
+  { id:'04',title:'大凤',ip:'碧蓝航线',model:'现在',tags:['#高调','#实景棚','#人造光'],color:'#3f3a2a',h:1.6 },
+  { id:'05',title:'甘雨',ip:'原神',model:'小甄',tags:['#高调','#外景','#合成','#自然光'],color:'#2a3a3f',h:1.1 },
+  { id:'06',title:'蕾姆',ip:'re0',model:'希洛',tags:['#高调','#白棚','#人造光'],color:'#3f2a3a',h:1.5 },
+  { id:'07',title:'蓝蒂',ip:'明日方舟',model:'号号',tags:['#中间调','#场照','#合成','#人造光'],color:'#2a2f3f',h:0.9 },
+  { id:'08',title:'高雄',ip:'碧蓝航线',model:'叶不耶',tags:['#中间调','#白棚','#人造光'],color:'#3a3f2a',h:1.2 },
+  { id:'09',title:'弗洛洛',ip:'鸣潮',model:'小甄',tags:['#高调','#外景','#自然光','#故事感'],color:'#3f2a2f',h:1.35 },
+  { id:'10',title:'纱耶香',ip:'魔圆',model:'三鱼',tags:['#中间调','#场照','#外景','#人造光','#动态'],color:'#2f2a3f',h:1.25 },
+];
+
+// 提取所有去重标签
+function getAllTags(){
+  const s=new Set();
+  photos.forEach(p=>p.tags.forEach(t=>s.add(t)));
+  return [...s].sort((a,b)=>a.localeCompare(b,'zh'));
+}
+
+// ========== 日程数据 ==========
+const scheduleEvents = [
+  { title:'12时 ci studio白棚包天', date:'2026-06-07', time:'12时' },
+  { title:'20时 绯雪', date:'2026-06-13', time:'20时' },
+  { title:'16时 萌萌香jk', date:'2026-06-20', time:'16时' },
+  { title:'19时 达妮娅', date:'2026-06-27', time:'19时' },
+  { title:'12时 千夏、怨仇、花火', date:'2026-07-04', time:'12时' },
+  { title:'12时 菲比', date:'2026-07-11', time:'12时' },
+  { title:'14时 穹妹jk', date:'2026-07-12', time:'14时' },
+];
+
+// ========== 页面切换 ==========
+function switchPage(page){
+  document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.getElementById('nav-'+page).classList.add('active');
+  if(page==='schedule' && window._calendarNeedsRender){
+    window._calendarNeedsRender=false;
+    renderCalendar();
+  }
+}
+
+// ========== 渲染画廊 ==========
+(function renderGallery(){
+  const grid=document.getElementById('galleryGrid');
+  const bar=document.getElementById('filterBar');
+
+  // 生成筛选按钮
+  getAllTags().forEach(tag=>{
+    const btn=document.createElement('button');
+    btn.className='filter-btn';
+    btn.dataset.tag=tag;
+    btn.textContent=tag;
+    bar.appendChild(btn);
+  });
+
+  // 生成卡片
+  photos.forEach((p,i)=>{
+    const card=document.createElement('div');
+    card.className='artwork-card';
+    card.dataset.tags=p.tags.join(',');
+    card.style.cursor='pointer';
+    card.onclick=()=>openLightbox(i);
+
+    const h=p.h||1.3;
+    card.innerHTML=`
+      <div class="image-mask">
+        <div class="placeholder-img" data-label="${p.ip} · ${p.title}" style="aspect-ratio:3/4;background:linear-gradient(145deg,${p.color} 0%,var(--bg-deep) 70%);min-height:${Math.round(220*h)}px">
+          <span style="font-size:2rem;opacity:0.15">📷</span>
+        </div>
+      </div>
+      <div class="card-info">
+        <span class="ip-tag">${p.ip}</span>
+        <h3>${p.title}</h3>
+        <p class="credit-line">出镜：${p.model}</p>
+        <div class="card-tags">
+          ${p.tags.map(t=>`<span class="card-tag-badge">${t}</span>`).join('')}
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+})();
+
+// ========== 筛选逻辑 ==========
+document.addEventListener('DOMContentLoaded',()=>{
+  const bar=document.getElementById('filterBar');
+  bar.addEventListener('click',e=>{
+    const btn=e.target.closest('.filter-btn');
+    if(!btn)return;
+    const tag=btn.dataset.tag||'全部';
+    bar.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.artwork-card').forEach(card=>{
+      if(tag==='全部'){card.classList.remove('hidden');return;}
+      const t=card.dataset.tags||'';
+      card.classList.toggle('hidden',!t.includes(tag));
+    });
+  });
+});
+
+// ========== 灯箱 ==========
+function openLightbox(index){
+  const p=photos[index];
+  const overlay=document.getElementById('lightboxOverlay');
+  const img=document.getElementById('lightboxImg');
+  const info=document.getElementById('lightboxInfo');
+
+  // 使用渐变色 placeholder + 图片标签模拟
+  img.src='data:image/svg+xml,'+encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="${Math.round(400*(p.h||1.3))}" viewBox="0 0 600 ${Math.round(400*(p.h||1.3))}">
+      <defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:${p.color}"/>
+        <stop offset="100%" style="stop-color:#0a0c10"/>
+      </linearGradient></defs>
+      <rect width="600" height="${Math.round(400*(p.h||1.3))}" fill="url(#g)"/>
+      <text x="300" y="${Math.round(200*(p.h||1.3))}" text-anchor="middle" fill="rgba(255,255,255,0.08)" font-size="80" font-family="sans-serif">📷</text>
+      <text x="300" y="${Math.round(200*(p.h||1.3))+60}" text-anchor="middle" fill="rgba(255,255,255,0.15)" font-size="18" font-family="sans-serif">${p.title} · ${p.ip}</text>
+    </svg>`);
+  img.alt=p.title;
+  info.textContent=`${p.title} — ${p.ip} | 出镜：${p.model}`;
+  overlay.classList.add('active');
+  overlay.dataset.currentIndex=String(index);
+}
+function closeLightbox(){
+  document.getElementById('lightboxOverlay').classList.remove('active');
+}
+function navigateLightbox(dir){
+  const overlay=document.getElementById('lightboxOverlay');
+  const cur=parseInt(overlay.dataset.currentIndex||'0');
+  const next=(cur+dir+photos.length)%photos.length;
+  openLightbox(next);
+}
+document.addEventListener('keydown',e=>{
+  const overlay=document.getElementById('lightboxOverlay');
+  if(!overlay.classList.contains('active'))return;
+  if(e.key==='Escape')closeLightbox();
+  if(e.key==='ArrowLeft')navigateLightbox(-1);
+  if(e.key==='ArrowRight')navigateLightbox(1);
+});
+
+// ========== 随机背景 ==========
+(function initBg(){
+  const bgColors=['#1a2030','#201a28','#1a2820','#28201a','#1a1f2e'];
+  const c=bgColors[Math.floor(Math.random()*bgColors.length)];
+  document.getElementById('bgLayer').style.background=`
+    radial-gradient(ellipse at 30% 20%, ${c} 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 60%, rgba(58,110,165,0.15) 0%, transparent 50%),
+    var(--bg-deep)
+  `;
+})();
+
+// ========== 日历渲染 (延迟加载) ==========
+window._calendarNeedsRender=true;
+let calendarInstance=null;
+
+function renderCalendar(){
+  const el=document.getElementById('calendar');
+  if(!el||typeof FullCalendar==='undefined')return;
+
+  if(calendarInstance){
+    calendarInstance.destroy();
+  }
+
+  calendarInstance=new FullCalendar.Calendar(el,{
+    initialView:'dayGridMonth',
+    locale:'zh-cn',
+    height:'auto',
+    headerToolbar:{left:'prev',center:'title',right:'next'},
+    events:scheduleEvents.map(e=>({title:e.title,start:e.date,allDay:true,extendedProps:{time:e.time}})),
+    eventDidMount(info){
+      if(info.event.extendedProps?.time){info.el.title=info.event.extendedProps.time;}
+    }
+  });
+  calendarInstance.render();
+}
+</script>
+
+<!-- FullCalendar CDN -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/zh-cn.min.js"></script>
+
+</body>
+</html>

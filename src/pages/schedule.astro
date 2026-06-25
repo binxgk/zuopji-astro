@@ -1,0 +1,56 @@
+---
+// schedule.astro — 日程页：FullCalendar 月视图
+import BaseLayout from '../layouts/BaseLayout.astro';
+import schedule from '../data/schedule.ts';
+import '../styles/global.css';
+---
+
+<BaseLayout title="日程 — 蛇窝" description="约拍日程安排" currentPage="schedule">
+  <div class="schedule-page">
+    <h1>约拍日程</h1>
+
+    <div id="calendar"></div>
+  </div>
+</BaseLayout>
+
+<!-- FullCalendar CDN -->
+<link
+  href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css"
+  rel="stylesheet"
+/>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/zh-cn.min.js"></script>
+
+<script>
+  import schedule from '../data/schedule.ts';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const calendarEl = document.getElementById('calendar');
+    if (!calendarEl) return;
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'zh-cn',
+      height: 'auto',
+      headerToolbar: {
+        left: 'prev',
+        center: 'title',
+        right: 'next',
+      },
+      events: schedule.map((e) => ({
+        title: e.title,
+        start: e.date,
+        allDay: true,
+        extendedProps: e.extendedProps,
+      })),
+      eventDidMount(info) {
+        // 为事件添加 tooltip
+        if (info.event.extendedProps?.time) {
+          info.el.title = info.event.extendedProps.time;
+        }
+      },
+    });
+
+    calendar.render();
+  });
+</script>
