@@ -5,7 +5,7 @@ export interface Props {
   description?: string;
   currentPage?: 'gallery' | 'schedule';
 }
-const { title = '蛇窝', description = '二次元摄影记录', currentPage } = Astro.props;
+const { title = '氷子', description = '二次元摄影记录', currentPage } = Astro.props;
 ---
 
 <!doctype html>
@@ -39,12 +39,8 @@ const { title = '蛇窝', description = '二次元摄影记录', currentPage } =
       <div class="nav-links">
         <a href="/" class:list={[{ active: currentPage === 'gallery' || !currentPage }]}>作品</a>
         <a href="/schedule" class:list={[{ active: currentPage === 'schedule' }]}>日程</a>
-        <button class="nav-portal-trigger" onclick="togglePortal()" type="button">
-          模特选图
-        </button>
       </div>
     </nav>
-
     <!-- 主内容 -->
     <main class="container">
       <slot />
@@ -54,25 +50,6 @@ const { title = '蛇窝', description = '二次元摄影记录', currentPage } =
     <footer class="site-footer">
       &copy; {new Date().getFullYear()} {title}. All rights reserved.
     </footer>
-
-    <!-- 模特选图密码弹窗 -->
-    <div class="portal-overlay" id="portalOverlay" onclick="closePortalOverlay(event)">
-      <div class="portal-popup" onclick="event.stopPropagation()">
-        <button class="portal-close" onclick="togglePortal()" aria-label="关闭">&times;</button>
-        <h2>模特选图入口</h2>
-        <p class="portal-desc">请输入摄影师或模特特征码</p>
-        <input
-          type="password"
-          id="portalCode"
-          class="portal-input"
-          placeholder="特征码"
-          autocomplete="off"
-        />
-        <button class="portal-submit" onclick="verifyPortal()">进入</button>
-        <div class="portal-error" id="portalError"></div>
-      </div>
-    </div>
-
     <!-- 灯箱组件 -->
     <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
       <div class="lightbox-content" onclick="event.stopPropagation()">
@@ -142,32 +119,6 @@ const { title = '蛇窝', description = '二次元摄影记录', currentPage } =
         if (e.key === 'ArrowLeft') navigateLightbox(-1);
         if (e.key === 'ArrowRight') navigateLightbox(1);
       });
-
-      // --- 密码弹窗 ---
-      function togglePortal() {
-        document.getElementById('portalOverlay')!.classList.toggle('active');
-        (document.getElementById('portalCode') as HTMLInputElement).value = '';
-        document.getElementById('portalError')!.textContent = '';
-      }
-      function closePortalOverlay(e: MouseEvent) {
-        if ((e.target as HTMLElement).id === 'portalOverlay') {
-          togglePortal();
-        }
-      }
-      function verifyPortal() {
-        const code = (document.getElementById('portalCode') as HTMLInputElement).value.trim();
-        const errorEl = document.getElementById('portalError')!;
-        // 在此处配置合法特征码
-        const validCodes = ['demo123', 'test456'];
-        if (validCodes.includes(code)) {
-          errorEl.textContent = '';
-          togglePortal();
-          alert('验证成功！此处可跳转到模特选图页面。');
-        } else {
-          errorEl.textContent = '特征码不正确，请重试';
-        }
-      }
-
       // --- 初始化 ---
       document.addEventListener('DOMContentLoaded', () => {
         initFilters();

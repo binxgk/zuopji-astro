@@ -1,4 +1,4 @@
-/* ============================================
+﻿/* ============================================
    hebiko-astro — 暗色主题摄影作品集样式
    灵感来源：hebiko.cn（蛇窝）
    ============================================ */
@@ -357,99 +357,6 @@ body {
 @media (max-width: 768px) {
   .lightbox-prev { left: 10px; }
   .lightbox-next { right: 10px; }
-}
-
-/* ---- 密码弹窗 ---- */
-.portal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(6px);
-  z-index: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.2s, visibility 0.2s;
-}
-.portal-overlay.active {
-  visibility: visible;
-  opacity: 1;
-}
-.portal-popup {
-  background: var(--bg-card);
-  border: 1px solid #2a2d36;
-  border-radius: var(--radius);
-  padding: 2rem;
-  width: 380px;
-  max-width: 90vw;
-  position: relative;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-}
-.portal-close {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  font-size: 1.2rem;
-  color: var(--text-muted);
-  cursor: pointer;
-  background: none;
-  border: none;
-}
-.portal-close:hover {
-  color: #fff;
-}
-.portal-popup h2 {
-  color: var(--text-primary);
-  text-align: center;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-.portal-popup .portal-desc {
-  color: var(--text-secondary);
-  font-size: 0.8rem;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-.portal-input {
-  width: 100%;
-  background: var(--bg-deep);
-  border: 1px solid #2c2f36;
-  border-radius: 14px;
-  padding: 12px;
-  font-size: 1rem;
-  color: #fff;
-  text-align: center;
-  outline: none;
-  transition: border-color 0.2s;
-  font-family: inherit;
-}
-.portal-input:focus {
-  border-color: var(--accent);
-}
-.portal-submit {
-  width: 100%;
-  background: var(--accent);
-  border: none;
-  border-radius: 14px;
-  padding: 10px;
-  font-size: 0.95rem;
-  color: #fff;
-  cursor: pointer;
-  margin-top: 0.8rem;
-  transition: background 0.2s;
-  font-family: inherit;
-}
-.portal-submit:hover {
-  background: var(--accent-light);
-}
-.portal-error {
-  color: #e05555;
-  font-size: 0.8rem;
-  text-align: center;
-  margin-top: 0.6rem;
-  min-height: 1.2rem;
 }
 
 /* ---- 日程页 ---- */
