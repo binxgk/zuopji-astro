@@ -3,9 +3,9 @@
 export interface Props {
   title?: string;
   description?: string;
-  currentPage?: 'gallery' | 'schedule';
+  currentPage?: 'gallery' | 'notes';
 }
-const { title = '氷子', description = '二次元摄影记录', currentPage } = Astro.props;
+const { title = '氷子-作品集', description = '二次元摄影记录', currentPage } = Astro.props;
 ---
 
 <!doctype html>
@@ -15,32 +15,21 @@ const { title = '氷子', description = '二次元摄影记录', currentPage } =
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <!-- 随机背景图脚本（内联，避免闪烁） -->
-    <script is:inline>
-      (function() {
-        const backgrounds = ['/previews/01.jpg','/previews/02.jpg','/previews/03.jpg'];
-        const bg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-        document.documentElement.style.setProperty('--bg-image', `url(${bg})`);
-      })();
-    </script>
-    <style is:inline>
-      .bg-blur-layer { background-image: var(--bg-image); }
-    </style>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' stroke='%237FEFD0' stroke-width='2' fill='%23ffffff'/%3E%3Cpath d='M8 20c3-4 6-6 8-6 2 0 5 2 8 6' stroke='%235acba0' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='12' r='3' stroke='%235acba0' stroke-width='1.5'/%3E%3C/svg%3E" />
   </head>
   <body>
     <!-- 模糊背景 -->
-    <div class="bg-blur-layer"></div>
+    <div class="bg-blur-layer" id="bgLayer"></div>
 
     <!-- 导航栏 -->
     <nav class="top-nav">
-      <a href="/" class="nav-logo">{title}</a>
+      <a href="/" class="nav-logo">氷子</a>
       <div class="nav-links">
         <a href="/" class:list={[{ active: currentPage === 'gallery' || !currentPage }]}>作品</a>
-        <a href="/schedule" class:list={[{ active: currentPage === 'schedule' }]}>日程</a>
+        <a href="/schedule" class:list={[{ active: currentPage === 'notes' }]}>拍摄注意事项</a>
       </div>
     </nav>
+
     <!-- 主内容 -->
     <main class="container">
       <slot />
@@ -48,8 +37,10 @@ const { title = '氷子', description = '二次元摄影记录', currentPage } =
 
     <!-- 页脚 -->
     <footer class="site-footer">
-      &copy; {new Date().getFullYear()} {title}. All rights reserved.
+      &copy; {new Date().getFullYear()} 氷子. All rights reserved.<br>
+      <span style="font-size:0.7rem">✧ 本站成立于 2026-06-25 ✧ 已运行 <span id="uptimeClock"></span> (｡･∀･)ﾉﾞ嗨</span>
     </footer>
+
     <!-- 灯箱组件 -->
     <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
       <div class="lightbox-content" onclick="event.stopPropagation()">
@@ -63,55 +54,60 @@ const { title = '氷子', description = '二次元摄影记录', currentPage } =
 
     <!-- 页面交互脚本 -->
     <script>
-      // --- 筛选逻辑 ---
-      function initFilters() {
-        const bar = document.getElementById('filterBar');
-        if (!bar) return;
-        bar.addEventListener('click', (e) => {
-          const btn = (e.target as HTMLElement).closest('.filter-btn');
-          if (!btn) return;
-          const tag = btn.dataset.tag || '全部';
-          // 更新 active 状态
-          bar.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
-          btn.classList.add('active');
-          // 过滤卡片
-          document.querySelectorAll('.artwork-card').forEach((card) => {
-            if (tag === '全部') {
-              card.classList.remove('hidden');
-              return;
-            }
-            const cardTags = card.getAttribute('data-tags') || '';
-            card.classList.toggle('hidden', !cardTags.includes(tag));
-          });
-        });
-      }
-
       // --- 灯箱逻辑 ---
       declare global { interface Window { lightboxImages: any[]; } }
       window.lightboxImages = [];
+
+      function svgPlaceholder(p: any): string {
+        const h = p.h || 1.3;
+        const H = Math.round(400 * h);
+        return 'data:image/svg+xml,' + encodeURIComponent(
+          `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="${H}" viewBox="0 0 600 ${H}">
+            <defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:${p.color}"/>
+              <stop offset="100%" style="stop-color:#E6DFDF"/>
+            </linearGradient></defs>
+            <rect width="600" height="${H}" fill="url(#g)"/>
+            <text x="300" y="${Math.round(H/2)}" text-anchor="middle" fill="rgba(0,0,0,0.08)" font-size="80" font-family="sans-serif">📷</text>
+            <text x="300" y="${Math.round(H/2)+60}" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="18" font-family="sans-serif">${p.title} · ${p.ip}</text>
+          </svg>`);
+      }
+
       function openLightbox(index: number) {
         const imgs = window.lightboxImages;
         if (!imgs.length) return;
-        const photo = imgs[index];
+        const p = imgs[index];
         const overlay = document.getElementById('lightboxOverlay')!;
         const img = document.getElementById('lightboxImg') as HTMLImageElement;
         const info = document.getElementById('lightboxInfo')!;
-        img.src = photo.image;
-        img.alt = photo.title;
-        info.textContent = `${photo.title} — ${photo.ip} | 出镜：${photo.model}`;
+
+        if (p.src) {
+          img.src = p.src;
+          img.onerror = function() { img.src = svgPlaceholder(p); img.onerror = null; };
+        } else {
+          img.src = svgPlaceholder(p);
+        }
+        img.alt = p.title;
+
+        let groupInfo = '';
+        if (p.totalInGroup > 1) groupInfo = ` [${p.imageIndex + 1}/${p.totalInGroup}]`;
+        info.textContent = `${p.title} — ${p.ip} | 出镜：${p.model}${groupInfo}`;
         overlay.classList.add('active');
         overlay.dataset.currentIndex = String(index);
       }
+
       function closeLightbox() {
         document.getElementById('lightboxOverlay')!.classList.remove('active');
       }
+
       function navigateLightbox(dir: number) {
         const overlay = document.getElementById('lightboxOverlay')!;
-        const current = parseInt(overlay.dataset.currentIndex || '0');
+        const cur = parseInt(overlay.dataset.currentIndex || '0');
         const imgs = window.lightboxImages;
-        const next = (current + dir + imgs.length) % imgs.length;
+        const next = (cur + dir + imgs.length) % imgs.length;
         openLightbox(next);
       }
+
       document.addEventListener('keydown', (e) => {
         const overlay = document.getElementById('lightboxOverlay')!;
         if (!overlay.classList.contains('active')) return;
@@ -119,10 +115,34 @@ const { title = '氷子', description = '二次元摄影记录', currentPage } =
         if (e.key === 'ArrowLeft') navigateLightbox(-1);
         if (e.key === 'ArrowRight') navigateLightbox(1);
       });
-      // --- 初始化 ---
-      document.addEventListener('DOMContentLoaded', () => {
-        initFilters();
-      });
+
+      // --- 随机背景 ---
+      (function initBg() {
+        const bgColors = ['#C5D9D5', '#AADDD4', '#E6DFDF', '#7FEFD0', '#D4EDE8'];
+        const c = bgColors[Math.floor(Math.random() * bgColors.length)];
+        document.getElementById('bgLayer')!.style.background = `
+          radial-gradient(ellipse at 30% 20%, ${c} 0%, transparent 60%),
+          radial-gradient(ellipse at 70% 60%, rgba(127,239,208,0.25) 0%, transparent 50%),
+          var(--bg-deep)
+        `;
+      })();
+
+      // --- 运行时间计时器 ---
+      (function() {
+        const el = document.getElementById('uptimeClock');
+        if (!el) return;
+        const birth = new Date('2026-06-25T00:00:00');
+        function tick() {
+          const diff = Date.now() - birth.getTime();
+          const d = Math.floor(diff / 864e5);
+          const h = Math.floor(diff / 36e5) % 24;
+          const m = Math.floor(diff / 6e4) % 60;
+          const s = Math.floor(diff / 1e3) % 60;
+          el!.textContent = `${d}天 ${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+        tick();
+        setInterval(tick, 1000);
+      })();
     </script>
   </body>
 </html>

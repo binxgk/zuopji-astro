@@ -3,38 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>蛇窝 — 二次元摄影记录</title>
+<title>氷子 — 二次元摄影记录</title>
 <meta name="description" content="二次元摄影记录">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' stroke='%233a6ea5' stroke-width='2' fill='%230a0c10'/%3E%3Cpath d='M8 20c3-4 6-6 8-6 2 0 5 2 8 6' stroke='%235a8ec5' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='12' r='3' stroke='%235a8ec5' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' stroke='%237FEFD0' stroke-width='2' fill='%23ffffff'/%3E%3Cpath d='M8 20c3-4 6-6 8-6 2 0 5 2 8 6' stroke='%235acba0' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='12' r='3' stroke='%235acba0' stroke-width='1.5'/%3E%3C/svg%3E">
 
 <style>
 /* ============================================
-   hebiko — 暗色主题摄影作品集
+   hebiko — 浅色主题摄影作品集
    灵感来源：hebiko.cn
    ============================================ */
 
 /* 基础重置 */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 ::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:#1e1f24}
-::-webkit-scrollbar-thumb{background:#3e3f46;border-radius:8px}
+::-webkit-scrollbar-track{background:#C5D9D5}
+::-webkit-scrollbar-thumb{background:#7FEFD0;border-radius:8px}
 
 /* 根变量 */
 :root{
-  --bg-deep:#0a0c10;
-  --bg-card:#111317;
-  --text-primary:#eef2f5;
-  --text-secondary:#9aa2b5;
-  --text-muted:#7c8ba0;
-  --accent:#3a6ea5;
-  --accent-light:#5a8ec5;
-  --accent-glow:rgba(58,110,165,0.2);
-  --border:rgba(255,255,255,0.06);
-  --border-light:rgba(255,255,255,0.1);
+  --bg-deep:#ffffff;
+  --bg-card:#E6DFDF;
+  --text-primary:#1a1a24;
+  --text-secondary:#5a5a6e;
+  --text-muted:#88889a;
+  --accent:#7FEFD0;
+  --accent-light:#78FFC7;
+  --accent-glow:rgba(127,239,208,0.25);
+  --accent-dark:#5acba0;
+  --border:rgba(0,0,0,0.06);
+  --border-light:rgba(0,0,0,0.1);
   --radius:20px;
   --radius-sm:12px;
-  --shadow-card:0 8px 20px rgba(0,0,0,0.3);
-  --shadow-hover:0 15px 30px rgba(0,0,0,0.4);
+  --shadow-card:0 8px 20px rgba(0,0,0,0.06);
+  --shadow-hover:0 15px 30px rgba(0,0,0,0.1);
 }
 
 body{
@@ -51,7 +52,7 @@ body{
   position:fixed;inset:0;width:100vw;height:100vh;
   background-size:cover;background-position:center;
   background-color:var(--bg-deep);
-  filter:blur(30px) brightness(0.25);
+  filter:blur(30px) brightness(0.95);
   z-index:-1;transform:scale(1.1);
   transition:background-image 1s ease;
 }
@@ -61,7 +62,7 @@ body{
   display:flex;justify-content:space-between;align-items:center;
   padding:0.8rem 1.5rem;border-bottom:1px solid var(--border);
   position:sticky;top:0;z-index:100;
-  background:rgba(10,12,16,0.85);
+  background:rgba(127,239,208,0.85);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
 }
 .nav-logo{color:var(--text-primary);font-size:1rem;font-weight:600;text-decoration:none;letter-spacing:-0.01em}
@@ -72,7 +73,7 @@ body{
   background:none;border:none;font-family:inherit;
 }
 .nav-links a:hover{color:var(--text-primary)}
-.nav-links a.active{color:var(--text-primary);background:rgba(255,255,255,0.06)}
+.nav-links a.active{color:var(--text-primary);background:rgba(0,0,0,0.06)}
 
 /* 容器 */
 .container{max-width:1200px;margin:0 auto;padding:2rem 1rem 4rem}
@@ -83,23 +84,23 @@ body{
 .hero{margin-bottom:2rem;text-align:center}
 .hero h1{
   font-size:clamp(1.8rem,7vw,3.2rem);font-weight:500;letter-spacing:-0.02em;
-  background:linear-gradient(135deg,#f5f7fc 0%,#b9c2d4 100%);
+  background:linear-gradient(135deg,#1a1a24 0%,#5a5a6e 100%);
   background-clip:text;-webkit-background-clip:text;color:transparent;
   margin-bottom:0.5rem;
 }
 .hero .subhead{font-size:0.9rem;color:var(--text-secondary)}
-.divider{width:50px;height:2px;background:#2c2f36;margin:1rem auto}
+.divider{width:50px;height:2px;background:#C5D9D5;margin:1rem auto}
 .contact-line{text-align:center;margin-bottom:1rem;font-size:0.8rem;color:var(--text-muted)}
 
 /* 筛选条 */
 .filter-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin:1rem 0 1.8rem}
 .filter-btn{
-  background:rgba(30,31,44,0.6);backdrop-filter:blur(4px);
+  background:rgba(197,217,213,0.5);backdrop-filter:blur(4px);
   border:1px solid var(--border-light);border-radius:40px;
   padding:6px 14px;font-size:0.7rem;font-weight:500;
   color:var(--text-primary);cursor:pointer;transition:0.2s;font-family:inherit;
 }
-.filter-btn:hover{background:rgba(58,110,165,0.3);border-color:var(--accent-light)}
+.filter-btn:hover{background:rgba(127,239,208,0.25);border-color:var(--accent-light)}
 .filter-btn.active{background:var(--accent);border-color:var(--accent-light);color:white}
 
 /* 瀑布流画廊 */
@@ -110,31 +111,41 @@ body{
 .artwork-card{
   background:var(--bg-card);border-radius:var(--radius);overflow:hidden;
   transition:transform 0.2s ease,box-shadow 0.2s;box-shadow:var(--shadow-card);
-  border:1px solid rgba(255,255,255,0.05);cursor:pointer;
+  border:1px solid rgba(0,0,0,0.05);cursor:pointer;
   break-inside:avoid;margin-bottom:1.2rem;
 }
 .artwork-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
 .artwork-card.hidden{display:none}
-.image-mask{width:100%;background:#1a1c22;line-height:0;overflow:hidden}
+.image-mask{width:100%;background:#C5D9D5;line-height:0;overflow:hidden;position:relative}
+.image-mask .cover-img{width:100%;display:block;object-fit:cover;opacity:0;transition:opacity 0.4s ease,transform 0.5s ease}
+.image-mask .cover-img.loaded{opacity:1}
 .image-mask .placeholder-img{
   width:100%;display:block;transition:transform 0.5s ease;
-  background:linear-gradient(135deg,#1a1c22 0%,#252830 50%,#1a1c22 100%);
+  background:linear-gradient(135deg,#C5D9D5 0%,#AADDD4 50%,#C5D9D5 100%);
 }
-.artwork-card:hover .image-mask .placeholder-img{transform:scale(1.02)}
+.artwork-card:hover .image-mask .cover-img{transform:scale(1.02)}
 .card-info{
   padding:0.9rem 1rem 1rem;
-  background:linear-gradient(0deg,#0e1015,#111317);
+  background:linear-gradient(0deg,#E6DFDF,#f5f5f5);
 }
 .card-info h3{font-size:1rem;font-weight:600;margin-bottom:0.2rem;color:var(--text-primary)}
 .card-info .ip-tag{
   font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;
   color:var(--text-muted);display:inline-block;margin-bottom:0.5rem;
 }
-.card-info .credit-line{font-size:0.65rem;color:#8a92aa;margin-bottom:0.5rem}
+.card-info .credit-line{font-size:0.65rem;color:var(--text-secondary);margin-bottom:0.5rem}
 .card-tags{display:flex;flex-wrap:wrap;gap:0.3rem}
 .card-tag-badge{
   font-size:0.6rem;padding:2px 8px;border-radius:20px;
-  background:rgba(255,255,255,0.05);color:var(--text-secondary);
+  background:rgba(0,0,0,0.05);color:var(--text-secondary);
+}
+
+/* 多图数量角标 */
+.img-count-badge{
+  position:absolute;top:8px;right:8px;
+  font-size:0.65rem;padding:2px 8px;border-radius:12px;
+  background:rgba(0,0,0,0.65);color:var(--text-primary);
+  backdrop-filter:blur(4px);pointer-events:none;z-index:2;
 }
 
 /* 灯箱 */
@@ -159,43 +170,23 @@ body{
   width:44px;height:44px;display:flex;align-items:center;justify-content:center;
   transition:color 0.2s,background 0.2s;
 }
-.lightbox-prev:hover,.lightbox-next:hover{color:#fff;background:rgba(58,110,165,0.4)}
+.lightbox-prev:hover,.lightbox-next:hover{color:#fff;background:rgba(127,239,208,0.4)}
 .lightbox-prev{left:-56px}.lightbox-next{right:-56px}
 @media(max-width:768px){.lightbox-prev{left:10px}.lightbox-next{right:10px}}
 
-/* 日程页 */
-.schedule-page{max-width:900px;margin:0 auto}
-.schedule-page h1{
+/* 拍摄注意事项页 */
+.notes-page{max-width:700px;margin:0 auto;text-align:center}
+.notes-page h1{
   font-size:clamp(1.4rem,5vw,2.2rem);font-weight:500;text-align:center;margin-bottom:1.5rem;
-  background:linear-gradient(135deg,#f5f7fc 0%,#b9c2d4 100%);
+  background:linear-gradient(135deg,#1a1a24 0%,#5a5a6e 100%);
   background-clip:text;-webkit-background-clip:text;color:transparent;
 }
-
-/* FullCalendar 暗色覆写 */
-.fc{
-  --fc-border-color:#2c2f36;
-  --fc-page-bg-color:transparent;
-  --fc-neutral-bg-color:transparent;
-  color:var(--text-primary);font-size:0.85rem;
-}
-.fc .fc-toolbar-title{font-size:1.1rem;font-weight:500;color:var(--text-primary)}
-.fc .fc-button{
-  background:rgba(30,31,44,0.6);border:1px solid var(--border-light);
-  border-radius:8px;padding:4px 12px;font-size:0.8rem;color:var(--text-primary);
-  transition:0.2s;font-family:inherit;text-transform:none;
-}
-.fc .fc-button:hover{background:rgba(58,110,165,0.3)}
-.fc .fc-button-primary:not(:disabled).fc-button-active{background:var(--accent);border-color:var(--accent-light)}
-.fc .fc-daygrid-day{background:rgba(17,19,23,0.5)}
-.fc .fc-day-today{background:rgba(58,110,165,0.1)!important}
-.fc .fc-daygrid-event{background:var(--accent);border:none;border-radius:6px;padding:3px 8px;font-size:0.7rem;margin:1px 2px}
-.fc .fc-daygrid-day-number{color:var(--text-secondary);font-size:0.8rem;padding:6px}
-.fc .fc-col-header-cell-cushion{color:var(--text-muted);font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:1px}
-.fc th{border-color:var(--border)}
-.fc-scrollgrid{border-color:var(--border)!important}
+.notes-page .notes-content{text-align:center;line-height:2}
+.notes-page .notes-content h3{color:var(--accent-dark);font-size:1.05rem;margin:1.8rem 0 0.6rem}
+.notes-page .notes-content p{color:var(--text-secondary);font-size:0.95rem;margin:0.3rem 0}
 
 /* 页脚 */
-.site-footer{text-align:center;padding:1.5rem;font-size:0.75rem;color:var(--text-muted);border-top:1px solid var(--border)}
+.site-footer{text-align:center;padding:1.5rem;font-size:0.75rem;color:#797979;border-top:1px solid var(--border)}
 
 /* Placeholder 图片样式 */
 .placeholder-img{
@@ -207,8 +198,8 @@ body{
 .placeholder-img::after{
   content:attr(data-label);
   position:absolute;bottom:8px;right:10px;
-  font-size:0.6rem;color:rgba(255,255,255,0.3);
-  background:rgba(0,0,0,0.5);padding:2px 6px;border-radius:4px;
+  font-size:0.6rem;color:rgba(0,0,0,0.35);
+  background:rgba(255,255,255,0.6);padding:2px 6px;border-radius:4px;
 }
 </style>
 </head>
@@ -219,10 +210,10 @@ body{
 
 <!-- 导航栏 -->
 <nav class="top-nav">
-  <a href="#" class="nav-logo" onclick="switchPage('gallery')">蛇窝</a>
+  <a href="#" class="nav-logo" onclick="switchPage('gallery')">氷子</a>
   <div class="nav-links">
     <a href="#" id="nav-gallery" class="active" onclick="switchPage('gallery')">作品</a>
-    <a href="#" id="nav-schedule" onclick="switchPage('schedule')">日程</a>
+    <a href="#" id="nav-notes" onclick="switchPage('notes')">拍摄注意事项</a>
   </div>
 </nav>
 
@@ -232,11 +223,11 @@ body{
   <!-- ===== 作品页 ===== -->
   <section class="page-section active" id="page-gallery">
     <div class="hero">
-      <h1>蛇窝</h1>
+      <h1>氷子-作品集</h1>
       <div class="divider"></div>
-      <p class="subhead">Cosplay / 二次元摄影</p>
+      <p class="subhead">二次元摄影记录</p>
     </div>
-    <p class="contact-line">📷 约拍请联系：蛇窝 | 小红书/微博@蛇窝</p>
+    <p class="contact-line">📷 约拍请联系：QQ 2166783550 | 微信 anzzbfly</p>
 
     <div class="filter-bar" id="filterBar">
       <button class="filter-btn active" data-tag="全部">全部</button>
@@ -245,18 +236,39 @@ body{
     <div class="gallery" id="galleryGrid"></div>
   </section>
 
-  <!-- ===== 日程页 ===== -->
-  <section class="page-section" id="page-schedule">
-    <div class="schedule-page">
-      <h1>约拍日程</h1>
-      <div id="calendar"></div>
+  <!-- ===== 拍摄注意事项页 ===== -->
+  <section class="page-section" id="page-notes">
+    <div class="notes-page">
+      <h1>拍摄注意事项</h1>
+      <div class="notes-content">
+        <h3>一、拍摄前准备</h3>
+        <p>请提前确认拍摄时间与地点，如有变动请至少提前 24 小时沟通</p>
+        <p>拍摄前一晚注意休息，保持良好精神状态</p>
+        <p>建议自备常用化妆品及补妆工具，棚拍可提供基础化妆间</p>
+
+        <h3>二、服装与道具</h3>
+        <p>请自备角色服装、假发及关键道具，出发前再次清点确认</p>
+        <p>建议携带替换便服及平底鞋，方便转场及休息</p>
+        <p>如有特殊道具需求请提前说明，双方协商准备方案</p>
+
+        <h3>三、拍摄现场</h3>
+        <p>棚拍请勿在场内饮食，外景请注意人身及财物安全</p>
+        <p>拍摄中随时沟通，任何不适或想法请直接提出</p>
+        <p>未经摄影师同意，请勿将未处理原片公开发布</p>
+
+        <h3>四、后期与成片</h3>
+        <p>成片交付周期通常为拍摄后 7-14 个工作日</p>
+        <p>精修张数按约定套餐执行，额外加修按单张计费</p>
+        <p>所有成片默认可用于摄影师作品展示，如有异议请提前说明</p>
+      </div>
     </div>
   </section>
 
 </main>
 
 <footer class="site-footer">
-  &copy; 2026 蛇窝. All rights reserved.
+  &copy; 2026 氷子. All rights reserved.<br>
+  <span style="font-size:0.7rem">✧ 本站成立于 2026-06-25 ✧ 已运行 <span id="uptimeClock"></span> (｡･∀･)ﾉﾞ嗨</span>
 </footer>
 
 <!-- 灯箱 -->
@@ -274,17 +286,41 @@ body{
 <script>
 // ========== 作品数据 ==========
 const photos = [
-  { id:'01',title:'toki',ip:'蔚蓝档案',model:'小甄',tags:['#低调','#实景棚','#人造光'],color:'#2a3f5f',h:1.4 },
-  { id:'02',title:'爱弥斯',ip:'鸣潮',model:'小甄',tags:['#高调','#白棚','#人造光','#动态'],color:'#3f2a3f',h:1.0 },
-  { id:'03',title:'伊德海莉',ip:'zzz',model:'松子',tags:['#中间调','#场照','#人造光'],color:'#2f3a2a',h:1.3 },
-  { id:'04',title:'大凤',ip:'碧蓝航线',model:'现在',tags:['#高调','#实景棚','#人造光'],color:'#3f3a2a',h:1.6 },
-  { id:'05',title:'甘雨',ip:'原神',model:'小甄',tags:['#高调','#外景','#合成','#自然光'],color:'#2a3a3f',h:1.1 },
-  { id:'06',title:'蕾姆',ip:'re0',model:'希洛',tags:['#高调','#白棚','#人造光'],color:'#3f2a3a',h:1.5 },
-  { id:'07',title:'蓝蒂',ip:'明日方舟',model:'号号',tags:['#中间调','#场照','#合成','#人造光'],color:'#2a2f3f',h:0.9 },
-  { id:'08',title:'高雄',ip:'碧蓝航线',model:'叶不耶',tags:['#中间调','#白棚','#人造光'],color:'#3a3f2a',h:1.2 },
-  { id:'09',title:'弗洛洛',ip:'鸣潮',model:'小甄',tags:['#高调','#外景','#自然光','#故事感'],color:'#3f2a2f',h:1.35 },
-  { id:'10',title:'纱耶香',ip:'魔圆',model:'三鱼',tags:['#中间调','#场照','#外景','#人造光','#动态'],color:'#2f2a3f',h:1.25 },
+  { id:'01',title:'柴郡',ip:'碧蓝航线',model:'',tags:['#场照'],color:'#AADDD4',h:1.4, images:['01-1.jpg','01-2.jpg'] },
+  { id:'02',title:'镜花水月',ip:'明日方舟',model:'绯雪',tags:['#棚拍','#正片'],color:'#C5D9D5',h:1.5, images:['02-1.jpg'] },
+  { id:'03',title:'夏日余晖',ip:'原神',model:'萌萌香',tags:['#场照','#外景'],color:'#E6DFDF',h:1.2, images:['03-1.jpg','03-2.jpg'] },
+  { id:'04',title:'星穹之下',ip:'崩坏：星穹铁道',model:'',tags:['#棚拍'],color:'#7FEFD0',h:1.6, images:['04-1.jpg'] },
+  { id:'05',title:'夜兰',ip:'原神',model:'绯雪',tags:['#场照','#正片'],color:'#B5D8CF',h:1.3, images:['05-1.jpg','05-2.jpg','05-3.jpg'] },
+  { id:'06',title:'花火祭',ip:'崩坏：星穹铁道',model:'萌萌香',tags:['#场照','#外景'],color:'#D9CFCF',h:1.1, images:['06-1.jpg'] },
+  { id:'07',title:'银狼',ip:'崩坏：星穹铁道',model:'',tags:['#正片'],color:'#C2D4D9',h:1.5, images:['07-1.jpg','07-2.jpg'] },
+  { id:'08',title:'霜星',ip:'明日方舟',model:'绯雪',tags:['#棚拍','#正片'],color:'#D4D0DE',h:1.4, images:['08-1.jpg'] },
 ];
+
+	// 随机排序（Fisher-Yates 洗牌，每次刷新顺序不同）
+	for(let i=photos.length-1;i>0;i--){
+	  const j=Math.floor(Math.random()*(i+1));
+	  [photos[i],photos[j]]=[photos[j],photos[i]];
+	}
+
+// 构建灯箱平面图片列表（每组多图展开为独立条目，左右键顺序浏览）
+const lightboxImages = [];
+photos.forEach((p, pi) => {
+  const imgs = p.images || [];
+  if (imgs.length === 0) {
+    lightboxImages.push({ photoIndex:pi, imageIndex:-1, src:null, totalInGroup:0, ...p });
+  } else {
+    imgs.forEach((img, ii) => {
+      lightboxImages.push({ photoIndex:pi, imageIndex:ii, src:'public/previews/'+img, totalInGroup:imgs.length, ...p });
+    });
+  }
+});
+// 计算每组第一张在 lightboxImages 中的起始索引
+let _flatIdx = 0;
+const photoStartIdx = photos.map(p => {
+  const cur = _flatIdx;
+  _flatIdx += (p.images && p.images.length > 0) ? p.images.length : 1;
+  return cur;
+});
 
 // 提取所有去重标签
 function getAllTags(){
@@ -293,27 +329,12 @@ function getAllTags(){
   return [...s].sort((a,b)=>a.localeCompare(b,'zh'));
 }
 
-// ========== 日程数据 ==========
-const scheduleEvents = [
-  { title:'12时 ci studio白棚包天', date:'2026-06-07', time:'12时' },
-  { title:'20时 绯雪', date:'2026-06-13', time:'20时' },
-  { title:'16时 萌萌香jk', date:'2026-06-20', time:'16时' },
-  { title:'19时 达妮娅', date:'2026-06-27', time:'19时' },
-  { title:'12时 千夏、怨仇、花火', date:'2026-07-04', time:'12时' },
-  { title:'12时 菲比', date:'2026-07-11', time:'12时' },
-  { title:'14时 穹妹jk', date:'2026-07-12', time:'14时' },
-];
-
 // ========== 页面切换 ==========
 function switchPage(page){
   document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
   document.getElementById('nav-'+page).classList.add('active');
-  if(page==='schedule' && window._calendarNeedsRender){
-    window._calendarNeedsRender=false;
-    renderCalendar();
-  }
 }
 
 // ========== 渲染画廊 ==========
@@ -336,14 +357,18 @@ function switchPage(page){
     card.className='artwork-card';
     card.dataset.tags=p.tags.join(',');
     card.style.cursor='pointer';
-    card.onclick=()=>openLightbox(i);
+    card.onclick=()=>openLightbox(photoStartIdx[i]);
 
     const h=p.h||1.3;
+    const imgs=p.images||[];
+    const firstImg=imgs.length>0?'public/previews/'+imgs[0]:null;
     card.innerHTML=`
       <div class="image-mask">
-        <div class="placeholder-img" data-label="${p.ip} · ${p.title}" style="aspect-ratio:3/4;background:linear-gradient(145deg,${p.color} 0%,var(--bg-deep) 70%);min-height:${Math.round(220*h)}px">
+        ${firstImg?`<img class="cover-img" data-src="${firstImg}" alt="${p.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="aspect-ratio:3/4;object-fit:cover;min-height:${Math.round(220*h)}px">`:''}
+        <div class="placeholder-img" data-label="${p.ip} · ${p.title}" style="aspect-ratio:3/4;background:linear-gradient(145deg,${p.color} 0%,var(--bg-deep) 70%);min-height:${Math.round(220*h)}px;${firstImg?'display:none':'display:flex'}">
           <span style="font-size:2rem;opacity:0.15">📷</span>
         </div>
+        ${imgs.length>1?`<span class="img-count-badge">${imgs.length}张</span>`:''}
       </div>
       <div class="card-info">
         <span class="ip-tag">${p.ip}</span>
@@ -356,6 +381,24 @@ function switchPage(page){
     `;
     grid.appendChild(card);
   });
+
+  // ========== 懒加载：Intersection Observer ==========
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const img = entry.target.querySelector('.cover-img');
+      if (img && img.dataset.src) {
+        img.src = img.dataset.src;
+        img.onload = () => img.classList.add('loaded');
+        img.onerror = function() {
+          this.style.display = 'none';
+          this.nextElementSibling.style.display = 'flex';
+        };
+      }
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: '300px' });
+  document.querySelectorAll('.artwork-card').forEach(card => io.observe(card));
 })();
 
 // ========== 筛选逻辑 ==========
@@ -377,26 +420,38 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 // ========== 灯箱 ==========
 function openLightbox(index){
-  const p=photos[index];
+  const p=lightboxImages[index];
   const overlay=document.getElementById('lightboxOverlay');
   const img=document.getElementById('lightboxImg');
   const info=document.getElementById('lightboxInfo');
 
-  // 使用渐变色 placeholder + 图片标签模拟
-  img.src='data:image/svg+xml,'+encodeURIComponent(
+  // 有真实图片就用真实图片，否则 fallback 到 SVG placeholder
+  if(p.src){
+    img.src=p.src;
+    img.onerror=function(){img.src=svgPlaceholder(p);img.onerror=null;};
+  } else {
+    img.src=svgPlaceholder(p);
+  }
+  img.alt=p.title;
+
+  // 组装信息：组内有N张时显示 "第 n/N 张"
+  let groupInfo='';
+  if(p.totalInGroup>1) groupInfo=` [${p.imageIndex+1}/${p.totalInGroup}]`;
+  info.textContent=`${p.title} — ${p.ip} | 出镜：${p.model}${groupInfo}`;
+  overlay.classList.add('active');
+  overlay.dataset.currentIndex=String(index);
+}
+function svgPlaceholder(p){
+  return 'data:image/svg+xml,'+encodeURIComponent(
     `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="${Math.round(400*(p.h||1.3))}" viewBox="0 0 600 ${Math.round(400*(p.h||1.3))}">
       <defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" style="stop-color:${p.color}"/>
-        <stop offset="100%" style="stop-color:#0a0c10"/>
+        <stop offset="100%" style="stop-color:#E6DFDF"/>
       </linearGradient></defs>
       <rect width="600" height="${Math.round(400*(p.h||1.3))}" fill="url(#g)"/>
-      <text x="300" y="${Math.round(200*(p.h||1.3))}" text-anchor="middle" fill="rgba(255,255,255,0.08)" font-size="80" font-family="sans-serif">📷</text>
-      <text x="300" y="${Math.round(200*(p.h||1.3))+60}" text-anchor="middle" fill="rgba(255,255,255,0.15)" font-size="18" font-family="sans-serif">${p.title} · ${p.ip}</text>
+      <text x="300" y="${Math.round(200*(p.h||1.3))}" text-anchor="middle" fill="rgba(0,0,0,0.08)" font-size="80" font-family="sans-serif">📷</text>
+      <text x="300" y="${Math.round(200*(p.h||1.3))+60}" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="18" font-family="sans-serif">${p.title} · ${p.ip}</text>
     </svg>`);
-  img.alt=p.title;
-  info.textContent=`${p.title} — ${p.ip} | 出镜：${p.model}`;
-  overlay.classList.add('active');
-  overlay.dataset.currentIndex=String(index);
 }
 function closeLightbox(){
   document.getElementById('lightboxOverlay').classList.remove('active');
@@ -404,7 +459,7 @@ function closeLightbox(){
 function navigateLightbox(dir){
   const overlay=document.getElementById('lightboxOverlay');
   const cur=parseInt(overlay.dataset.currentIndex||'0');
-  const next=(cur+dir+photos.length)%photos.length;
+  const next=(cur+dir+lightboxImages.length)%lightboxImages.length;
   openLightbox(next);
 }
 document.addEventListener('keydown',e=>{
@@ -417,45 +472,30 @@ document.addEventListener('keydown',e=>{
 
 // ========== 随机背景 ==========
 (function initBg(){
-  const bgColors=['#1a2030','#201a28','#1a2820','#28201a','#1a1f2e'];
+  const bgColors=['#C5D9D5','#AADDD4','#E6DFDF','#7FEFD0','#D4EDE8'];
   const c=bgColors[Math.floor(Math.random()*bgColors.length)];
   document.getElementById('bgLayer').style.background=`
     radial-gradient(ellipse at 30% 20%, ${c} 0%, transparent 60%),
-    radial-gradient(ellipse at 70% 60%, rgba(58,110,165,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 60%, rgba(127,239,208,0.25) 0%, transparent 50%),
     var(--bg-deep)
   `;
 })();
 
-// ========== 日历渲染 (延迟加载) ==========
-window._calendarNeedsRender=true;
-let calendarInstance=null;
-
-function renderCalendar(){
-  const el=document.getElementById('calendar');
-  if(!el||typeof FullCalendar==='undefined')return;
-
-  if(calendarInstance){
-    calendarInstance.destroy();
+// ========== 运行时间计时器 ==========
+(function(){
+  const el=document.getElementById('uptimeClock');
+  const birth=new Date('2026-06-25T00:00:00');
+  function tick(){
+    const diff=Date.now()-birth.getTime();
+    const d=Math.floor(diff/864e5);
+    const h=Math.floor(diff/36e5)%24;
+    const m=Math.floor(diff/6e4)%60;
+    const s=Math.floor(diff/1e3)%60;
+    el.textContent=`${d}天 ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   }
-
-  calendarInstance=new FullCalendar.Calendar(el,{
-    initialView:'dayGridMonth',
-    locale:'zh-cn',
-    height:'auto',
-    headerToolbar:{left:'prev',center:'title',right:'next'},
-    events:scheduleEvents.map(e=>({title:e.title,start:e.date,allDay:true,extendedProps:{time:e.time}})),
-    eventDidMount(info){
-      if(info.event.extendedProps?.time){info.el.title=info.event.extendedProps.time;}
-    }
-  });
-  calendarInstance.render();
-}
+  tick();setInterval(tick,1000);
+})();
 </script>
-
-<!-- FullCalendar CDN -->
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/zh-cn.min.js"></script>
 
 </body>
 </html>

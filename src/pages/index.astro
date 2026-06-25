@@ -7,15 +7,15 @@ import '../styles/global.css';
 const tags = getAllTags();
 ---
 
-<BaseLayout title="氷子" description="二次元摄影记录" currentPage="gallery">
+<BaseLayout title="氷子-作品集" description="二次元摄影记录" currentPage="gallery">
   <!-- Hero 区域 -->
   <section class="hero">
-    <h1>氷子</h1>
+    <h1>氷子-作品集</h1>
     <div class="divider"></div>
-    <p class="subhead">Cosplay / 二次元摄影</p>
+    <p class="subhead">二次元摄影记录</p>
   </section>
 
-  <p class="contact-line">📷 约拍请联系：氷子 | 小红书/抖音@氷子</p>
+  <p class="contact-line">📷 约拍请联系：QQ 2166783550 | 微信 anzzbfly</p>
 
   <!-- 筛选栏 -->
   <div class="filter-bar" id="filterBar">
@@ -25,40 +25,110 @@ const tags = getAllTags();
     ))}
   </div>
 
-  <!-- 瀑布流作品集 -->
-  <div class="gallery">
-    {photos.map((photo, idx) => (
-      <div
-        class="artwork-card"
-        data-tags={photo.tags.join(',')}
-        onclick={`openLightbox(${idx})`}
-      >
-        <div class="image-mask">
-          <img
-            src={photo.image}
-            alt={photo.title}
-            loading="lazy"
-            width="800"
-            height="1200"
-          />
-        </div>
-        <div class="card-info">
-          <span class="ip-tag">{photo.ip}</span>
-          <h3>{photo.title}</h3>
-          <p class="credit-line">出镜：{photo.model}</p>
-          <div class="card-tags">
-            {photo.tags.map((t) => (
-              <span class="card-tag-badge">{t}</span>
-            ))}
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
+  <!-- 瀑布流作品集（客户端 JS 渲染，确保 column-count 瀑布流正常工作） -->
+  <div class="gallery" id="galleryGrid"></div>
 </BaseLayout>
 
-<!-- 将照片数据注入全局，供灯箱使用 -->
 <script>
   import photos from '../data/photos.ts';
-  window.lightboxImages = photos;
+
+  // 随机排序（Fisher-Yates 洗牌，每次刷新顺序不同）
+  const shuffled = [...photos];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  // 构建灯箱平面列表（每组多图展开为独立条目，左右键顺序浏览）
+  const lightboxImages: any[] = [];
+  shuffled.forEach((p, pi) => {
+    const imgs = p.images || [];
+    if (imgs.length === 0) {
+      lightboxImages.push({ photoIndex: pi, imageIndex: -1, src: null, totalInGroup: 0, ...p });
+    } else {
+      imgs.forEach((img, ii) => {
+        lightboxImages.push({ photoIndex: pi, imageIndex: ii, src: '/previews/' + img, totalInGroup: imgs.length, ...p });
+      });
+    }
+  });
+
+  // 每组第一张在 lightboxImages 中的起始索引
+  let flatIdx = 0;
+  const photoStartIdx = shuffled.map(p => {
+    const cur = flatIdx;
+    flatIdx += (p.images && p.images.length > 0) ? p.images.length : 1;
+    return cur;
+  });
+
+  window.lightboxImages = lightboxImages;
+
+  // 客户端渲染画廊 + 筛选
+  document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('galleryGrid');
+    const bar = document.getElementById('filterBar');
+    if (!grid || !bar) return;
+
+    // 生成卡片
+    shuffled.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'artwork-card';
+      card.dataset.tags = p.tags.join(',');
+      card.style.cursor = 'pointer';
+      card.onclick = () => openLightbox(photoStartIdx[i]);
+
+      const h = p.h || 1.3;
+      const imgs = p.images || [];
+      const firstImg = imgs.length > 0 ? '/previews/' + imgs[0] : null;
+      card.innerHTML = `
+        <div class="image-mask">
+          ${firstImg ? `<img class="cover-img" data-src="${firstImg}" alt="${p.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="aspect-ratio:3/4;object-fit:cover;min-height:${Math.round(220 * h)}px">` : ''}
+          <div class="placeholder-img" data-label="${p.ip} · ${p.title}" style="aspect-ratio:3/4;background:linear-gradient(145deg,${p.color} 0%,var(--bg-deep) 70%);min-height:${Math.round(220 * h)}px;${firstImg ? 'display:none' : 'display:flex'}">
+            <span style="font-size:2rem;opacity:0.15">📷</span>
+          </div>
+          ${imgs.length > 1 ? `<span class="img-count-badge">${imgs.length}张</span>` : ''}
+        </div>
+        <div class="card-info">
+          <span class="ip-tag">${p.ip}</span>
+          <h3>${p.title}</h3>
+          <p class="credit-line">出镜：${p.model || ''}</p>
+          <div class="card-tags">
+            ${p.tags.map(t => `<span class="card-tag-badge">${t}</span>`).join('')}
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    // 懒加载：Intersection Observer
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const img = entry.target.querySelector('.cover-img');
+        if (img && (img as HTMLImageElement).dataset.src) {
+          (img as HTMLImageElement).src = (img as HTMLImageElement).dataset.src!;
+          img.addEventListener('load', () => img.classList.add('loaded'));
+          img.addEventListener('error', function(this: HTMLImageElement) {
+            this.style.display = 'none';
+            (this.nextElementSibling as HTMLElement).style.display = 'flex';
+          });
+        }
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: '300px' });
+    document.querySelectorAll('.artwork-card').forEach(card => io.observe(card));
+
+    // 筛选逻辑
+    bar.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('.filter-btn') as HTMLElement;
+      if (!btn) return;
+      const tag = btn.dataset.tag || '全部';
+      bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.artwork-card').forEach(card => {
+        if (tag === '全部') { card.classList.remove('hidden'); return; }
+        const t = card.getAttribute('data-tags') || '';
+        card.classList.toggle('hidden', !t.includes(tag));
+      });
+    });
+  });
 </script>
