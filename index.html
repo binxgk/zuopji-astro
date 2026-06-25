@@ -287,13 +287,15 @@ body{
 // ========== 作品数据 ==========
 const photos = [
   { id:'01',title:'柴郡',ip:'碧蓝航线',model:'',tags:['#场照'],color:'#AADDD4',h:1.4, images:['01-1.jpg','01-2.jpg'] },
-  { id:'02',title:'镜花水月',ip:'明日方舟',model:'绯雪',tags:['#棚拍','#正片'],color:'#C5D9D5',h:1.5, images:['02-1.jpg'] },
-  { id:'03',title:'夏日余晖',ip:'原神',model:'萌萌香',tags:['#场照','#外景'],color:'#E6DFDF',h:1.2, images:['03-1.jpg','03-2.jpg'] },
-  { id:'04',title:'星穹之下',ip:'崩坏：星穹铁道',model:'',tags:['#棚拍'],color:'#7FEFD0',h:1.6, images:['04-1.jpg'] },
-  { id:'05',title:'夜兰',ip:'原神',model:'绯雪',tags:['#场照','#正片'],color:'#B5D8CF',h:1.3, images:['05-1.jpg','05-2.jpg','05-3.jpg'] },
-  { id:'06',title:'花火祭',ip:'崩坏：星穹铁道',model:'萌萌香',tags:['#场照','#外景'],color:'#D9CFCF',h:1.1, images:['06-1.jpg'] },
-  { id:'07',title:'银狼',ip:'崩坏：星穹铁道',model:'',tags:['#正片'],color:'#C2D4D9',h:1.5, images:['07-1.jpg','07-2.jpg'] },
-  { id:'08',title:'霜星',ip:'明日方舟',model:'绯雪',tags:['#棚拍','#正片'],color:'#D4D0DE',h:1.4, images:['08-1.jpg'] },
+  { id:'02',title:'麦晓雯',ip:'三角洲行动',model:'花阳',tags:['#场照','#半合成'],color:'#C5D9D5',h:1.5, images:['02-1.jpg'] },
+  { id:'03',title:'枫与铃',ip:'枫与铃',model:'柚子&昭',tags:['#场照'],color:'#E6DFDF',h:1.2, images:['03-1.jpg'] },
+  { id:'04',title:'芳泽霞',ip:'女神异闻录P5',model:'哼唧P5学妹',tags:['#场照','#半合成'],color:'#7FEFD0',h:1.6, images:['04-1.jpg','04-2.jpg','04-3.jpg'] },
+  { id:'05',title:'愚夜密函W',ip:'明日方舟',model:'酱油',tags:['#场照','#半合成'],color:'#B5D8CF',h:1.3, images:['05-1.jpg'] },
+  { id:'06',title:'环状水星',ip:'重返未来1999',model:'铁板乐狗',tags:['#场照','#半合成'],color:'#D9CFCF',h:1.1, images:['06-1.jpg'] },
+  { id:'07',title:'阿尔比恩',ip:'碧蓝航线',model:'葡萄',tags:['#棚拍','#正片'],color:'#C2D4D9',h:1.5, images:['07-1.jpg','07-2.jpg'] },
+  { id:'08',title:'芙宁娜',ip:'原神',model:'菠萝头',tags:['#棚拍','#正片'],color:'#D4D0DE',h:1.4, images:['08-1.jpg','08-2.jpg','08-3.jpg'] },
+  { id:'09',title:'尤诺',ip:'鸣潮',model:'柚苏',tags:['#棚拍','#正片'],color:'#C5D9D5',h:1.3, images:['09-1.jpg','09-2.jpg'] },
+  { id:'10',title:'千咲',ip:'鸣潮',model:'琉砂',tags:['#外景','#正片'],color:'#E6DFDF',h:1.3, images:['10-1.jpg'] },
 ];
 
 	// 随机排序（Fisher-Yates 洗牌，每次刷新顺序不同）
@@ -310,7 +312,7 @@ photos.forEach((p, pi) => {
     lightboxImages.push({ photoIndex:pi, imageIndex:-1, src:null, totalInGroup:0, ...p });
   } else {
     imgs.forEach((img, ii) => {
-      lightboxImages.push({ photoIndex:pi, imageIndex:ii, src:'public/previews/'+img, totalInGroup:imgs.length, ...p });
+      lightboxImages.push({ photoIndex:pi, imageIndex:ii, src:'public/previews/'+p.id+'/'+img, totalInGroup:imgs.length, ...p });
     });
   }
 });
@@ -361,7 +363,7 @@ function switchPage(page){
 
     const h=p.h||1.3;
     const imgs=p.images||[];
-    const firstImg=imgs.length>0?'public/previews/'+imgs[0]:null;
+    const firstImg=imgs.length>0?'public/previews/'+p.id+'/'+imgs[0]:null;
     card.innerHTML=`
       <div class="image-mask">
         ${firstImg?`<img class="cover-img" data-src="${firstImg}" alt="${p.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="aspect-ratio:3/4;object-fit:cover;min-height:${Math.round(220*h)}px">`:''}
