@@ -74,7 +74,7 @@ const tags = getAllTags();
       card.className = 'artwork-card';
       card.dataset.tags = p.tags.join(',');
       card.style.cursor = 'pointer';
-      card.onclick = () => openLightbox(photoStartIdx[i]);
+      card.onclick = () => (window as any).openLightbox(photoStartIdx[i]);
 
       const h = p.h || 1.3;
       const imgs = p.images || [];

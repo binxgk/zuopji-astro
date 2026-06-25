@@ -108,6 +108,11 @@ const { title = '氷子-作品集', description = '二次元摄影记录', curre
         openLightbox(next);
       }
 
+      // 挂到 window 上，让其他页面的脚本可以调用
+      (window as any).openLightbox = openLightbox;
+      (window as any).closeLightbox = closeLightbox;
+      (window as any).navigateLightbox = navigateLightbox;
+
       document.addEventListener('keydown', (e) => {
         const overlay = document.getElementById('lightboxOverlay')!;
         if (!overlay.classList.contains('active')) return;
