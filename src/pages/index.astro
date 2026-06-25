@@ -47,7 +47,7 @@ const tags = getAllTags();
       lightboxImages.push({ photoIndex: pi, imageIndex: -1, src: null, totalInGroup: 0, ...p });
     } else {
       imgs.forEach((img, ii) => {
-        lightboxImages.push({ photoIndex: pi, imageIndex: ii, src: '/previews/' + img, totalInGroup: imgs.length, ...p });
+        lightboxImages.push({ photoIndex: pi, imageIndex: ii, src: '/previews/' + p.id + '/' + img, totalInGroup: imgs.length, ...p });
       });
     }
   });
@@ -78,7 +78,7 @@ const tags = getAllTags();
 
       const h = p.h || 1.3;
       const imgs = p.images || [];
-      const firstImg = imgs.length > 0 ? '/previews/' + imgs[0] : null;
+      const firstImg = imgs.length > 0 ? '/previews/' + p.id + '/' + imgs[0] : null;
       card.innerHTML = `
         <div class="image-mask">
           ${firstImg ? `<img class="cover-img" data-src="${firstImg}" alt="${p.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="aspect-ratio:3/4;object-fit:cover;min-height:${Math.round(220 * h)}px">` : ''}
