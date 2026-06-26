@@ -201,6 +201,41 @@ body{
   font-size:0.6rem;color:rgba(0,0,0,0.35);
   background:rgba(255,255,255,0.6);padding:2px 6px;border-radius:4px;
 }
+
+/* ---- 价格页 ---- */
+.pricing-hero{text-align:center;padding:3.5rem 0 1.5rem;opacity:0;animation:pricingFadeUp .8s ease forwards}
+.pricing-eyebrow{font-size:.7rem;font-weight:600;letter-spacing:.2em;color:var(--accent-dark);margin-bottom:.8rem;text-transform:uppercase}
+.pricing-hero h1{font-size:clamp(1.6rem,5vw,2.6rem);font-weight:600;letter-spacing:-.03em;line-height:1.15;color:var(--text-primary);margin-bottom:.6rem}
+.pricing-subtitle{font-size:.9rem;color:var(--text-secondary);max-width:400px;margin:0 auto;line-height:1.6}
+.pricing-section{margin-bottom:2.5rem;opacity:0;animation:pricingFadeUp .7s .2s ease forwards}
+.pricing-section-title{font-size:1.1rem;font-weight:600;letter-spacing:-.01em;color:var(--text-primary);margin-bottom:1rem;padding-left:.2rem;display:flex;align-items:center;gap:.5rem}
+.pricing-section-title::before{content:'';display:inline-block;width:3px;height:1em;background:var(--accent);border-radius:2px}
+.pricing-grid{display:grid;gap:1rem}
+.pricing-grid--3col{grid-template-columns:repeat(3,1fr)}
+@media(max-width:768px){.pricing-grid--3col{grid-template-columns:1fr}}
+.pricing-card{background:var(--bg-card);border-radius:var(--radius);padding:1.6rem 1.4rem;border:1px solid var(--border);box-shadow:var(--shadow-card);transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s ease;opacity:0;animation:pricingFadeUp .6s ease forwards}
+.pricing-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.pricing-card-name{font-size:.95rem;font-weight:600;color:var(--text-primary);margin-bottom:.8rem}
+.pricing-card-price{display:flex;align-items:baseline;gap:2px;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.pricing-currency{font-size:1rem;font-weight:600;color:var(--accent-dark);align-self:flex-start;margin-top:.3rem}
+.pricing-amount{font-size:2.2rem;font-weight:700;letter-spacing:-.04em;line-height:1;color:var(--text-primary)}
+.pricing-items{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.pricing-items li{font-size:.8rem;color:var(--text-secondary);line-height:1.5;padding-left:.8rem;position:relative}
+.pricing-items li::before{content:'';position:absolute;left:0;top:.5em;width:4px;height:4px;border-radius:50%;background:var(--accent)}
+.pricing-addons{margin-bottom:2.5rem;opacity:0;animation:pricingFadeUp .7s .5s ease forwards}
+.addons-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+@media(max-width:768px){.addons-grid{grid-template-columns:repeat(2,1fr)}}
+.addon-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1.1rem .8rem;text-align:center;transition:transform .3s ease,box-shadow .3s ease;opacity:0;animation:pricingFadeUp .5s ease forwards}
+.addon-item:hover{transform:translateY(-3px);box-shadow:var(--shadow-card)}
+.addon-label{display:block;font-size:.78rem;color:var(--text-secondary);margin-bottom:.3rem}
+.addon-price{display:block;font-size:1rem;font-weight:700;color:var(--text-primary);letter-spacing:-.02em}
+.addon-price em{font-style:normal;font-size:.68rem;font-weight:400;color:var(--text-muted)}
+.pricing-bottom-cta{text-align:center;padding:2.5rem 1.5rem;background:var(--bg-card);border-radius:var(--radius);border:1px solid var(--border);opacity:0;animation:pricingFadeUp .7s .7s ease forwards}
+.pricing-bottom-cta h2{font-size:1.3rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.4rem}
+.pricing-bottom-cta p{font-size:.85rem;color:var(--text-secondary);margin-bottom:1rem}
+.pricing-contact{display:flex;align-items:center;justify-content:center;gap:.6rem;font-size:.82rem;color:var(--text-primary);font-weight:500}
+.pricing-contact-sep{color:var(--text-muted)}
+@keyframes pricingFadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
@@ -214,6 +249,7 @@ body{
   <div class="nav-links">
     <a href="#" id="nav-gallery" class="active" onclick="switchPage('gallery')">作品</a>
     <a href="#" id="nav-notes" onclick="switchPage('notes')">拍摄注意事项</a>
+    <a href="#" id="nav-pricing" onclick="switchPage('pricing')">价格参考</a>
   </div>
 </nav>
 
@@ -260,6 +296,81 @@ body{
         <p>成片交付周期通常为拍摄后 7-14 个工作日</p>
         <p>精修张数按约定套餐执行，额外加修按单张计费</p>
         <p>所有成片默认可用于摄影师作品展示，如有异议请提前说明</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 价格参考页 ===== -->
+  <section class="page-section" id="page-pricing">
+    <div class="pricing-hero">
+      <p class="pricing-eyebrow">PRICING</p>
+      <h1>拍摄报价参考</h1>
+      <p class="pricing-subtitle">以下为场照与正片的参考报价，具体可根据需求协商调整。</p>
+    </div>
+
+    <!-- 场照报价 -->
+    <div class="pricing-section">
+      <h2 class="pricing-section-title">场照</h2>
+      <div class="pricing-grid pricing-grid--3col">
+        <div class="pricing-card" data-animate>
+          <h3 class="pricing-card-name">基础场照</h3>
+          <div class="pricing-card-price"><span class="pricing-currency">¥</span><span class="pricing-amount">—</span></div>
+          <ul class="pricing-items"><li>拍摄时长 —</li><li>精修 — 张</li><li>原片 — 张</li><li>服装/场景 —</li></ul>
+        </div>
+        <div class="pricing-card" data-animate>
+          <h3 class="pricing-card-name">标准场照</h3>
+          <div class="pricing-card-price"><span class="pricing-currency">¥</span><span class="pricing-amount">—</span></div>
+          <ul class="pricing-items"><li>拍摄时长 —</li><li>精修 — 张</li><li>原片 — 张</li><li>服装/场景 —</li></ul>
+        </div>
+        <div class="pricing-card" data-animate>
+          <h3 class="pricing-card-name">高级场照</h3>
+          <div class="pricing-card-price"><span class="pricing-currency">¥</span><span class="pricing-amount">—</span></div>
+          <ul class="pricing-items"><li>拍摄时长 —</li><li>精修 — 张</li><li>原片 — 张</li><li>服装/场景 —</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 正片报价 -->
+    <div class="pricing-section">
+      <h2 class="pricing-section-title">正片</h2>
+      <div class="pricing-grid pricing-grid--3col">
+        <div class="pricing-card" data-animate>
+          <h3 class="pricing-card-name">基础正片</h3>
+          <div class="pricing-card-price"><span class="pricing-currency">¥</span><span class="pricing-amount">—</span></div>
+          <ul class="pricing-items"><li>拍摄时长 —</li><li>精修 — 张</li><li>原片 — 张</li><li>服装/场景 —</li></ul>
+        </div>
+        <div class="pricing-card" data-animate>
+          <h3 class="pricing-card-name">标准正片</h3>
+          <div class="pricing-card-price"><span class="pricing-currency">¥</span><span class="pricing-amount">—</span></div>
+          <ul class="pricing-items"><li>拍摄时长 —</li><li>精修 — 张</li><li>原片 — 张</li><li>服装/场景 —</li></ul>
+        </div>
+        <div class="pricing-card" data-animate>
+          <h3 class="pricing-card-name">高级正片</h3>
+          <div class="pricing-card-price"><span class="pricing-currency">¥</span><span class="pricing-amount">—</span></div>
+          <ul class="pricing-items"><li>拍摄时长 —</li><li>精修 — 张</li><li>原片 — 张</li><li>服装/场景 —</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 增值服务 -->
+    <div class="pricing-addons">
+      <h2 class="pricing-section-title">增值服务</h2>
+      <div class="addons-grid">
+        <div class="addon-item" data-animate><span class="addon-label">额外精修</span><span class="addon-price">¥—<em>/张</em></span></div>
+        <div class="addon-item" data-animate><span class="addon-label">加时拍摄</span><span class="addon-price">¥—<em>/小时</em></span></div>
+        <div class="addon-item" data-animate><span class="addon-label">外景交通费</span><span class="addon-price">实报实销</span></div>
+        <div class="addon-item" data-animate><span class="addon-label">妆娘跟妆</span><span class="addon-price">¥—<em>/次</em></span></div>
+      </div>
+    </div>
+
+    <!-- 底部 CTA -->
+    <div class="pricing-bottom-cta">
+      <h2>有特别的需求？</h2>
+      <p>无论是团体约拍、活动跟拍还是定制主题，欢迎联系我聊聊你的想法。</p>
+      <div class="pricing-contact">
+        <span>QQ：2166783550</span>
+        <span class="pricing-contact-sep">·</span>
+        <span>微信：anzzbfly</span>
       </div>
     </div>
   </section>
@@ -337,6 +448,11 @@ function switchPage(page){
   document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
   document.getElementById('nav-'+page).classList.add('active');
+  // 价格页动画重播
+  if(page==='pricing'){
+    const els=document.querySelectorAll('#page-pricing [data-animate]');
+    els.forEach((el,i)=>{el.style.animation='none';el.offsetHeight;el.style.animation='';el.style.animationDelay=i*100+'ms';});
+  }
 }
 
 // ========== 渲染画廊 ==========

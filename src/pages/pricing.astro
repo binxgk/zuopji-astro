@@ -1,0 +1,342 @@
+---
+// pricing.astro → 价格示意页
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+
+// ========== 场照报价 ==========
+const changzhao = [
+  { name: '基础场照', price: '—', items: ['拍摄时长 —', '精修 — 张', '原片 — 张', '服装/场景 —'] },
+  { name: '标准场照', price: '—', items: ['拍摄时长 —', '精修 — 张', '原片 — 张', '服装/场景 —'] },
+  { name: '高级场照', price: '—', items: ['拍摄时长 —', '精修 — 张', '原片 — 张', '服装/场景 —'] },
+];
+
+// ========== 正片报价 ==========
+const zhengpian = [
+  { name: '基础正片', price: '—', items: ['拍摄时长 —', '精修 — 张', '原片 — 张', '服装/场景 —'] },
+  { name: '标准正片', price: '—', items: ['拍摄时长 —', '精修 — 张', '原片 — 张', '服装/场景 —'] },
+  { name: '高级正片', price: '—', items: ['拍摄时长 —', '精修 — 张', '原片 — 张', '服装/场景 —'] },
+];
+
+// ========== 增值服务 ==========
+const addons = [
+  { label: '额外精修', price: '—', unit: '元/张' },
+  { label: '加时拍摄', price: '—', unit: '元/小时' },
+  { label: '外景交通费', price: '实报实销', unit: '' },
+  { label: '妆娘跟妆', price: '—', unit: '元/次' },
+];
+---
+
+<BaseLayout title="价格参考 — 氷子" description="摄影约拍价格套餐与增值服务" currentPage="pricing">
+
+  <!-- Hero -->
+  <section class="pricing-hero">
+    <p class="pricing-eyebrow">PRICING</p>
+    <h1>拍摄报价参考</h1>
+    <p class="pricing-subtitle">以下为场照与正片的参考报价，具体可根据需求协商调整。</p>
+  </section>
+
+  <!-- ===== 场照报价 ===== -->
+  <section class="pricing-section">
+    <h2 class="pricing-section-title">场照</h2>
+    <div class="pricing-grid pricing-grid--3col">
+      {changzhao.map((pkg, i) => (
+        <div class="pricing-card" style={`animation-delay: ${i * 100}ms`}>
+          <h3 class="pricing-card-name">{pkg.name}</h3>
+          <div class="pricing-card-price">
+            <span class="pricing-currency">¥</span>
+            <span class="pricing-amount">{pkg.price}</span>
+          </div>
+          <ul class="pricing-items">
+            {pkg.items.map(item => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== 正片报价 ===== -->
+  <section class="pricing-section">
+    <h2 class="pricing-section-title">正片</h2>
+    <div class="pricing-grid pricing-grid--3col">
+      {zhengpian.map((pkg, i) => (
+        <div class="pricing-card" style={`animation-delay: ${(i + 3) * 100}ms`}>
+          <h3 class="pricing-card-name">{pkg.name}</h3>
+          <div class="pricing-card-price">
+            <span class="pricing-currency">¥</span>
+            <span class="pricing-amount">{pkg.price}</span>
+          </div>
+          <ul class="pricing-items">
+            {pkg.items.map(item => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== 增值服务 ===== -->
+  <section class="pricing-addons">
+    <h2 class="pricing-section-title">增值服务</h2>
+    <div class="addons-grid">
+      {addons.map((item, i) => (
+        <div class="addon-item" style={`animation-delay: ${(i + 6) * 80}ms`}>
+          <span class="addon-label">{item.label}</span>
+          <span class="addon-price">
+            {item.unit ? `¥${item.price}` : item.price}
+            {item.unit && <em>/{item.unit.split('/')[1]}</em>}
+          </span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA Bottom -->
+  <section class="pricing-bottom-cta">
+    <h2>有特别的需求？</h2>
+    <p>无论是团体约拍、活动跟拍还是定制主题，欢迎联系我聊聊你的想法。</p>
+    <div class="pricing-contact">
+      <span>QQ：2166783550</span>
+      <span class="pricing-contact-sep">·</span>
+      <span>微信：anzzbfly</span>
+    </div>
+  </section>
+
+  <style>
+  /* ---- Pricing Page ---- */
+
+  .pricing-hero {
+    text-align: center;
+    padding: 3.5rem 0 1.5rem;
+    opacity: 0;
+    animation: pricingFadeUp 0.8s ease forwards;
+  }
+  .pricing-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--accent-dark);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+  .pricing-hero h1 {
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--text-primary);
+    margin-bottom: 0.6rem;
+  }
+  .pricing-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ---- Section ---- */
+  .pricing-section {
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: pricingFadeUp 0.7s 0.2s ease forwards;
+  }
+  .pricing-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    padding-left: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .pricing-section-title::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 1em;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* ---- Grid ---- */
+  .pricing-grid {
+    display: grid;
+    gap: 1rem;
+  }
+  .pricing-grid--3col {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 768px) {
+    .pricing-grid--3col {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---- Card ---- */
+  .pricing-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 1.6rem 1.4rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+    opacity: 0;
+    animation: pricingFadeUp 0.6s ease forwards;
+  }
+  .pricing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .pricing-card-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.8rem;
+  }
+
+  .pricing-card-price {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    margin-bottom: 1.2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .pricing-currency {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent-dark);
+    align-self: flex-start;
+    margin-top: 0.3rem;
+  }
+  .pricing-amount {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--text-primary);
+  }
+
+  /* ---- Items List ---- */
+  .pricing-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .pricing-items li {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    padding-left: 0.8rem;
+    position: relative;
+  }
+  .pricing-items li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* ---- Add-ons ---- */
+  .pricing-addons {
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: pricingFadeUp 0.7s 0.5s ease forwards;
+  }
+  .addons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+  }
+  @media (max-width: 768px) {
+    .addons-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .addon-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1.1rem 0.8rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    animation: pricingFadeUp 0.5s ease forwards;
+  }
+  .addon-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card);
+  }
+  .addon-label {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.3rem;
+  }
+  .addon-price {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+  .addon-price em {
+    font-style: normal;
+    font-size: 0.68rem;
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+
+  /* ---- Bottom CTA ---- */
+  .pricing-bottom-cta {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    opacity: 0;
+    animation: pricingFadeUp 0.7s 0.7s ease forwards;
+  }
+  .pricing-bottom-cta h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+  }
+  .pricing-bottom-cta p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+  .pricing-contact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+  .pricing-contact-sep {
+    color: var(--text-muted);
+  }
+
+  /* ---- Animation ---- */
+  @keyframes pricingFadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  </style>
+
+</BaseLayout>
