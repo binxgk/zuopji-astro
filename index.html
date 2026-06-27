@@ -203,37 +203,48 @@ body{
 }
 
 /* ---- 价格页 ---- */
-.pricing-hero{text-align:center;padding:3.5rem 0 1.5rem;opacity:0;animation:pricingFadeUp .8s ease forwards}
-.pricing-eyebrow{font-size:.7rem;font-weight:600;letter-spacing:.2em;color:var(--accent-dark);margin-bottom:.8rem;text-transform:uppercase}
-.pricing-hero h1{font-size:clamp(1.6rem,5vw,2.6rem);font-weight:600;letter-spacing:-.03em;line-height:1.15;color:var(--text-primary);margin-bottom:.6rem}
-.pricing-subtitle{font-size:.9rem;color:var(--text-secondary);max-width:400px;margin:0 auto;line-height:1.6}
-.pricing-section{margin-bottom:2.5rem;opacity:0;animation:pricingFadeUp .7s .2s ease forwards}
+.pricing-hero{text-align:center;padding:3rem 0 1.5rem;opacity:0;animation:pricingFadeUp .8s ease forwards}
+.pricing-eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.25em;color:var(--accent-dark);margin-bottom:.6rem;text-transform:uppercase}
+.pricing-hero h1{font-size:clamp(2rem,7vw,3.2rem);font-weight:700;letter-spacing:-.02em;line-height:1.1;color:var(--text-primary);margin-bottom:.5rem}
+.pricing-subtitle{font-size:.9rem;color:var(--text-secondary);line-height:1.6}
+.pricing-section{margin-bottom:2.5rem;opacity:0;animation:pricingFadeUp .7s .15s ease forwards}
 .pricing-section-title{font-size:1.1rem;font-weight:600;letter-spacing:-.01em;color:var(--text-primary);margin-bottom:1rem;padding-left:.2rem;display:flex;align-items:center;gap:.5rem}
 .pricing-section-title::before{content:'';display:inline-block;width:3px;height:1em;background:var(--accent);border-radius:2px}
 .pricing-grid{display:grid;gap:1rem}
 .pricing-grid--3col{grid-template-columns:repeat(3,1fr)}
-@media(max-width:768px){.pricing-grid--3col{grid-template-columns:1fr}}
+.pricing-grid--2col{grid-template-columns:repeat(2,1fr)}
+@media(max-width:768px){.pricing-grid--3col,.pricing-grid--2col{grid-template-columns:1fr}}
 .pricing-card{background:var(--bg-card);border-radius:var(--radius);padding:1.6rem 1.4rem;border:1px solid var(--border);box-shadow:var(--shadow-card);transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s ease;opacity:0;animation:pricingFadeUp .6s ease forwards}
 .pricing-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
 .pricing-card-name{font-size:.95rem;font-weight:600;color:var(--text-primary);margin-bottom:.8rem}
-.pricing-card-price{display:flex;align-items:baseline;gap:2px;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
-.pricing-currency{font-size:1rem;font-weight:600;color:var(--accent-dark);align-self:flex-start;margin-top:.3rem}
-.pricing-amount{font-size:2.2rem;font-weight:700;letter-spacing:-.04em;line-height:1;color:var(--text-primary)}
+.pricing-card-price{display:flex;align-items:baseline;gap:4px;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.pricing-amount{font-size:2.4rem;font-weight:700;letter-spacing:-.04em;line-height:1;color:var(--text-primary)}
+.pricing-unit{font-size:.9rem;font-weight:600;color:var(--accent-dark)}
+.pricing-card--zhengpian .zhengpian-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.zhengpian-subtitle{font-size:.75rem;font-weight:600;color:var(--accent-dark);background:rgba(127,239,208,.15);padding:3px 10px;border-radius:12px}
 .pricing-items{list-style:none;display:flex;flex-direction:column;gap:.5rem}
-.pricing-items li{font-size:.8rem;color:var(--text-secondary);line-height:1.5;padding-left:.8rem;position:relative}
+.pricing-items li{font-size:.82rem;color:var(--text-secondary);line-height:1.5;padding-left:.8rem;position:relative}
 .pricing-items li::before{content:'';position:absolute;left:0;top:.5em;width:4px;height:4px;border-radius:50%;background:var(--accent)}
-.pricing-addons{margin-bottom:2.5rem;opacity:0;animation:pricingFadeUp .7s .5s ease forwards}
-.addons-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
-@media(max-width:768px){.addons-grid{grid-template-columns:repeat(2,1fr)}}
+.pricing-addons{margin-bottom:2.5rem;opacity:0;animation:pricingFadeUp .7s .3s ease forwards}
+.addons-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:400px}
 .addon-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1.1rem .8rem;text-align:center;transition:transform .3s ease,box-shadow .3s ease;opacity:0;animation:pricingFadeUp .5s ease forwards}
 .addon-item:hover{transform:translateY(-3px);box-shadow:var(--shadow-card)}
 .addon-label{display:block;font-size:.78rem;color:var(--text-secondary);margin-bottom:.3rem}
 .addon-price{display:block;font-size:1rem;font-weight:700;color:var(--text-primary);letter-spacing:-.02em}
 .addon-price em{font-style:normal;font-size:.68rem;font-weight:400;color:var(--text-muted)}
+.pricing-notes{margin-bottom:2.5rem;opacity:0;animation:pricingFadeUp .7s .4s ease forwards}
+.notes-list{display:flex;flex-direction:column;gap:.7rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem 1.6rem}
+.note-item{display:flex;align-items:flex-start;gap:.8rem;opacity:0;animation:pricingFadeUp .4s ease forwards}
+.note-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#1a1a24;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.note-content{display:flex;flex-direction:column;gap:2px}
+.note-title{font-size:.82rem;font-weight:600;color:var(--text-primary)}
+.note-desc{font-size:.8rem;color:var(--text-secondary);line-height:1.5}
+.pricing-social{text-align:center;padding:2rem 1.5rem;margin-bottom:1.5rem;opacity:0;animation:pricingFadeUp .7s .6s ease forwards}
+.pricing-social p{font-size:.9rem;color:var(--text-secondary);margin-bottom:.2rem}
+.pricing-social strong{color:var(--text-primary);font-weight:600}
 .pricing-bottom-cta{text-align:center;padding:2.5rem 1.5rem;background:var(--bg-card);border-radius:var(--radius);border:1px solid var(--border);opacity:0;animation:pricingFadeUp .7s .7s ease forwards}
-.pricing-bottom-cta h2{font-size:1.3rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.4rem}
-.pricing-bottom-cta p{font-size:.85rem;color:var(--text-secondary);margin-bottom:1rem}
-.pricing-contact{display:flex;align-items:center;justify-content:center;gap:.6rem;font-size:.82rem;color:var(--text-primary);font-weight:500}
+.pricing-bottom-cta h2{font-size:1.3rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.8rem}
+.pricing-contact{display:flex;align-items:center;justify-content:center;gap:.6rem;font-size:.85rem;color:var(--text-primary);font-weight:500}
 .pricing-contact-sep{color:var(--text-muted)}
 @keyframes pricingFadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 </style>
@@ -303,7 +314,7 @@ body{
   <!-- ===== 价格参考页 ===== -->
   <section class="page-section" id="page-pricing">
     <div class="pricing-hero">
-      <p class="pricing-eyebrow">PRICING</p>
+      <p class="pricing-eyebrow">PHOTO</p>
       <h1>拍摄报价参考</h1>
       <p class="pricing-subtitle">以下为场照与正片的参考报价，具体可根据需求协商调整。</p>
     </div>
@@ -312,65 +323,95 @@ body{
     <div class="pricing-section">
       <h2 class="pricing-section-title">场照</h2>
       <div class="pricing-grid pricing-grid--3col">
-        <div class="pricing-card" data-animate>
-          <h3 class="pricing-card-name">基础场照</h3>
-          <div class="pricing-card-price"><span class="pricing-currency">¥</span><span class="pricing-amount">—</span></div>
-          <ul class="pricing-items"><li>拍摄时长 —</li><li>精修 — 张</li><li>原片 — 张</li><li>服装/场景 —</li></ul>
-        </div>
-        <div class="pricing-card" data-animate>
-          <h3 class="pricing-card-name">标准场照</h3>
-          <div class="pricing-card-price"><span class="pricing-currency">¥</span><span class="pricing-amount">—</span></div>
-          <ul class="pricing-items"><li>拍摄时长 —</li><li>精修 — 张</li><li>原片 — 张</li><li>服装/场景 —</li></ul>
-        </div>
-        <div class="pricing-card" data-animate>
-          <h3 class="pricing-card-name">高级场照</h3>
-          <div class="pricing-card-price"><span class="pricing-currency">¥</span><span class="pricing-amount">—</span></div>
-          <ul class="pricing-items"><li>拍摄时长 —</li><li>精修 — 张</li><li>原片 — 张</li><li>服装/场景 —</li></ul>
-        </div>
+        <div class="pricing-card" data-animate><h3 class="pricing-card-name">四图场照</h3><div class="pricing-card-price"><span class="pricing-amount">80</span><span class="pricing-unit">元</span></div><ul class="pricing-items"><li>拍摄 + 调色简修</li><li>数量 4 图</li><li>拍摄时长约 30min</li></ul></div>
+        <div class="pricing-card" data-animate><h3 class="pricing-card-name">六图场照</h3><div class="pricing-card-price"><span class="pricing-amount">120</span><span class="pricing-unit">元</span></div><ul class="pricing-items"><li>拍摄 + 调色简修</li><li>数量 6 图</li><li>拍摄时长约 30min</li></ul></div>
+        <div class="pricing-card" data-animate><h3 class="pricing-card-name">九图场照</h3><div class="pricing-card-price"><span class="pricing-amount">180</span><span class="pricing-unit">元</span></div><ul class="pricing-items"><li>拍摄 + 调色简修</li><li>数量 9 图</li><li>拍摄时长约 30min</li></ul></div>
+      </div>
+    </div>
+
+    <!-- 场照增值服务 -->
+    <div class="pricing-addons">
+      <h2 class="pricing-section-title">场照增值服务</h2>
+      <div class="addons-grid">
+        <div class="addon-item" data-animate><span class="addon-label">精修半合成</span><span class="addon-price">20<em>元/张</em></span></div>
+        <div class="addon-item" data-animate><span class="addon-label">双人场照</span><span class="addon-price">单人价格×2</span></div>
+      </div>
+    </div>
+
+    <!-- 场照注意事项 -->
+    <div class="pricing-notes">
+      <h2 class="pricing-section-title">场照注意事项</h2>
+      <div class="notes-list">
+        <div class="note-item" data-animate><span class="note-num">1</span><div class="note-content"><span class="note-title">流程</span><span class="note-desc">定金定档 → 拍摄 → 尾款 → 返图</span></div></div>
+        <div class="note-item" data-animate><span class="note-num">2</span><div class="note-content"><span class="note-title">返图周期</span><span class="note-desc">漫展结束晚上返底图，选图后 7~14 天内返简/精修图</span></div></div>
+        <div class="note-item" data-animate><span class="note-num">3</span><div class="note-content"><span class="note-title">定金</span><span class="note-desc">定金 50%，跑单定金不退</span></div></div>
+        <div class="note-item" data-animate><span class="note-num">4</span><div class="note-content"><span class="note-title">拍摄时长</span><span class="note-desc">漫展当天会给具体灯阵位置，拍摄时长约 30min 左右</span></div></div>
+        <div class="note-item" data-animate><span class="note-num">5</span><div class="note-content"><span class="note-title">返图格式</span><span class="note-desc">返图默认 JPG，如有需要 RAW 可提出</span></div></div>
+        <div class="note-item" data-animate><span class="note-num">6</span><div class="note-content"><span class="note-title">动作准备</span><span class="note-desc">需提前准备动作，只提供动作指导和修正</span></div></div>
+        <div class="note-item" data-animate><span class="note-num">7</span><div class="note-content"><span class="note-title">成片授权</span><span class="note-desc">成片默认可发社交平台，如不同意需提前说明</span></div></div>
       </div>
     </div>
 
     <!-- 正片报价 -->
     <div class="pricing-section">
       <h2 class="pricing-section-title">正片</h2>
-      <div class="pricing-grid pricing-grid--3col">
-        <div class="pricing-card" data-animate>
-          <h3 class="pricing-card-name">基础正片</h3>
-          <div class="pricing-card-price"><span class="pricing-currency">¥</span><span class="pricing-amount">—</span></div>
-          <ul class="pricing-items"><li>拍摄时长 —</li><li>精修 — 张</li><li>原片 — 张</li><li>服装/场景 —</li></ul>
+      <div class="pricing-grid pricing-grid--2col">
+        <div class="pricing-card pricing-card--zhengpian" data-animate>
+          <div class="zhengpian-header"><h3 class="pricing-card-name">单人正片</h3><span class="zhengpian-subtitle">棚拍</span></div>
+          <div class="pricing-card-price"><span class="pricing-amount">299</span><span class="pricing-unit">元</span></div>
+          <ul class="pricing-items"><li>9 图，底图保底 100+</li><li>前期策划执行案</li><li>修容 + 调色 + 小 bug 处理</li></ul>
         </div>
-        <div class="pricing-card" data-animate>
-          <h3 class="pricing-card-name">标准正片</h3>
-          <div class="pricing-card-price"><span class="pricing-currency">¥</span><span class="pricing-amount">—</span></div>
-          <ul class="pricing-items"><li>拍摄时长 —</li><li>精修 — 张</li><li>原片 — 张</li><li>服装/场景 —</li></ul>
+        <div class="pricing-card pricing-card--zhengpian" data-animate>
+          <div class="zhengpian-header"><h3 class="pricing-card-name">单人正片</h3><span class="zhengpian-subtitle">外景</span></div>
+          <div class="pricing-card-price"><span class="pricing-amount">399</span><span class="pricing-unit">元</span></div>
+          <ul class="pricing-items"><li>9 图，底图保底 100+</li><li>前期策划执行案</li><li>修容 + 调色 + 小 bug 处理</li></ul>
         </div>
-        <div class="pricing-card" data-animate>
-          <h3 class="pricing-card-name">高级正片</h3>
-          <div class="pricing-card-price"><span class="pricing-currency">¥</span><span class="pricing-amount">—</span></div>
-          <ul class="pricing-items"><li>拍摄时长 —</li><li>精修 — 张</li><li>原片 — 张</li><li>服装/场景 —</li></ul>
+        <div class="pricing-card pricing-card--zhengpian" data-animate>
+          <div class="zhengpian-header"><h3 class="pricing-card-name">双人正片</h3><span class="zhengpian-subtitle">棚拍</span></div>
+          <div class="pricing-card-price"><span class="pricing-amount">399</span><span class="pricing-unit">元</span></div>
+          <ul class="pricing-items"><li>9 图，底图保底 200+</li><li>前期策划执行案</li><li>修容 + 调色 + 小 bug 处理</li></ul>
+        </div>
+        <div class="pricing-card pricing-card--zhengpian" data-animate>
+          <div class="zhengpian-header"><h3 class="pricing-card-name">双人正片</h3><span class="zhengpian-subtitle">外景</span></div>
+          <div class="pricing-card-price"><span class="pricing-amount">599</span><span class="pricing-unit">元</span></div>
+          <ul class="pricing-items"><li>9 图，底图保底 200+</li><li>前期策划执行案</li><li>修容 + 调色 + 小 bug 处理</li></ul>
         </div>
       </div>
     </div>
 
-    <!-- 增值服务 -->
+    <!-- 正片增值服务 -->
     <div class="pricing-addons">
-      <h2 class="pricing-section-title">增值服务</h2>
+      <h2 class="pricing-section-title">正片增值服务</h2>
       <div class="addons-grid">
-        <div class="addon-item" data-animate><span class="addon-label">额外精修</span><span class="addon-price">¥—<em>/张</em></span></div>
-        <div class="addon-item" data-animate><span class="addon-label">加时拍摄</span><span class="addon-price">¥—<em>/小时</em></span></div>
-        <div class="addon-item" data-animate><span class="addon-label">外景交通费</span><span class="addon-price">实报实销</span></div>
-        <div class="addon-item" data-animate><span class="addon-label">妆娘跟妆</span><span class="addon-price">¥—<em>/次</em></span></div>
+        <div class="addon-item" data-animate><span class="addon-label">2D 特效合成</span><span class="addon-price">30<em>起/张</em></span></div>
+        <div class="addon-item" data-animate><span class="addon-label">3D 特效合成</span><span class="addon-price">需沟通</span></div>
       </div>
     </div>
 
-    <!-- 底部 CTA -->
+    <!-- 正片注意事项 -->
+    <div class="pricing-notes">
+      <h2 class="pricing-section-title">正片注意事项</h2>
+      <div class="notes-list">
+        <div class="note-item" data-animate><span class="note-num">1</span><div class="note-content"><span class="note-title">定金</span><span class="note-desc">正片定金 150 元</span></div></div>
+        <div class="note-item" data-animate><span class="note-num">2</span><div class="note-content"><span class="note-title">出图工期</span><span class="note-desc">正片出图工期 7~14 天，如有特效合成可能会因工作量需延迟</span></div></div>
+        <div class="note-item" data-animate><span class="note-num">3</span><div class="note-content"><span class="note-title">迟到说明</span><span class="note-desc">单主迟到一小时默认取消拍摄（提前说明可延迟最多一小时）</span></div></div>
+        <div class="note-item" data-animate><span class="note-num">4</span><div class="note-content"><span class="note-title">路费说明</span><span class="note-desc">有地铁直达无需单主报销，目的地离地铁超过 2 公里需单主报销</span></div></div>
+      </div>
+    </div>
+
+    <!-- 查看更多 -->
+    <div class="pricing-social">
+      <p>如需要查看更多例图</p>
+      <p>可以查看同名 <strong>小红书</strong>、<strong>抖音</strong> ~</p>
+    </div>
+
+    <!-- 联系方式 -->
     <div class="pricing-bottom-cta">
-      <h2>有特别的需求？</h2>
-      <p>无论是团体约拍、活动跟拍还是定制主题，欢迎联系我聊聊你的想法。</p>
+      <h2>联系方式</h2>
       <div class="pricing-contact">
         <span>QQ：2166783550</span>
         <span class="pricing-contact-sep">·</span>
-        <span>微信：anzzbfly</span>
+        <span>VX：anzzbfly</span>
       </div>
     </div>
   </section>
