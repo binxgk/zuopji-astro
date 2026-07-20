@@ -3,9 +3,10 @@
 export interface Props {
   title?: string;
   description?: string;
-  currentPage?: 'gallery' | 'notes' | 'pricing';
+  currentPage?: 'gallery' | 'notes' | 'pricing' | 'admin';
 }
 const { title = '氷子-作品集', description = '二次元摄影记录', currentPage } = Astro.props;
+const isDev = import.meta.env.DEV;
 ---
 
 <!doctype html>
@@ -28,6 +29,7 @@ const { title = '氷子-作品集', description = '二次元摄影记录', curre
         <a href="/" class:list={[{ active: currentPage === 'gallery' || !currentPage }]}>作品</a>
         <a href="/schedule" class:list={[{ active: currentPage === 'notes' }]}>拍摄注意事项</a>
         <a href="/pricing" class:list={[{ active: currentPage === 'pricing' }]}>价格参考</a>
+        {isDev && <a href="/admin" class:list={[{ active: currentPage === 'admin' }]} style="color:var(--accent-dark);font-weight:600">管理</a>}
       </div>
     </nav>
 
