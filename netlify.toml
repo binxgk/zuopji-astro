@@ -1,0 +1,19 @@
+# 线上发布的是「单文件版」站点：仓库根目录的 index.html（标题「氷子 HSUKO — 视觉系摄影」）。
+# src/ 里的 Astro 版本不再参与部署。
+# Netlify 不跑 Astro 构建，只把需要的静态文件拷进 out/ 再发布，
+# 这样既不把 node_modules / src / 文档推到 CDN，也不用改面板里的设置（netlify.toml 优先级更高）。
+
+[build]
+  command = "rm -rf out && mkdir -p out && cp index.html admin.html out/ && cp -r public out/"
+  publish = "out"
+
+# 照片是静态内容，长缓存；文件名带序号不会变，所以可以 immutable
+[[headers]]
+  for = "/public/previews/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/public/favicon.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
