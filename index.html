@@ -1,460 +1,2397 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-page="gallery">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>氷子 — 二次元摄影记录</title>
-<meta name="description" content="二次元摄影记录">
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>氷子 HSUKO — 视觉系摄影 / Visual Résumé</title>
+<meta name="description" content="氷子的视觉系摄影记录。Cosplay、人像与外景作品，以一本被拆开的杂志呈现。">
+<meta name="theme-color" content="#F4F3F0">
+<link rel="icon" type="image/x-icon" href="public/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700;1,6..96,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&family=Space+Grotesk:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
-/* ============================================
-   hebiko — 浅色主题摄影作品集
-   灵感来源：hebiko.cn
-   ============================================ */
+/* ==========================================================================
+   HSUKO — VISUAL RÉSUMÉ / AGGRESSIVE MAGAZINE
+   Paper white, ink black, signal orange, electric cyan.
+   Photography stays untouched. Type does the damage.
+   ========================================================================== */
 
-/* 基础重置 */
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:#C5D9D5}
-::-webkit-scrollbar-thumb{background:#7FEFD0;border-radius:8px}
-
-/* 根变量 */
 :root{
-  --bg-deep:#ffffff;
-  --bg-card:#E6DFDF;
-  --text-primary:#1a1a24;
-  --text-secondary:#5a5a6e;
-  --text-muted:#88889a;
-  --accent:#7FEFD0;
-  --accent-light:#78FFC7;
-  --accent-glow:rgba(127,239,208,0.25);
-  --accent-dark:#5acba0;
-  --border:rgba(0,0,0,0.06);
-  --border-light:rgba(0,0,0,0.1);
-  --radius:20px;
-  --radius-sm:12px;
-  --shadow-card:0 8px 20px rgba(0,0,0,0.06);
-  --shadow-hover:0 15px 30px rgba(0,0,0,0.1);
+  --bg-paper:#F4F3F0;
+  --ink-black:#090909;
+  --accent-orange:#FF3E00;
+  --accent-cyan:#00F0FF;
+  --hazard-yellow:#FFD600;
+
+  /* pop halftone generators */
+  --dots-small: radial-gradient(var(--ink-black) 15%, transparent 16%) 0 0 / 8px 8px;
+  --dots-large: radial-gradient(var(--ink-black) 25%, transparent 26%) 0 0 / 16px 16px;
+  --dots-orange: radial-gradient(var(--accent-orange) 20%, transparent 21%) 0 0 / 10px 10px;
+  --dots-cyan: radial-gradient(var(--accent-cyan) 34%, transparent 35%) 0 0 / 10px 10px;
+
+  --grid-line:rgba(9,9,9,.12);
+  --ink-soft:#2A2A2A;
+  --grey:#6B675F;
+  --line:rgba(9,9,9,.24);
+  --line-soft:rgba(9,9,9,.1);
+  --hard-shadow:10px 10px 0 var(--ink-black);
+
+  --serif:"Bodoni Moda","Noto Serif SC","Songti SC",serif;
+  --sans:"Space Grotesk","Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"Courier Prime","Courier New","Noto Sans SC","PingFang SC",monospace;
+
+  --pad:clamp(16px,4vw,64px);
+  --nav-h:clamp(64px,6vw,84px);
+  --ease:cubic-bezier(.22,1,.36,1);
 }
 
+*,*::before,*::after{box-sizing:border-box}
+html{
+  -webkit-text-size-adjust:100%;
+  overflow-x:clip;
+  scrollbar-color:var(--accent-orange) var(--bg-paper);
+  scrollbar-width:thin;
+}
+html,body{max-width:100%}
 body{
-  font-family:'Inter',system-ui,-apple-system,'Helvetica Neue',sans-serif;
-  color:var(--text-primary);
-  line-height:1.5;
-  background-color:var(--bg-deep);
-  min-height:100vh;
+  margin:0;
+  background:var(--bg-paper);
+  color:var(--ink-black);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  overflow-x:clip;
   -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+ul{list-style:none;margin:0;padding:0}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{text-wrap:balance;font-optical-sizing:auto}
+p{text-wrap:pretty}
+strong{font-weight:700}
+::selection{background:var(--accent-orange);color:#fff}
+:focus-visible{outline:3px solid var(--accent-cyan);outline-offset:4px}
+
+/* ---------- hazard scrollbar ---------- */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--bg-paper)}
+::-webkit-scrollbar-thumb{
+  background-image:repeating-linear-gradient(
+    -45deg,
+    var(--accent-orange) 0px,
+    var(--accent-orange) 6px,
+    var(--ink-black) 6px,
+    var(--ink-black) 12px
+  );
+  background-size:200% 200%;
+  animation:hazard-flow 1.2s linear infinite;
+  border-radius:0;
+  border:0;
+}
+::-webkit-scrollbar-corner{background:var(--bg-paper)}
+@keyframes hazard-flow{
+  from{background-position:0 0}
+  to{background-position:12px 0}
 }
 
-/* 模糊背景层 */
-.bg-blur-layer{
-  position:fixed;inset:0;width:100vw;height:100vh;
-  background-size:cover;background-position:center;
-  background-color:var(--bg-deep);
-  filter:blur(30px) brightness(0.95);
-  z-index:-1;transform:scale(1.1);
-  transition:background-image 1s ease;
+.sr-only{
+  position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;
+}
+.skip-link{
+  position:fixed;left:16px;top:-80px;z-index:10080;
+  background:var(--ink-black);color:var(--accent-orange);
+  font:700 .7rem/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;
+  padding:14px 20px;transition:top .25s var(--ease);
+}
+.skip-link:focus{top:12px}
+
+/* ---------- paper grain + scanlines ---------- */
+body::before{
+  content:"";
+  position:fixed;inset:-20%;
+  width:140%;height:140%;
+  z-index:9700;
+  pointer-events:none;
+  opacity:.04;
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px 160px;
+  will-change:transform;
+}
+body::after{
+  content:"";
+  position:fixed;inset:0;
+  z-index:9600;
+  pointer-events:none;
+  opacity:.5;
+  mix-blend-mode:multiply;
+  background-image:repeating-linear-gradient(
+    to bottom,
+    rgba(9,9,9,.07) 0 1px,
+    transparent 1px 4px
+  );
 }
 
-/* 导航 */
+/* ---------- layout guides: vertical + cross grid ---------- */
+.guide-lines{
+  position:fixed;inset:0;
+  z-index:0;
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  pointer-events:none;
+}
+.guide-lines::before{
+  content:"";
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    to bottom,
+    transparent 0 219px,
+    var(--grid-line) 219px 220px
+  );
+  pointer-events:none;
+}
+.guide-lines span{border-left:1px dashed var(--grid-line)}
+.guide-lines span:last-child{border-right:1px dashed var(--grid-line)}
+
+/* ---------- shared type ---------- */
+.kicker{
+  font:400 .7rem/1.4 var(--mono);
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--ink-black);
+}
+.mono{font-family:var(--mono)}
+.display{
+  font-family:var(--serif);
+  font-weight:700;
+  line-height:.85;
+  letter-spacing:-.045em;
+}
+.rule-4{border-top:4px solid var(--ink-black)}
+.rule-1{border-top:1px solid var(--line)}
+
+/* ==========================================================================
+   NAVIGATION — no background, hard hover
+   ========================================================================== */
 .top-nav{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:0.8rem 1.5rem;border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:100;
-  background:rgba(127,239,208,0.85);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  position:fixed;top:0;left:0;right:0;
+  z-index:9000;
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:24px;
+  padding:0 var(--pad);
+  border-bottom:2px solid var(--ink-black);
+  background:var(--bg-paper);
+  transition:transform .45s var(--ease);
 }
-.nav-logo{color:var(--text-primary);font-size:1rem;font-weight:600;text-decoration:none;letter-spacing:-0.01em}
-.nav-links{display:flex;gap:0.5rem;align-items:center}
+.top-nav.is-hidden{transform:translateY(-101%)}
+.brand{display:flex;align-items:center;gap:12px;line-height:1}
+.brand-zh{
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:700;
+  font-size:clamp(2.1rem,3.4vw,2.9rem);
+  letter-spacing:-.04em;
+  line-height:.9;
+}
+.brand-en{
+  writing-mode:vertical-rl;
+  font:400 .5rem/1 var(--sans);
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  transform:rotate(180deg);
+  color:var(--ink-black);
+  padding-top:2px;
+}
+.nav-links{display:flex;align-items:stretch;gap:0}
 .nav-links a{
-  color:var(--text-secondary);font-size:0.8rem;cursor:pointer;text-decoration:none;
-  transition:color 0.2s;padding:4px 10px;border-radius:20px;
-  background:none;border:none;font-family:inherit;
+  display:flex;align-items:center;
+  min-height:44px;
+  padding:0 clamp(10px,1.4vw,20px);
+  font:400 .7rem/1 var(--mono);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  border-left:1px solid transparent;
+  transition:none;
 }
-.nav-links a:hover{color:var(--text-primary)}
-.nav-links a.active{color:var(--text-primary);background:rgba(0,0,0,0.06)}
+.nav-links a:hover,
+.nav-links a:focus-visible{
+  background:var(--accent-orange);
+  color:#fff;
+  outline-offset:0;
+}
+.nav-links a.active{
+  background:var(--ink-black);
+  color:var(--accent-orange);
+}
+.nav-links a.active:hover{background:var(--accent-orange);color:#fff}
+.nav-toggle{
+  display:none;
+  min-width:88px;min-height:44px;
+  padding:0 14px;
+  border:2px solid var(--ink-black);
+  font:700 .66rem/1 var(--mono);
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  transition:none;
+}
+.nav-toggle:hover{background:var(--accent-orange);color:#fff;border-color:var(--accent-orange)}
+body.menu-open .nav-toggle::before{content:"CLOSE"}
+body:not(.menu-open) .nav-toggle::before{content:"MENU"}
 
-/* 容器 */
-.container{max-width:1200px;margin:0 auto;padding:2rem 1rem 4rem}
+/* ---------- orange menu ---------- */
+.menu-overlay{
+  position:fixed;inset:0;
+  z-index:9200;
+  background:var(--accent-orange);
+  color:var(--ink-black);
+  padding:calc(var(--nav-h) + clamp(28px,6vh,70px)) var(--pad) 28px;
+  display:flex;flex-direction:column;justify-content:space-between;gap:40px;
+  transform:translateY(-101%);
+  visibility:hidden;
+  transition:transform .55s var(--ease),visibility .55s;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+body.menu-open .menu-overlay{transform:translateY(0);visibility:visible}
+body.menu-open{overflow:hidden}
+.menu-kicker{
+  font:400 .68rem/1.4 var(--mono);
+  letter-spacing:.28em;text-transform:uppercase;
+  margin-bottom:clamp(24px,4vh,44px);
+}
+.menu-links{display:flex;flex-direction:column}
+.menu-links a{
+  display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  border-top:4px solid var(--ink-black);
+  padding:clamp(10px,2vh,22px) 0;
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:700;
+  font-size:clamp(2.4rem,7.5vw,6rem);
+  line-height:1;
+  letter-spacing:-.04em;
+  transition:padding-left .28s var(--ease);
+}
+.menu-links a:last-child{border-bottom:4px solid var(--ink-black)}
+.menu-links a span{
+  font:400 .66rem/1 var(--mono);
+  letter-spacing:.24em;
+  text-transform:uppercase;
+}
+.menu-links a:hover,
+.menu-links a:focus-visible{padding-left:clamp(8px,2vw,28px);outline-offset:2px}
+.menu-foot{
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;
+  border-top:2px solid var(--ink-black);
+  padding-top:18px;
+  font:400 .64rem/1.8 var(--mono);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.menu-contact{
+  background:var(--ink-black);
+  color:var(--bg-paper);
+  padding:7px 10px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:none;
+}
+
+/* ==========================================================================
+   CUSTOM CURSOR
+   ========================================================================== */
+.cursor{
+  display:none;
+  position:fixed;left:0;top:0;
+  z-index:9800;
+  pointer-events:none;
+  opacity:0;
+}
+.cursor.is-active{opacity:1}
+.cursor-dot{
+  position:fixed;left:0;top:0;
+  width:8px;height:8px;
+  background:var(--ink-black);
+  border-radius:0;
+  pointer-events:none;
+}
+.cursor-ring{
+  position:fixed;left:0;top:0;
+  width:44px;height:44px;
+  border:2px solid var(--ink-black);
+  border-radius:0;
+  background:rgba(244,243,240,.18);
+  pointer-events:none;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .1s linear,width .28s var(--ease),height .28s var(--ease),background-color .18s linear,border-color .18s linear;
+}
+.cursor-ring span{
+  font:700 .6rem/1 var(--mono);
+  letter-spacing:.24em;
+  text-indent:.24em;
+  color:transparent;
+  transition:color .18s linear;
+}
+.cursor-ring.is-link{width:56px;height:56px;border-color:var(--accent-cyan)}
+.cursor-ring.is-view{
+  width:100px;height:100px;
+  background:var(--accent-cyan);
+  border-color:var(--accent-cyan);
+}
+.cursor-ring.is-view span{color:var(--ink-black)}
+@media (hover:hover) and (pointer:fine){
+  html.has-cursor,
+  html.has-cursor body,
+  html.has-cursor a,
+  html.has-cursor button,
+  html.has-cursor [role="button"],
+  html.has-cursor .work-card{cursor:none}
+  html.has-cursor .cursor{display:block}
+}
+@media (hover:none),(pointer:coarse){
+  .cursor{display:none!important}
+}
+
+/* ==========================================================================
+   PAGES
+   ========================================================================== */
+main{position:relative;z-index:1;background:var(--bg-paper)}
 .page-section{display:none}
 .page-section.active{display:block}
 
-/* Hero */
-.hero{margin-bottom:2rem;text-align:center}
-.hero h1{
-  font-size:clamp(1.8rem,7vw,3.2rem);font-weight:500;letter-spacing:-0.02em;
-  background:linear-gradient(135deg,#1a1a24 0%,#5a5a6e 100%);
-  background-clip:text;-webkit-background-clip:text;color:transparent;
-  margin-bottom:0.5rem;
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero{
+  min-height:100svh;
+  display:flex;flex-direction:column;
+  padding-top:var(--nav-h);
+  border-bottom:8px solid var(--ink-black);
+  position:relative;
+  background:var(--bg-paper);
 }
-.hero .subhead{font-size:0.9rem;color:var(--text-secondary)}
-.divider{width:50px;height:2px;background:#C5D9D5;margin:1rem auto}
-.contact-line{text-align:center;margin-bottom:1rem;font-size:0.8rem;color:var(--text-muted)}
+.hero-stage{
+  position:relative;
+  flex:1 1 auto;
+  min-height:clamp(400px,56vh,780px);
+  margin:0 var(--pad);
+  overflow:hidden;
+}
 
-/* 筛选条 */
-.filter-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin:1rem 0 1.8rem}
+.hero-photo{
+  position:absolute;
+  margin:0;
+  z-index:1;
+  border:4px solid var(--ink-black);
+  background:var(--bg-paper);
+  box-shadow:10px 10px 0 var(--ink-black);
+  overflow:hidden;
+}
+.hero-photo img{
+  width:100%;height:100%;
+  object-fit:cover;
+  will-change:transform;
+}
+.hero-photo figcaption{
+  position:absolute;left:0;bottom:0;z-index:2;
+  background:var(--ink-black);color:var(--accent-orange);
+  font:400 .58rem/1 var(--mono);
+  letter-spacing:.2em;text-transform:uppercase;
+  padding:7px 9px;
+}
+.hero-photo--a{
+  left:0;top:7%;
+  width:33%;height:78%;
+  transform:rotate(-2.2deg);
+}
+.hero-photo--b{
+  right:1%;top:41%;
+  width:26%;height:47%;
+  transform:rotate(2.4deg);
+}
+.hero-photo--b figcaption{background:var(--accent-orange);color:var(--ink-black)}
+
+.hero-title{
+  position:absolute;inset:0;
+  z-index:5;
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  padding:0 var(--pad);
+  pointer-events:none;
+  color:var(--ink-black);
+  font-family:var(--sans);
+  font-weight:900;
+  font-style:normal;
+  font-size:clamp(4rem,14vw,12rem);
+  line-height:.85;
+  letter-spacing:-.06em;
+  text-transform:uppercase;
+}
+.hero-word{
+  position:relative;
+  display:block;
+  animation:heroIn 1.1s var(--ease) both;
+  isolation:isolate;
+}
+.hero-word::before,
+.hero-word::after{
+  content:attr(data-text);
+  position:absolute;left:0;top:0;
+  width:100%;
+  pointer-events:none;
+  white-space:nowrap;
+}
+.hero-word::before{
+  color:var(--accent-orange);
+  z-index:-1;
+  transform:translate(-.035em,.012em);
+  clip-path:inset(8% 0 62% 0);
+  animation:glitch-a 2.4s steps(1,end) infinite;
+}
+.hero-word::after{
+  color:var(--accent-cyan);
+  z-index:-2;
+  transform:translate(.035em,-.012em);
+  clip-path:inset(58% 0 12% 0);
+  animation:glitch-b 1.9s steps(1,end) infinite;
+}
+@keyframes glitch-a{
+  0%,6%,100%{clip-path:inset(8% 0 62% 0);transform:translate(-.035em,.012em);opacity:.9}
+  7%{clip-path:inset(34% 0 44% 0);transform:translate(-.06em,-.008em);opacity:1}
+  9%{clip-path:inset(72% 0 8% 0);transform:translate(.04em,.02em);opacity:.75}
+  11%,48%{clip-path:inset(8% 0 62% 0);transform:translate(-.035em,.012em);opacity:.9}
+  49%{clip-path:inset(48% 0 32% 0);transform:translate(-.05em,.016em);opacity:1}
+  51%{clip-path:inset(14% 0 76% 0);transform:translate(.03em,-.014em);opacity:.8}
+  53%,100%{clip-path:inset(8% 0 62% 0);transform:translate(-.035em,.012em);opacity:.9}
+}
+@keyframes glitch-b{
+  0%,10%,100%{clip-path:inset(58% 0 12% 0);transform:translate(.035em,-.012em);opacity:.85}
+  11%{clip-path:inset(22% 0 58% 0);transform:translate(.055em,.01em);opacity:1}
+  13%{clip-path:inset(78% 0 4% 0);transform:translate(-.03em,-.02em);opacity:.7}
+  15%,64%{clip-path:inset(58% 0 12% 0);transform:translate(.035em,-.012em);opacity:.85}
+  65%{clip-path:inset(38% 0 48% 0);transform:translate(.05em,-.01em);opacity:1}
+  67%{clip-path:inset(66% 0 18% 0);transform:translate(-.02em,.018em);opacity:.75}
+  69%,100%{clip-path:inset(58% 0 12% 0);transform:translate(.035em,-.012em);opacity:.85}
+}
+.hero-word--italic{
+  font-family:var(--serif);
+  font-weight:900;
+  font-style:italic;
+  text-align:right;
+  padding-right:1.5%;
+  letter-spacing:-.07em;
+  animation-delay:.12s;
+}
+@keyframes heroIn{
+  from{opacity:0;transform:translateY(.24em)}
+  to{opacity:1;transform:none}
+}
+
+/* halftone erosion: hero paper dissolves into the archive */
+.hero::after{
+  content:"";
+  position:absolute;left:0;right:0;bottom:48px;
+  height:26vh;
+  z-index:0;
+  pointer-events:none;
+  background:var(--dots-large);
+  opacity:.26;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 96%);
+  mask-image:linear-gradient(to bottom,transparent 0,#000 96%);
+}
+
+.hero-vertical{
+  position:absolute;left:0;top:0;z-index:4;
+  writing-mode:vertical-rl;
+  font:400 .6rem/1 var(--mono);
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  background:var(--bg-paper);
+  padding:8px 3px;
+}
+.hero-issue{
+  position:absolute;right:0;top:0;z-index:4;
+  writing-mode:vertical-rl;
+  background:var(--accent-orange);
+  color:var(--ink-black);
+  border:2px solid var(--ink-black);
+  padding:12px 7px;
+  font:700 .6rem/1 var(--mono);
+  letter-spacing:.24em;
+  text-transform:uppercase;
+}
+.hero-stamp{
+  position:absolute;right:clamp(16px,7vw,108px);top:23%;z-index:4;
+  max-width:22ch;
+  padding-right:10px;
+  border-right:3px solid var(--ink-black);
+  font:400 .64rem/1.8 var(--mono);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  text-align:right;
+  color:var(--ink-black);
+}
+
+.hero-foot{
+  display:grid;
+  grid-template-columns:1.25fr 1fr auto;
+  gap:clamp(18px,3vw,48px);
+  align-items:end;
+  padding:clamp(18px,3vh,34px) var(--pad) clamp(16px,2.6vh,30px);
+}
+.hero-cn{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:clamp(1.35rem,2.4vw,2.15rem);
+  line-height:1.14;
+  letter-spacing:-.02em;
+}
+.hero-sub{
+  margin-top:10px;
+  font:400 .72rem/1.9 var(--sans);
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--grey);
+}
+.hero-contact{
+  border-left:4px solid var(--accent-orange);
+  padding-left:clamp(12px,1.6vw,20px);
+  font:400 .7rem/1.9 var(--mono);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.hero-contact span{
+  display:block;
+  font-size:.82em;
+  letter-spacing:.26em;
+  color:var(--grey);
+}
+.hero-contact strong{
+  display:block;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:none;
+}
+.hero-count{
+  display:flex;align-items:flex-end;gap:12px;
+  justify-self:end;
+}
+.hero-count #heroCount{
+  font-family:var(--serif);
+  font-weight:500;
+  font-size:clamp(3.4rem,6vw,5.6rem);
+  line-height:.72;
+  letter-spacing:-.05em;
+  font-variant-numeric:lining-nums;
+}
+.hero-count-label{
+  font:400 .62rem/1.7 var(--mono);
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  padding-bottom:4px;
+}
+
+/* ---------- marquee ---------- */
+.marquee{
+  display:flex;align-items:center;
+  width:100%;height:48px;
+  overflow:hidden;
+  background-color:var(--hazard-yellow);
+  background-image:repeating-linear-gradient(
+    -45deg,
+    var(--hazard-yellow) 0 14px,
+    var(--ink-black) 14px 24px
+  );
+  border-top:2px solid var(--ink-black);
+  border-bottom:2px solid var(--ink-black);
+  user-select:none;
+}
+.marquee--dark{
+  background-color:var(--hazard-yellow);
+  background-image:repeating-linear-gradient(
+    -45deg,
+    var(--hazard-yellow) 0 14px,
+    var(--ink-black) 14px 24px
+  );
+  border-color:var(--ink-black);
+}
+.marquee-track{
+  display:flex;align-items:center;
+  width:max-content;height:100%;
+  animation:marquee 32s linear infinite;
+  will-change:transform;
+}
+.marquee-group{
+  display:flex;align-items:center;gap:12px;
+  min-width:100vw;height:100%;
+  flex-shrink:0;
+  justify-content:space-around;
+  padding:0 6px;
+}
+.marquee-item{
+  display:flex;align-items:center;gap:12px;
+  height:32px;
+  padding:0 12px;
+  background:var(--ink-black);
+  border:2px solid var(--ink-black);
+  color:var(--hazard-yellow);
+  font:700 .68rem/1 var(--mono);
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.marquee-item::after{content:"·";font-size:1.1em;line-height:0;color:var(--hazard-yellow)}
+.marquee--dark .marquee-item{color:var(--hazard-yellow)}
+@keyframes marquee{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(-50%,0,0)}
+}
+
+/* ==========================================================================
+   WORKS INDEX
+   ========================================================================== */
+.works{
+  position:relative;
+  padding:clamp(48px,7vw,100px) var(--pad) clamp(90px,12vw,190px);
+}
+.works-head{
+  position:relative;
+  isolation:isolate;
+  border-top:8px solid var(--ink-black);
+  padding-top:clamp(14px,2vw,24px);
+}
+.works-head::before{
+  content:"";
+  position:absolute;
+  right:0;top:clamp(-10px,1vw,18px);
+  width:clamp(200px,38vw,560px);
+  height:clamp(150px,22vw,330px);
+  z-index:0;
+  background:var(--dots-large) var(--accent-orange);
+  opacity:.94;
+  transform:rotate(-2.6deg);
+  pointer-events:none;
+}
+.works-head > *{position:relative;z-index:1}
+.works-title-row{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:24px;
+  margin-top:clamp(14px,2vw,24px);
+}
+.works-title{
+  font-family:var(--sans);
+  font-weight:900;
+  font-size:clamp(2.6rem,7vw,6rem);
+  line-height:.85;
+  letter-spacing:-.06em;
+  text-transform:uppercase;
+}
+.works-title em{
+  display:block;
+  margin-left:clamp(0px,8vw,120px);
+  font-family:var(--serif);
+  font-weight:900;
+  font-style:italic;
+  color:var(--accent-orange);
+  letter-spacing:-.04em;
+}
+.works-note{
+  max-width:24ch;
+  text-align:right;
+  font:400 .62rem/1.9 var(--mono);
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--ink-black);
+  background:var(--bg-paper);
+  border:2px solid var(--ink-black);
+  box-shadow:6px 6px 0 var(--ink-black);
+  padding:10px 12px;
+  transform:rotate(1.2deg);
+}
+.works-note strong{font-weight:700}
+
+.filter-bar{
+  margin-top:clamp(22px,3vw,38px);
+  display:flex;align-items:center;gap:18px;
+  border-top:1px solid var(--line);
+  padding-top:14px;
+}
+.filter-label{
+  flex-shrink:0;
+  font:700 .58rem/1 var(--mono);
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+.filter-list{display:flex;flex-wrap:wrap;gap:0}
 .filter-btn{
-  background:rgba(197,217,213,0.5);backdrop-filter:blur(4px);
-  border:1px solid var(--border-light);border-radius:40px;
-  padding:6px 14px;font-size:0.7rem;font-weight:500;
-  color:var(--text-primary);cursor:pointer;transition:0.2s;font-family:inherit;
+  min-height:44px;
+  padding:0 clamp(12px,1.5vw,20px);
+  margin-left:-1px;
+  border:1px solid var(--ink-black);
+  font:400 .62rem/1 var(--mono);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  background:var(--bg-paper);
+  transition:none;
 }
-.filter-btn:hover{background:rgba(127,239,208,0.25);border-color:var(--accent-light)}
-.filter-btn.active{background:var(--accent);border-color:var(--accent-light);color:white}
+.filter-btn:first-child{margin-left:0}
+.filter-btn:hover{background:var(--accent-orange);color:#fff;border-color:var(--accent-orange)}
+.filter-btn.active{background:var(--ink-black);color:var(--accent-orange)}
 
-/* 瀑布流画廊 */
-.gallery{column-count:2;column-gap:1.2rem}
-@media(max-width:768px){.gallery{column-count:1}}
+/* ---------- irregular collage grid ---------- */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  column-gap:clamp(16px,2vw,32px);
+  row-gap:clamp(72px,9vw,160px);
+  margin-top:clamp(48px,7vw,96px);
+}
+.work-card{
+  position:relative;
+  grid-column:var(--c-start,1) / span var(--c-span,12);
+  margin-top:var(--lift,0vw);
+  align-self:start;
+  --rot:0deg;
+  --rx:0deg;
+  --ry:0deg;
+  transform:rotate(var(--rot));
+  transition:transform .45s var(--ease);
+  will-change:transform;
+  outline-offset:8px;
+  box-shadow:12px 12px 0 var(--ink-black);
+}
+.work-card::before{
+  content:"";
+  position:absolute;left:0;right:0;top:0;
+  aspect-ratio:4 / 5;
+  z-index:0;
+  background:var(--ink-black);
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 40px),calc(100% - 40px) 100%,0 100%);
+  transform:translate(12px,12px);
+  transition:background-color .2s linear;
+  pointer-events:none;
+}
+.work-card.hidden{display:none}
+.work-card:focus-visible{outline:4px solid var(--accent-cyan);outline-offset:6px}
 
-/* 作品卡片 */
-.artwork-card{
-  background:var(--bg-card);border-radius:var(--radius);overflow:hidden;
-  transition:transform 0.2s ease,box-shadow 0.2s;box-shadow:var(--shadow-card);
-  border:1px solid rgba(0,0,0,0.05);cursor:pointer;
-  break-inside:avoid;margin-bottom:1.2rem;
+.work-card:hover{transform:rotate(var(--rot)) translateY(-5px)}
+.work-card:hover::before,.work-card:focus-visible::before{background:var(--accent-cyan)}
+
+.work-media{
+  position:relative;
+  z-index:1;
+  aspect-ratio:4 / 5;
+  border:3px solid transparent;
+  background:var(--bg-paper);
+  overflow:hidden;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 40px),calc(100% - 40px) 100%,0 100%);
+  perspective:900px;
+  transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style:preserve-3d;
+  transition:transform .32s ease-out,border-color .12s linear;
+  will-change:transform;
 }
-.artwork-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
-.artwork-card.hidden{display:none}
-.image-mask{width:100%;background:#C5D9D5;line-height:0;overflow:hidden;position:relative}
-.image-mask .cover-img{width:100%;display:block;object-fit:cover;opacity:0;transition:opacity 0.4s ease,transform 0.5s ease}
-.image-mask .cover-img.loaded{opacity:1}
-.image-mask .placeholder-img{
-  width:100%;display:block;transition:transform 0.5s ease;
-  background:linear-gradient(135deg,#C5D9D5 0%,#AADDD4 50%,#C5D9D5 100%);
+.work-media::after{
+  content:"";
+  position:absolute;inset:0;z-index:3;
+  background:var(--dots-cyan);
+  opacity:0;
+  -webkit-mask-image:linear-gradient(118deg,#000 0,rgba(0,0,0,.55) 14%,transparent 32%);
+  mask-image:linear-gradient(118deg,#000 0,rgba(0,0,0,.55) 14%,transparent 32%);
+  transition:opacity .28s linear;
+  pointer-events:none;
 }
-.artwork-card:hover .image-mask .cover-img{transform:scale(1.02)}
-.card-info{
-  padding:0.9rem 1rem 1rem;
-  background:linear-gradient(0deg,#E6DFDF,#f5f5f5);
+.work-card:hover .work-media,
+.work-card:focus-visible .work-media{border-color:var(--ink-black)}
+.work-card:hover .work-media::after,
+.work-card:focus-visible .work-media::after{opacity:.8}
+.cover-img{
+  position:absolute;inset:0;z-index:1;
+  width:100%;height:100%;
+  object-fit:cover;
+  opacity:0;
+  transform:scale(1);
+  transition:opacity .5s linear,transform .4s var(--ease);
+  will-change:transform,opacity;
 }
-.card-info h3{font-size:1rem;font-weight:600;margin-bottom:0.2rem;color:var(--text-primary)}
-.card-info .ip-tag{
-  font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;
-  color:var(--text-muted);display:inline-block;margin-bottom:0.5rem;
-}
-.card-info .credit-line{font-size:0.65rem;color:var(--text-secondary);margin-bottom:0.5rem}
-.card-tags{display:flex;flex-wrap:wrap;gap:0.3rem}
-.card-tag-badge{
-  font-size:0.6rem;padding:2px 8px;border-radius:20px;
-  background:rgba(0,0,0,0.05);color:var(--text-secondary);
+.cover-img.loaded{opacity:1}
+.work-card:hover .cover-img,
+.work-card:focus-visible .cover-img{
+  transform:scale(1.03);
 }
 
-/* 多图数量角标 */
-.img-count-badge{
-  position:absolute;top:8px;right:8px;
-  font-size:0.65rem;padding:2px 8px;border-radius:12px;
-  background:rgba(0,0,0,0.65);color:var(--text-primary);
-  backdrop-filter:blur(4px);pointer-events:none;z-index:2;
-}
-
-/* 灯箱 */
-.lightbox-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,0.92);backdrop-filter:blur(10px);
-  z-index:1000;display:flex;align-items:center;justify-content:center;
-  visibility:hidden;opacity:0;transition:opacity 0.25s;
-}
-.lightbox-overlay.active{visibility:visible;opacity:1}
-.lightbox-content{position:relative;max-width:90vw;max-height:90vh;display:flex;flex-direction:column;align-items:center}
-.lightbox-content img{max-width:90vw;max-height:75vh;object-fit:contain;border-radius:var(--radius-sm)}
-.lightbox-info{margin-top:1rem;text-align:center;color:var(--text-secondary);font-size:0.85rem}
-.lightbox-close{
-  position:absolute;top:-40px;right:0;font-size:1.8rem;
-  color:var(--text-secondary);cursor:pointer;background:none;border:none;transition:color 0.2s;
-}
-.lightbox-close:hover{color:#fff}
-.lightbox-prev,.lightbox-next{
-  position:absolute;top:50%;transform:translateY(-50%);
-  font-size:1.5rem;color:var(--text-secondary);cursor:pointer;
-  background:rgba(0,0,0,0.4);border:none;border-radius:50%;
-  width:44px;height:44px;display:flex;align-items:center;justify-content:center;
-  transition:color 0.2s,background 0.2s;
-}
-.lightbox-prev:hover,.lightbox-next:hover{color:#fff;background:rgba(127,239,208,0.4)}
-.lightbox-prev{left:-56px}.lightbox-next{right:-56px}
-@media(max-width:768px){.lightbox-prev{left:10px}.lightbox-next{right:10px}}
-
-/* 拍摄注意事项页 */
-.notes-page{max-width:700px;margin:0 auto;text-align:center}
-.notes-page h1{
-  font-size:clamp(1.4rem,5vw,2.2rem);font-weight:500;text-align:center;margin-bottom:1.5rem;
-  background:linear-gradient(135deg,#1a1a24 0%,#5a5a6e 100%);
-  background-clip:text;-webkit-background-clip:text;color:transparent;
-}
-.notes-page .notes-content{text-align:center;line-height:2}
-.notes-page .notes-content h3{color:var(--accent-dark);font-size:1.05rem;margin:1.8rem 0 0.6rem}
-.notes-page .notes-content p{color:var(--text-secondary);font-size:0.95rem;margin:0.3rem 0}
-
-/* 页脚 */
-.site-footer{text-align:center;padding:1.5rem;font-size:0.75rem;color:#797979;border-top:1px solid var(--border)}
-
-/* Placeholder 图片样式 */
-.placeholder-img{
-  position:relative;overflow:hidden;
+.work-placeholder{
+  position:absolute;inset:0;z-index:0;
   display:flex;align-items:center;justify-content:center;
-  color:var(--text-muted);font-size:0.8rem;
-  min-height:180px;
+  background:var(--bg-paper);
+  color:var(--grey);
+  font:400 .6rem/1.6 var(--mono);
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  text-align:center;
+  padding:16px;
 }
-.placeholder-img::after{
-  content:attr(data-label);
-  position:absolute;bottom:8px;right:10px;
-  font-size:0.6rem;color:rgba(0,0,0,0.35);
-  background:rgba(255,255,255,0.6);padding:2px 6px;border-radius:4px;
+.work-placeholder.is-shown{z-index:2}
+
+.work-halftone,
+.work-scan,
+.work-acid{display:none}
+
+.work-count{
+  position:absolute;left:0;top:0;z-index:6;
+  background:var(--ink-black);color:var(--accent-orange);
+  font:700 .56rem/1 var(--mono);
+  letter-spacing:.2em;
+  padding:8px 10px;
+}
+.work-side{
+  position:absolute;right:0;top:0;z-index:6;
+  writing-mode:vertical-rl;
+  background:var(--accent-cyan);color:var(--ink-black);
+  border-left:2px solid var(--ink-black);border-bottom:2px solid var(--ink-black);
+  font:400 .52rem/1 var(--mono);
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  padding:10px 6px;
+}
+.work-index-mark{
+  position:absolute;right:8px;bottom:8px;z-index:6;
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:2rem;
+  line-height:1;
+  color:#fff;
+  mix-blend-mode:difference;
+  pointer-events:none;
 }
 
-/* ---- 价格页 ---- */
-.pricing-hero{text-align:center;padding:3rem 0 1.5rem;opacity:0;animation:pricingFadeUp .8s ease forwards}
-.pricing-eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.25em;color:var(--accent-dark);margin-bottom:.6rem;text-transform:uppercase}
-.pricing-hero h1{font-size:clamp(2rem,7vw,3.2rem);font-weight:700;letter-spacing:-.02em;line-height:1.1;color:var(--text-primary);margin-bottom:.5rem}
-.pricing-subtitle{font-size:.9rem;color:var(--text-secondary);line-height:1.6}
-.pricing-section{margin-bottom:2.5rem;opacity:0;animation:pricingFadeUp .7s .15s ease forwards}
-.pricing-section-title{font-size:1.1rem;font-weight:600;letter-spacing:-.01em;color:var(--text-primary);margin-bottom:1rem;padding-left:.2rem;display:flex;align-items:center;gap:.5rem}
-.pricing-section-title::before{content:'';display:inline-block;width:3px;height:1em;background:var(--accent);border-radius:2px}
-.pricing-grid{display:grid;gap:1rem}
-.pricing-grid--3col{grid-template-columns:repeat(3,1fr)}
-.pricing-grid--2col{grid-template-columns:repeat(2,1fr)}
-@media(max-width:768px){.pricing-grid--3col,.pricing-grid--2col{grid-template-columns:1fr}}
-.pricing-card{background:var(--bg-card);border-radius:var(--radius);padding:1.6rem 1.4rem;border:1px solid var(--border);box-shadow:var(--shadow-card);transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s ease;opacity:0;animation:pricingFadeUp .6s ease forwards}
-.pricing-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
-.pricing-card-name{font-size:.95rem;font-weight:600;color:var(--text-primary);margin-bottom:.8rem}
-.pricing-card-price{display:flex;align-items:baseline;gap:4px;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
-.pricing-amount{font-size:2.4rem;font-weight:700;letter-spacing:-.04em;line-height:1;color:var(--text-primary)}
-.pricing-unit{font-size:.9rem;font-weight:600;color:var(--accent-dark)}
-.pricing-card--zhengpian .zhengpian-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
-.zhengpian-subtitle{font-size:.75rem;font-weight:600;color:var(--accent-dark);background:rgba(127,239,208,.15);padding:3px 10px;border-radius:12px}
-.pricing-items{list-style:none;display:flex;flex-direction:column;gap:.5rem}
-.pricing-items li{font-size:.82rem;color:var(--text-secondary);line-height:1.5;padding-left:.8rem;position:relative}
-.pricing-items li::before{content:'';position:absolute;left:0;top:.5em;width:4px;height:4px;border-radius:50%;background:var(--accent)}
-.pricing-addons{margin-bottom:2.5rem;opacity:0;animation:pricingFadeUp .7s .3s ease forwards}
-.addons-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;max-width:400px}
-.addon-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1.1rem .8rem;text-align:center;transition:transform .3s ease,box-shadow .3s ease;opacity:0;animation:pricingFadeUp .5s ease forwards}
-.addon-item:hover{transform:translateY(-3px);box-shadow:var(--shadow-card)}
-.addon-label{display:block;font-size:.78rem;color:var(--text-secondary);margin-bottom:.3rem}
-.addon-price{display:block;font-size:1rem;font-weight:700;color:var(--text-primary);letter-spacing:-.02em}
-.addon-price em{font-style:normal;font-size:.68rem;font-weight:400;color:var(--text-muted)}
-.pricing-notes{margin-bottom:2.5rem;opacity:0;animation:pricingFadeUp .7s .4s ease forwards}
-.notes-list{display:flex;flex-direction:column;gap:.7rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem 1.6rem}
-.note-item{display:flex;align-items:flex-start;gap:.8rem;opacity:0;animation:pricingFadeUp .4s ease forwards}
-.note-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#1a1a24;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:2px}
-.note-content{display:flex;flex-direction:column;gap:2px}
-.note-title{font-size:.82rem;font-weight:600;color:var(--text-primary)}
-.note-desc{font-size:.8rem;color:var(--text-secondary);line-height:1.5}
-.pricing-social{text-align:center;padding:2rem 1.5rem;margin-bottom:1.5rem;opacity:0;animation:pricingFadeUp .7s .6s ease forwards}
-.pricing-social p{font-size:.9rem;color:var(--text-secondary);margin-bottom:.2rem}
-.pricing-social strong{color:var(--text-primary);font-weight:600}
-.pricing-bottom-cta{text-align:center;padding:2.5rem 1.5rem;background:var(--bg-card);border-radius:var(--radius);border:1px solid var(--border);opacity:0;animation:pricingFadeUp .7s .7s ease forwards}
-.pricing-bottom-cta h2{font-size:1.3rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.8rem}
-.pricing-contact{display:flex;align-items:center;justify-content:center;gap:.6rem;font-size:.85rem;color:var(--text-primary);font-weight:500}
-.pricing-contact-sep{color:var(--text-muted)}
-@keyframes pricingFadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.work-caption{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  gap:clamp(10px,1.4vw,18px);
+  border-top:4px solid var(--ink-black);
+  margin-top:12px;
+  padding-top:10px;
+}
+.work-no{
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:500;
+  font-size:clamp(2.2rem,4vw,3.6rem);
+  line-height:.76;
+  letter-spacing:-.05em;
+  font-variant-numeric:lining-nums;
+  color:var(--accent-orange);
+}
+.work-title{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:clamp(1.35rem,2.2vw,2rem);
+  line-height:1.04;
+  letter-spacing:-.02em;
+}
+.work-meta{
+  margin-top:7px;
+  font:400 .9rem/1.65 var(--mono);
+  letter-spacing:.05em;
+  color:var(--ink-soft);
+}
+.work-tags{
+  margin-top:8px;
+  display:inline-block;
+  padding:5px 8px;
+  background:var(--accent-cyan);
+  color:var(--ink-black);
+  font:700 .66rem/1 var(--sans);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+/* ==========================================================================
+   READING PAGES — NOTES
+   ========================================================================== */
+.reading-page{
+  padding:calc(var(--nav-h) + clamp(42px,6vw,86px)) var(--pad) clamp(80px,11vw,150px);
+  position:relative;
+}
+.page-head{border-top:8px solid var(--ink-black);padding-top:clamp(14px,2vw,22px)}
+.page-head .kicker{margin-bottom:clamp(16px,2.4vw,26px);display:block}
+.display-title{
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(2rem,5vw,4rem);
+  line-height:.9;
+  letter-spacing:-.05em;
+}
+.display-title > span{display:block}
+.display-title em{
+  display:block;
+  margin-left:clamp(0px,8vw,120px);
+  font-weight:400;
+  font-style:italic;
+  color:var(--accent-orange);
+  letter-spacing:-.035em;
+}
+.reading-intro{
+  margin-top:clamp(24px,3.5vw,44px);
+  max-width:52ch;
+  border-left:8px solid var(--accent-orange);
+  padding:8px 0 8px clamp(14px,2vw,24px);
+  font-size:clamp(.92rem,1.2vw,1.05rem);
+  line-height:1.95;
+}
+.reading-intro strong{font-weight:500}
+.page-meta-row{
+  display:flex;flex-wrap:wrap;gap:10px 30px;
+  margin-top:28px;
+  font:400 .66rem/1.6 var(--mono);
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--grey);
+}
+
+.notes-body{margin-top:clamp(34px,5vw,64px)}
+.note-row{
+  display:grid;
+  grid-template-columns:clamp(96px,12vw,180px) minmax(0,1fr);
+  gap:clamp(16px,2.6vw,34px);
+  padding:clamp(24px,3.6vw,42px) 0;
+  border-top:4px solid var(--ink-black);
+}
+.note-row + .note-row{border-top:1px solid var(--line)}
+.note-row .note-index{
+  font-family:var(--mono);
+  font-style:normal;
+  font-weight:700;
+  font-size:clamp(3.4rem,6vw,5.6rem);
+  line-height:.82;
+  letter-spacing:-.08em;
+  color:var(--accent-orange);
+  font-variant-numeric:lining-nums;
+}
+.note-row h2{
+  font-family:var(--serif);
+  font-weight:700;
+  font-size:clamp(1.5rem,2.4vw,2.2rem);
+  line-height:1.05;
+  letter-spacing:-.02em;
+  margin-bottom:14px;
+}
+.note-row p{
+  font-size:.93rem;
+  line-height:1.95;
+  color:var(--ink-soft);
+}
+.note-row p + p{margin-top:4px}
+.note-row p::before{content:"—";margin-right:10px;color:var(--accent-orange)}
+.note-aside{
+  grid-column:2;
+  margin-top:16px;
+  font:400 .62rem/1.7 var(--mono);
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--grey);
+}
+
+/* ==========================================================================
+   READING PAGES — PRICING
+   ========================================================================== */
+.price-block{margin-top:clamp(50px,7vw,100px)}
+.block-head{
+  display:flex;align-items:center;flex-wrap:wrap;
+  gap:12px clamp(12px,1.8vw,22px);
+  border-top:4px solid var(--ink-black);
+  padding-top:clamp(12px,1.6vw,18px);
+}
+.block-no{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:44px;height:44px;flex-shrink:0;
+  background:var(--accent-orange);color:var(--ink-black);
+  font:700 .78rem/1 var(--mono);
+  letter-spacing:.08em;
+}
+.block-title{
+  font-family:var(--serif);
+  font-weight:700;
+  font-size:clamp(1.8rem,3.6vw,3.2rem);
+  line-height:1;
+  letter-spacing:-.035em;
+}
+.block-note{
+  margin-left:auto;
+  font:400 .64rem/1.5 var(--mono);
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--grey);
+  text-align:right;
+}
+
+.price-rows{margin-top:clamp(16px,2.4vw,28px)}
+.price-row{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:clamp(16px,3vw,44px);
+  align-items:start;
+  padding:clamp(18px,2.8vw,34px) 0;
+  border-top:1px solid var(--line);
+}
+.price-row::before{
+  content:"";
+  position:absolute;left:0;right:0;
+  top:clamp(24px,2.8vw,38px);
+  height:0;
+  border-bottom:2px dashed var(--ink-black);
+  opacity:.85;
+  z-index:0;
+  pointer-events:none;
+}
+.price-row:nth-child(odd){border-top:4px solid var(--ink-black)}
+.price-row h3{
+  position:relative;z-index:2;
+  display:inline-flex;align-items:center;flex-wrap:wrap;gap:10px;
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:clamp(1.25rem,2.1vw,1.85rem);
+  line-height:1.1;
+  letter-spacing:-.02em;
+  background:var(--bg-paper);
+  padding-right:14px;
+}
+.price-tag{
+  border:2px solid var(--ink-black);
+  padding:4px 8px;
+  font:700 .62rem/1 var(--mono);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-black);
+  background:var(--accent-cyan);
+}
+.price-items{
+  display:flex;flex-wrap:wrap;gap:4px 0;
+  margin-top:10px;
+  font:400 .7rem/1.8 var(--mono);
+  letter-spacing:.1em;
+  color:var(--ink-soft);
+}
+.price-items li + li::before{content:" / ";color:var(--grey);white-space:pre}
+.price-figure{
+  position:relative;z-index:2;
+  font-family:var(--serif);
+  font-weight:500;
+  font-size:clamp(5.6rem,8.3vw,8rem);
+  line-height:.72;
+  letter-spacing:-.045em;
+  text-align:right;
+  white-space:nowrap;
+  font-variant-numeric:lining-nums;
+  background:var(--bg-paper);
+  padding-left:clamp(12px,1.6vw,26px);
+}
+.price-figure .cur{
+  display:inline-block;
+  font-size:.32em;
+  font-style:italic;
+  font-weight:400;
+  vertical-align:top;
+  line-height:1;
+  margin-right:.12em;
+  transform:translateY(.12em);
+  color:var(--accent-orange);
+}
+.price-figure .unit{
+  font-family:var(--mono);
+  font-size:.12em;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  vertical-align:baseline;
+  margin-left:.35em;
+  color:var(--grey);
+}
+
+.addons-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 clamp(24px,4vw,64px);
+  margin-top:clamp(12px,2vw,20px);
+}
+.addon-row{
+  display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  border-top:1px solid var(--line);
+  padding:clamp(14px,2vw,22px) 0;
+}
+.addon-row:nth-child(-n+2){border-top:4px solid var(--ink-black)}
+.addon-label{
+  font-size:.92rem;
+  line-height:1.5;
+}
+.addon-price{
+  font-family:var(--serif);
+  font-weight:500;
+  font-size:clamp(1.7rem,2.6vw,2.4rem);
+  line-height:1;
+  white-space:nowrap;
+  font-variant-numeric:lining-nums;
+}
+.addon-price em{
+  font-family:var(--mono);
+  font-style:normal;
+  font-size:.4em;
+  letter-spacing:.1em;
+  color:var(--grey);
+  margin-left:.25em;
+}
+
+.pn-list{margin-top:clamp(16px,2.4vw,26px)}
+.pn-row{
+  display:grid;
+  grid-template-columns:48px 150px minmax(0,1fr);
+  gap:clamp(12px,2vw,24px);
+  align-items:start;
+  padding:clamp(13px,1.8vw,20px) 0;
+  border-top:1px solid var(--line);
+}
+.pn-row:first-child{border-top:4px solid var(--ink-black)}
+.pn-no{
+  font:700 1rem/1.4 var(--mono);
+  letter-spacing:.06em;
+  color:var(--accent-orange);
+  font-variant-numeric:lining-nums;
+}
+.pn-title{
+  font:700 .68rem/1.9 var(--mono);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  padding-top:5px;
+}
+.pn-desc{
+  font-size:.88rem;
+  line-height:1.85;
+  padding-top:3px;
+  color:var(--ink-soft);
+}
+
+.social-strip{
+  margin-top:clamp(56px,8vw,110px);
+  border:4px solid var(--ink-black);
+  background:var(--dots-small) var(--accent-orange);
+  color:var(--ink-black);
+  box-shadow:12px 12px 0 var(--ink-black);
+  padding:clamp(20px,3vw,38px);
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:24px;flex-wrap:wrap;
+}
+.social-kicker{
+  font:400 .66rem/1.5 var(--mono);
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.social-line{
+  font-family:var(--serif);
+  font-weight:700;
+  font-size:clamp(1.8rem,4.2vw,3.8rem);
+  line-height:1;
+  letter-spacing:-.035em;
+}
+.social-line em{font-style:italic;font-weight:400}
+.social-arrow{
+  font-family:var(--serif);
+  font-size:clamp(2.4rem,5vw,5rem);
+  line-height:.7;
+  font-style:italic;
+}
+
+/* ---------- booking / contact — orange halftone explosion ---------- */
+.contact-block{
+  position:relative;
+  margin-top:clamp(40px,5.6vw,76px);
+  background:var(--dots-large) var(--accent-orange);
+  border:4px solid var(--ink-black);
+  box-shadow:14px 14px 0 var(--ink-black);
+  padding:clamp(18px,3vw,42px) clamp(14px,2.6vw,36px) clamp(46px,6vw,82px);
+  overflow:hidden;
+}
+.contact-block::after{
+  content:"BOOKING / 2026";
+  position:absolute;right:clamp(10px,2vw,28px);bottom:clamp(6px,1.2vw,16px);
+  z-index:0;
+  font:900 clamp(2.4rem,7vw,6rem)/.8 var(--sans);
+  letter-spacing:-.06em;
+  color:var(--ink-black);
+  opacity:.2;
+  pointer-events:none;
+  white-space:nowrap;
+}
+.contact-inner{position:relative;z-index:1}
+.contact-card{
+  position:relative;
+  background:
+    radial-gradient(rgba(244,243,240,.16) 15%, transparent 16%) 0 0 / 12px 12px,
+    repeating-linear-gradient(0deg, transparent 0 39px, rgba(244,243,240,.07) 39px 40px),
+    repeating-linear-gradient(90deg, transparent 0 39px, rgba(244,243,240,.07) 39px 40px)
+    var(--ink-black);
+  color:var(--bg-paper);
+  padding:clamp(20px,3.2vw,42px);
+  transform:rotate(-.6deg);
+  box-shadow:12px 12px 0 var(--ink-black);
+  transition:background-color .16s linear,color .16s linear;
+}
+.contact-card.is-copied{
+  background-color:var(--accent-cyan);
+  color:var(--ink-black);
+}
+.contact-head{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  flex-wrap:wrap;gap:18px 32px;
+  border-bottom:2px solid rgba(244,243,240,.28);
+  padding-bottom:clamp(18px,2.4vw,28px);
+}
+.contact-kicker{
+  display:flex;align-items:center;gap:10px;
+  font:400 .68rem/1.5 var(--mono);
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--accent-cyan);
+}
+.contact-kicker::before{
+  content:"";
+  width:9px;height:9px;
+  background:var(--accent-orange);
+  flex:none;
+}
+.contact-title{
+  margin-top:12px;
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(2.9rem,7.4vw,6.6rem);
+  line-height:.82;
+  letter-spacing:-.05em;
+  color:var(--bg-paper);
+}
+.contact-title em{font-weight:900;font-style:italic;color:var(--accent-orange)}
+.contact-side{text-align:right}
+.contact-tag{
+  display:inline-block;
+  background:var(--hazard-yellow);
+  color:var(--ink-black);
+  padding:8px 12px;
+  font:700 .62rem/1 var(--mono);
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  transform:rotate(-2deg);
+}
+.contact-note{
+  margin-top:12px;
+  font:400 .66rem/1.8 var(--mono);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(244,243,240,.74);
+}
+.contact-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  border-bottom:2px solid rgba(244,243,240,.28);
+}
+.contact-item{
+  position:relative;
+  display:block;
+  text-align:left;
+  padding:clamp(20px,2.8vw,32px) clamp(14px,2.2vw,26px);
+  color:var(--bg-paper);
+  background:transparent;
+  border:0;
+  border-radius:0;
+  transition:background-color .16s linear,color .16s linear;
+}
+.contact-item:first-child{padding-left:0}
+.contact-item + .contact-item{border-left:2px solid rgba(244,243,240,.28)}
+.contact-item:hover,
+.contact-item:focus-visible{
+  background:var(--accent-orange);
+  color:var(--ink-black);
+  outline:3px solid var(--accent-cyan);
+  outline-offset:-3px;
+}
+.contact-chan{
+  display:block;
+  padding-right:88px;
+  font:700 .7rem/1 var(--mono);
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  color:var(--accent-cyan);
+}
+.contact-item:hover .contact-chan,
+.contact-item:focus-visible .contact-chan{color:var(--ink-black)}
+.contact-item.is-copied{
+  background:var(--hazard-yellow);
+  color:var(--ink-black);
+}
+.contact-item.is-copied .contact-chan{color:var(--ink-black)}
+.contact-item.is-copied .contact-copy{border-color:var(--ink-black)}
+.contact-value{
+  display:block;
+  margin-top:12px;
+  font-family:var(--mono);
+  font-weight:700;
+  font-size:clamp(2.2rem,5.4vw,4.8rem);
+  line-height:.95;
+  letter-spacing:-.015em;
+  font-variant-numeric:tabular-nums lining-nums;
+  white-space:nowrap;
+}
+.contact-copy{
+  position:absolute;
+  top:clamp(20px,2.8vw,32px);
+  right:clamp(14px,2.2vw,26px);
+  display:inline-flex;align-items:center;gap:8px;
+  border:2px solid rgba(244,243,240,.5);
+  padding:8px 10px;
+  font:700 .62rem/1 var(--mono);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:inherit;
+  white-space:nowrap;
+  transition:none;
+}
+.contact-copy b{
+  font-size:1.1em;
+  line-height:1;
+  transition:transform .2s var(--ease);
+}
+.contact-item:hover .contact-copy,
+.contact-item:focus-visible .contact-copy{border-color:var(--ink-black)}
+.contact-item:hover .contact-copy b,
+.contact-item:focus-visible .contact-copy b{transform:translate(3px,-3px)}
+.contact-status{
+  margin-top:12px;
+  font:700 .66rem/1.6 var(--mono);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--accent-cyan);
+}
+.contact-status:empty{display:none}
+.contact-foot{
+  display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;
+  padding-top:16px;
+  font:400 .62rem/1.7 var(--mono);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(244,243,240,.66);
+}
+.contact-foot em{font-style:normal;color:var(--hazard-yellow)}
+.contact-card.is-copied .contact-head,
+.contact-card.is-copied .contact-grid{border-color:rgba(9,9,9,.35)}
+.contact-card.is-copied .contact-kicker,
+.contact-card.is-copied .contact-chan,
+.contact-card.is-copied .contact-status{color:var(--ink-black)}
+.contact-card.is-copied .contact-kicker::before{background:var(--ink-black)}
+.contact-card.is-copied .contact-title{color:var(--ink-black)}
+.contact-card.is-copied .contact-item{color:var(--ink-black);border-color:rgba(9,9,9,.35)}
+.contact-card.is-copied .contact-foot{color:var(--ink-black)}
+.contact-card.is-copied .contact-foot em{color:var(--ink-black);background:var(--hazard-yellow)}
+.contact-card.is-copied .contact-note{color:rgba(9,9,9,.7)}
+.contact-card.is-copied .contact-copy{border-color:var(--ink-black)}
+
+/* ---------- fixed BOOK NOW sticker ---------- */
+.book-now{
+  position:fixed;
+  right:clamp(14px,2.4vw,34px);
+  bottom:clamp(14px,2.4vw,34px);
+  z-index:9350;
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:3px;
+  padding:13px 17px 12px;
+  background:var(--accent-cyan);
+  color:var(--ink-black);
+  border:4px solid var(--ink-black);
+  box-shadow:8px 8px 0 var(--ink-black);
+  transform:rotate(-3deg);
+  animation:bookPulse 2s steps(1,end) infinite;
+}
+.book-now__en{
+  font-family:var(--sans);
+  font-weight:900;
+  font-size:clamp(1.1rem,1.5vw,1.45rem);
+  line-height:.84;
+  letter-spacing:-.04em;
+}
+.book-now__cn{
+  font:700 .54rem/1 var(--mono);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.book-now:hover,
+.book-now:focus-visible{
+  background:var(--accent-orange);
+  transform:rotate(-3deg) translate(-2px,-2px);
+  box-shadow:11px 11px 0 var(--ink-black);
+}
+.book-now:focus-visible{outline:3px solid var(--ink-black);outline-offset:4px}
+body.menu-open .book-now{opacity:0;pointer-events:none}
+@keyframes bookPulse{
+  0%,100%{box-shadow:8px 8px 0 var(--ink-black)}
+  50%{box-shadow:13px 13px 0 var(--ink-black)}
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.site-footer{border-top:4px solid var(--ink-black);background:var(--bg-paper)}
+.footer-inner{
+  padding:clamp(28px,4vw,54px) var(--pad) clamp(24px,3vw,40px);
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:24px;
+  align-items:end;
+}
+.footer-logo{
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:700;
+  font-size:clamp(3.4rem,9vw,8.4rem);
+  line-height:.72;
+  letter-spacing:-.05em;
+}
+.footer-logo sup{
+  font-family:var(--mono);
+  font-style:normal;
+  font-size:.1em;
+  letter-spacing:.2em;
+  vertical-align:super;
+  color:var(--accent-orange);
+}
+.footer-meta{
+  text-align:right;
+  font:400 .66rem/1.9 var(--mono);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--grey);
+}
+.footer-meta strong{color:var(--ink-black);font-weight:400}
+.footer-contact{
+  display:inline-block;
+  margin-top:10px;
+  padding:5px 9px;
+  background:var(--accent-orange);
+  color:var(--ink-black);
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:none;
+}
+.footer-actions{
+  grid-column:1 / -1;
+  display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;
+  border-top:1px solid var(--line);
+  padding-top:16px;
+  font:400 .62rem/1.8 var(--mono);
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+.footer-top{
+  font:700 .62rem/1.8 var(--mono);
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  border-bottom:2px solid var(--ink-black);
+  transition:none;
+}
+.footer-top:hover{background:var(--accent-orange);color:#fff;border-color:var(--accent-orange)}
+
+/* ==========================================================================
+   LIGHTBOX
+   ========================================================================== */
+.lightbox{
+  position:fixed;inset:0;
+  z-index:9400;
+  background:rgba(244,243,240,.95);
+  opacity:0;visibility:hidden;
+  transition:opacity .3s linear,visibility .3s;
+  border-top:8px solid var(--ink-black);
+}
+.lightbox.active{opacity:1;visibility:visible}
+.lb-frame{
+  position:absolute;inset:0;
+  z-index:2;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(56px,7vh,78px) clamp(16px,7vw,110px) clamp(18px,3vh,30px);
+  margin:0 auto;
+  max-width:1400px;
+  left:0;right:0;
+}
+.lb-stage{
+  position:relative;
+  height:min(74svh,800px);
+  width:100%;
+  border:4px solid var(--ink-black);
+  background:var(--bg-paper);
+  overflow:hidden;
+}
+.lb-img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:contain;
+  opacity:0;
+  transition:opacity .4s linear;
+  will-change:opacity;
+}
+.lb-img.is-visible{opacity:1}
+.lb-bar{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:18px;
+  border-top:4px solid var(--ink-black);
+  margin-top:14px;
+  padding-top:10px;
+}
+.lb-info{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;
+  font:400 .68rem/1.7 var(--mono);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.lb-no{
+  background:var(--ink-black);color:var(--accent-orange);
+  padding:4px 7px;
+  letter-spacing:.18em;
+}
+.lb-title{
+  font-family:var(--mono);
+  font-size:.9rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.lb-meta{color:var(--grey)}
+.lb-index{
+  font:700 .7rem/1.7 var(--mono);
+  letter-spacing:.2em;
+  white-space:nowrap;
+}
+.lb-close{
+  position:absolute;right:clamp(12px,2vw,24px);top:clamp(12px,2vh,20px);
+  z-index:6;
+  width:48px;height:48px;
+  background:var(--ink-black);color:var(--accent-orange);
+  font-size:1.5rem;line-height:1;
+  border-radius:0;
+  transition:none;
+}
+.lb-close:hover{background:var(--accent-orange);color:#fff}
+.lb-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  z-index:5;
+  width:52px;height:52px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--ink-black);color:var(--accent-orange);
+  font-size:1.15rem;
+  border-radius:0;
+  transition:none;
+}
+.lb-arrow:hover{background:var(--accent-orange);color:#fff}
+.lb-arrow--prev{left:clamp(8px,1.4vw,20px)}
+.lb-arrow--next{right:clamp(8px,1.4vw,20px)}
+.lb-edge{
+  position:absolute;top:0;bottom:0;
+  z-index:3;
+  width:clamp(24px,5vw,72px);
+}
+.lb-edge--prev{left:0}
+.lb-edge--next{right:0}
+
+/* ==========================================================================
+   ENTRANCE
+   ========================================================================== */
+[data-animate]{animation:riseIn .7s var(--ease) both}
+@keyframes riseIn{
+  from{opacity:0;transform:translateY(22px)}
+  to{opacity:1;transform:none}
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width:1100px){
+  .hero-photo--a{width:37%}
+  .hero-photo--b{width:28%}
+  .works-title em{margin-left:8vw}
+  .works-note{display:none}
+}
+
+@media (max-width:900px){
+  .nav-links{display:none}
+  .nav-toggle{display:inline-flex;align-items:center;justify-content:center}
+
+  /* hero: drop the absolute collage, stack title + one image */
+  .hero-stage{
+    display:flex;flex-direction:column;justify-content:flex-end;
+    min-height:0;
+    overflow:visible;
+  }
+  .hero-title{
+    position:relative;inset:auto;
+    order:1;
+    padding:clamp(22px,4vw,44px) 0 16px;
+    font-size:clamp(2.75rem,13.4vw,6.2rem);
+    line-height:.85;
+  }
+  .hero-photo--a{
+    position:relative;left:auto;top:auto;right:auto;bottom:auto;
+    order:2;
+    width:100%;height:clamp(220px,44vh,430px);
+    transform:none;
+    border-width:3px;
+    box-shadow:8px 8px 0 var(--ink-black);
+  }
+  .hero-photo--a img{object-position:center 30%}
+  .hero-photo--b{display:none}
+  .hero-vertical,
+  .hero-stamp{display:none}
+  .hero-issue{right:0;top:0}
+  .hero::after{height:26vh;opacity:.32}
+  .hero-foot{grid-template-columns:1fr auto}
+  .hero-contact{grid-column:1 / -1;order:3;border-left:0;border-top:1px solid var(--line);padding:10px 0 0}
+
+  .works-title{font-size:clamp(2.2rem,9.6vw,4.6rem)}
+  .works-head::before{
+    width:min(46vw,220px);
+    height:clamp(86px,23vw,140px);
+    top:30px;bottom:auto;right:-8px;
+    opacity:.82;
+  }
+
+  /* gallery: strict single column, no offsets */
+  .gallery{display:block;margin-top:clamp(36px,6vw,56px)}
+  .work-card{
+    width:100%;
+    margin:0 0 44px!important;
+    --rot:0deg;
+    transform:none;
+    box-shadow:9px 9px 0 var(--ink-black);
+  }
+  .work-card::before{display:none}
+  .work-card:hover{transform:none}
+  .work-media{transform:none!important}
+
+  .contact-card{transform:none;padding:clamp(18px,4vw,30px)}
+  .contact-grid{grid-template-columns:1fr}
+  .contact-item{padding-left:0;padding-right:0}
+  .contact-item + .contact-item{border-left:0;border-top:2px solid rgba(244,243,240,.28)}
+  .contact-value{font-size:clamp(1.9rem,7.6vw,3.4rem)}
+  .contact-block{padding:clamp(14px,3vw,24px) clamp(12px,3vw,22px) clamp(40px,6vw,64px)}
+
+  .book-now{right:12px;bottom:12px;padding:10px 13px 9px;border-width:3px;box-shadow:6px 6px 0 var(--ink-black)}
+  .book-now__cn{font-size:.48rem}
+
+  .price-row{grid-template-columns:minmax(0,1fr) auto}
+  .pn-row{grid-template-columns:44px 128px minmax(0,1fr)}
+}
+
+@media (max-width:767px){
+  :root{--pad:18px;--nav-h:62px}
+
+  .brand-zh{font-size:2.05rem}
+  .brand-en{font-size:.48rem}
+  .nav-toggle{min-width:76px;font-size:.58rem;letter-spacing:.16em}
+
+  .hero-stage{min-height:0;margin:0 var(--pad)}
+  .hero-title{padding:26px 0 14px;font-size:clamp(2.6rem,13vw,4.2rem)}
+  .hero-word--italic{padding-right:0}
+  .hero-photo--a{height:clamp(210px,40vh,360px)}
+  .hero-photo{border-width:3px}
+  .hero-issue{font-size:.54rem;padding:9px 5px;letter-spacing:.2em;border-width:2px}
+  .hero-stamp{display:none}
+  .hero-foot{grid-template-columns:1fr auto;gap:12px 16px;padding-top:18px}
+  .hero-cn{font-size:1.28rem}
+  .hero-sub{font-size:.62rem;letter-spacing:.18em;margin-top:8px}
+  .hero-contact{font-size:.64rem;letter-spacing:.12em;line-height:1.8}
+  .hero-contact span{font-size:.58rem;letter-spacing:.2em}
+  .hero-count #heroCount{font-size:3.3rem}
+  .hero-count-label{font-size:.56rem;letter-spacing:.16em}
+  .marquee-item{height:30px;padding:0 8px;gap:8px;font-size:.56rem;letter-spacing:.12em}
+  .marquee-item::after{font-size:1em}
+  .marquee-group{gap:8px}
+
+  .works{padding:44px 0 90px}
+  .works-head{margin:0 var(--pad)}
+  .works-title em{margin-left:8vw}
+  .filter-bar{margin:24px var(--pad) 0;display:block}
+  .filter-label{display:block;margin-bottom:10px}
+  .filter-list{margin-left:-1px}
+  .filter-btn{padding:0 11px;font-size:.62rem;letter-spacing:.08em}
+
+  .gallery{
+    display:block;
+    padding-left:0;
+    margin-top:40px;
+  }
+  .work-card{
+    width:100%;
+    margin:0 0 40px!important;
+    --rot:0deg;
+  }
+  .work-card:hover{transform:none}
+  .work-media{aspect-ratio:4 / 5;border-color:var(--ink-black)}
+  .work-card:hover .work-media{border-color:var(--ink-black)}
+  .work-side{font-size:.46rem;letter-spacing:.16em;padding:8px 5px}
+  .work-count{font-size:.5rem;padding:7px 8px}
+  .work-caption{margin-top:9px;padding:9px var(--pad) 0;border-top-width:3px}
+  .work-no{font-size:2.2rem}
+  .work-title{font-size:1.32rem}
+  .work-meta{font-size:.72rem;letter-spacing:.04em}
+  .work-tags{font-size:.62rem;letter-spacing:.12em}
+
+  .reading-page{padding-top:calc(var(--nav-h) + 38px)}
+  .display-title em{margin-left:7vw}
+  .reading-intro{font-size:.9rem;line-height:1.9;margin-top:24px;border-left-width:6px}
+  .page-meta-row{font-size:.6rem;gap:8px 18px}
+
+  .note-row{grid-template-columns:clamp(64px,19vw,92px) minmax(0,1fr);gap:14px;padding:22px 0}
+  .note-row .note-index{font-size:clamp(3rem,14vw,4rem)}
+  .note-row h2{font-size:1.35rem;margin-bottom:10px}
+  .note-row p{font-size:.88rem;line-height:1.9}
+  .note-aside{grid-column:2;font-size:.58rem;letter-spacing:.18em}
+
+  .price-block{margin-top:48px}
+  .block-title{font-size:1.8rem}
+  .block-note{display:none}
+  .block-no{width:40px;height:40px;font-size:.7rem}
+  .price-row{padding:18px 0;gap:12px}
+  .price-row h3{font-size:1.2rem}
+  .price-row::before{top:24px;height:0;border-bottom-width:2px}
+  .price-items{font-size:.64rem;letter-spacing:.05em}
+  .price-figure{font-size:clamp(3.4rem,15vw,4.6rem);padding-left:10px}
+  .price-figure .unit{display:block;margin:8px 0 0;font-size:.62rem;letter-spacing:.14em}
+  .addons-grid{grid-template-columns:1fr}
+  .addon-row:nth-child(2){border-top:1px solid var(--line)}
+  .addon-row:nth-child(3){border-top:4px solid var(--ink-black)}
+  .pn-row{grid-template-columns:38px minmax(0,1fr);gap:8px 12px;padding:14px 0}
+  .pn-no{font-size:.9rem}
+  .pn-title{padding-top:4px;font-size:.62rem;letter-spacing:.14em}
+  .pn-desc{grid-column:2;padding-top:0;font-size:.84rem;line-height:1.85}
+  .social-strip{padding:20px;gap:14px}
+  .social-line{font-size:1.7rem}
+
+  .contact-block{margin-top:36px}
+  .contact-tape{height:12px}
+  .contact-inner{padding:18px 16px 16px}
+  .contact-head{align-items:flex-start;gap:14px;padding-bottom:16px}
+  .contact-title{font-size:clamp(2.7rem,13.5vw,3.8rem);margin-top:10px}
+  .contact-side{text-align:left}
+  .contact-tag{font-size:.58rem;padding:7px 10px}
+  .contact-note{display:none}
+  .contact-grid{grid-template-columns:1fr}
+  .contact-item{padding:18px 0;gap:8px 10px}
+  .contact-item + .contact-item{border-left:0;border-top:2px solid rgba(244,243,240,.28)}
+  .contact-chan{font-size:.62rem;letter-spacing:.22em;padding-right:78px}
+  .contact-value{font-size:clamp(1.7rem,8vw,2.5rem);letter-spacing:-.02em}
+  .contact-copy{top:18px;right:0;padding:7px 8px;font-size:.56rem;letter-spacing:.14em}
+  .contact-status{font-size:.6rem;margin-top:10px}
+  .contact-foot{gap:6px 16px;padding-top:14px;font-size:.58rem;letter-spacing:.12em}
+
+  .footer-inner{grid-template-columns:1fr;gap:16px}
+  .footer-logo{font-size:4.2rem}
+  .footer-meta{text-align:left;font-size:.6rem;line-height:1.9;letter-spacing:.12em}
+  .footer-actions{font-size:.58rem;gap:10px;letter-spacing:.16em}
+
+  .lb-frame{padding:64px 10px 16px}
+  .lb-stage{height:68svh;border-width:3px}
+  .lb-arrow{display:none}
+  .lb-close{width:44px;height:44px;right:10px;top:10px}
+  .lb-bar{margin-top:10px;padding-top:8px;border-top-width:3px;flex-direction:column;gap:6px}
+  .lb-info{font-size:.6rem;gap:4px 10px;letter-spacing:.1em}
+  .lb-title{font-size:.92rem}
+  .lb-index{font-size:.6rem}
+  .lb-edge{width:20px}
+}
+
+@media (max-width:420px){
+  .filter-btn{padding:0 9px;font-size:.58rem}
+}
+
+@media (hover:none),(pointer:coarse){
+  .work-card:hover .cover-img{transform:scale(1)}
+  .work-card:hover .work-media::after{opacity:0}
+  .contact-item:not(.is-copied):hover{
+    background:transparent;
+    color:var(--bg-paper);
+    outline:none;
+  }
+  .contact-item:not(.is-copied):hover .contact-chan{color:var(--accent-cyan)}
+  .contact-item:not(.is-copied):hover .contact-copy{border-color:rgba(244,243,240,.5)}
+  .contact-item:not(.is-copied):hover .contact-copy b{transform:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+  }
+  .marquee-track{animation:none;transform:none}
+  .hero-word{animation:none}
+  [data-animate]{animation:none}
+}
+
 </style>
 </head>
-<body>
+<body data-page="gallery">
+<a class="skip-link" href="#main">跳至内容</a>
 
-<!-- 模糊背景 -->
-<div class="bg-blur-layer" id="bgLayer"></div>
+<!-- ================= Navigation ================= -->
+<header class="top-nav" id="topNav">
+  <a class="brand" href="#page-gallery" data-page-link="gallery" aria-label="氷子 HSUKO — 作品索引">
+    <span class="brand-zh">氷子</span>
+    <span class="brand-en">HSUKO</span>
+  </a>
 
-<!-- 导航栏 -->
-<nav class="top-nav">
-  <a href="#" class="nav-logo" onclick="switchPage('gallery')">氷子</a>
-  <div class="nav-links">
-    <a href="#" id="nav-gallery" class="active" onclick="switchPage('gallery')">作品</a>
-    <a href="#" id="nav-notes" onclick="switchPage('notes')">拍摄注意事项</a>
-    <a href="#" id="nav-pricing" onclick="switchPage('pricing')">价格参考</a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="#page-gallery" data-page-link="gallery" class="active" aria-current="page">01 / 作品</a>
+    <a href="#page-notes" data-page-link="notes">02 / 须知</a>
+    <a href="#page-pricing" data-page-link="pricing">03 / 价格</a>
+  </nav>
+
+  <button class="nav-toggle" id="navToggle" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="menuOverlay"></button>
+</header>
+
+<div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+  <div>
+    <p class="menu-kicker">HSUKO / Index — 视觉履历</p>
+    <nav class="menu-links" aria-label="移动导航">
+      <a href="#page-gallery" data-page-link="gallery" class="active" aria-current="page">作品索引 <span>01 / Index</span></a>
+      <a href="#page-notes" data-page-link="notes">拍摄须知 <span>02 / Notes</span></a>
+      <a href="#page-pricing" data-page-link="pricing">价格参考 <span>03 / Rates</span></a>
+    </nav>
   </div>
-</nav>
-
-<!-- 主内容 -->
-<main class="container">
-
-  <!-- ===== 作品页 ===== -->
-  <section class="page-section active" id="page-gallery">
-    <div class="hero">
-      <h1>氷子-作品集</h1>
-      <div class="divider"></div>
-      <p class="subhead">二次元摄影记录</p>
-    </div>
-    <p class="contact-line">📷 约拍请联系：QQ 2166783550 | 微信 anzzbfly</p>
-
-    <div class="filter-bar" id="filterBar">
-      <button class="filter-btn active" data-tag="全部">全部</button>
-    </div>
-
-    <div class="gallery" id="galleryGrid"></div>
-  </section>
-
-  <!-- ===== 拍摄注意事项页 ===== -->
-  <section class="page-section" id="page-notes">
-    <div class="notes-page">
-      <h1>拍摄注意事项</h1>
-      <div class="notes-content">
-        <h3>一、拍摄前准备</h3>
-        <p>请提前确认拍摄时间与地点，如有变动请至少提前 24 小时沟通</p>
-        <p>拍摄前一晚注意休息，保持良好精神状态</p>
-        <p>建议自备常用化妆品及补妆工具，棚拍可提供基础化妆间</p>
-
-        <h3>二、服装与道具</h3>
-        <p>请自备角色服装、假发及关键道具，出发前再次清点确认</p>
-        <p>建议携带替换便服及平底鞋，方便转场及休息</p>
-        <p>如有特殊道具需求请提前说明，双方协商准备方案</p>
-
-        <h3>三、拍摄现场</h3>
-        <p>棚拍请勿在场内饮食，外景请注意人身及财物安全</p>
-        <p>拍摄中随时沟通，任何不适或想法请直接提出</p>
-        <p>未经摄影师同意，请勿将未处理原片公开发布</p>
-
-        <h3>四、后期与成片</h3>
-        <p>成片交付周期通常为拍摄后 7-14 个工作日</p>
-        <p>精修张数按约定套餐执行，额外加修按单张计费</p>
-        <p>所有成片默认可用于摄影师作品展示，如有异议请提前说明</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 价格参考页 ===== -->
-  <section class="page-section" id="page-pricing">
-    <div class="pricing-hero">
-      <p class="pricing-eyebrow">PHOTO</p>
-      <h1>拍摄报价参考</h1>
-      <p class="pricing-subtitle">以下为场照与正片的参考报价，具体可根据需求协商调整。</p>
-    </div>
-
-    <!-- 场照报价 -->
-    <div class="pricing-section">
-      <h2 class="pricing-section-title">场照</h2>
-      <div class="pricing-grid pricing-grid--3col">
-        <div class="pricing-card" data-animate><h3 class="pricing-card-name">四图场照</h3><div class="pricing-card-price"><span class="pricing-amount">80</span><span class="pricing-unit">元</span></div><ul class="pricing-items"><li>拍摄 + 调色简修</li><li>数量 4 图</li><li>拍摄时长约 30min</li></ul></div>
-        <div class="pricing-card" data-animate><h3 class="pricing-card-name">六图场照</h3><div class="pricing-card-price"><span class="pricing-amount">120</span><span class="pricing-unit">元</span></div><ul class="pricing-items"><li>拍摄 + 调色简修</li><li>数量 6 图</li><li>拍摄时长约 30min</li></ul></div>
-        <div class="pricing-card" data-animate><h3 class="pricing-card-name">九图场照</h3><div class="pricing-card-price"><span class="pricing-amount">180</span><span class="pricing-unit">元</span></div><ul class="pricing-items"><li>拍摄 + 调色简修</li><li>数量 9 图</li><li>拍摄时长约 30min</li></ul></div>
-      </div>
-    </div>
-
-    <!-- 场照增值服务 -->
-    <div class="pricing-addons">
-      <h2 class="pricing-section-title">场照增值服务</h2>
-      <div class="addons-grid">
-        <div class="addon-item" data-animate><span class="addon-label">精修半合成</span><span class="addon-price">20<em>元/张</em></span></div>
-        <div class="addon-item" data-animate><span class="addon-label">双人场照</span><span class="addon-price">单人价格×2</span></div>
-      </div>
-    </div>
-
-    <!-- 场照注意事项 -->
-    <div class="pricing-notes">
-      <h2 class="pricing-section-title">场照注意事项</h2>
-      <div class="notes-list">
-        <div class="note-item" data-animate><span class="note-num">1</span><div class="note-content"><span class="note-title">流程</span><span class="note-desc">定金定档 → 拍摄 → 尾款 → 返图</span></div></div>
-        <div class="note-item" data-animate><span class="note-num">2</span><div class="note-content"><span class="note-title">返图周期</span><span class="note-desc">漫展结束晚上返底图，选图后 7~14 天内返简/精修图</span></div></div>
-        <div class="note-item" data-animate><span class="note-num">3</span><div class="note-content"><span class="note-title">定金</span><span class="note-desc">定金 50%，跑单定金不退</span></div></div>
-        <div class="note-item" data-animate><span class="note-num">4</span><div class="note-content"><span class="note-title">拍摄时长</span><span class="note-desc">漫展当天会给具体灯阵位置，拍摄时长约 30min 左右</span></div></div>
-        <div class="note-item" data-animate><span class="note-num">5</span><div class="note-content"><span class="note-title">返图格式</span><span class="note-desc">返图默认 JPG，如有需要 RAW 可提出</span></div></div>
-        <div class="note-item" data-animate><span class="note-num">6</span><div class="note-content"><span class="note-title">动作准备</span><span class="note-desc">需提前准备动作，只提供动作指导和修正</span></div></div>
-        <div class="note-item" data-animate><span class="note-num">7</span><div class="note-content"><span class="note-title">成片授权</span><span class="note-desc">成片默认可发社交平台，如不同意需提前说明</span></div></div>
-      </div>
-    </div>
-
-    <!-- 正片报价 -->
-    <div class="pricing-section">
-      <h2 class="pricing-section-title">正片</h2>
-      <div class="pricing-grid pricing-grid--2col">
-        <div class="pricing-card pricing-card--zhengpian" data-animate>
-          <div class="zhengpian-header"><h3 class="pricing-card-name">单人正片</h3><span class="zhengpian-subtitle">棚拍</span></div>
-          <div class="pricing-card-price"><span class="pricing-amount">299</span><span class="pricing-unit">元</span></div>
-          <ul class="pricing-items"><li>9 图，底图保底 100+</li><li>前期策划执行案</li><li>修容 + 调色 + 小 bug 处理</li></ul>
-        </div>
-        <div class="pricing-card pricing-card--zhengpian" data-animate>
-          <div class="zhengpian-header"><h3 class="pricing-card-name">单人正片</h3><span class="zhengpian-subtitle">外景</span></div>
-          <div class="pricing-card-price"><span class="pricing-amount">399</span><span class="pricing-unit">元</span></div>
-          <ul class="pricing-items"><li>9 图，底图保底 100+</li><li>前期策划执行案</li><li>修容 + 调色 + 小 bug 处理</li></ul>
-        </div>
-        <div class="pricing-card pricing-card--zhengpian" data-animate>
-          <div class="zhengpian-header"><h3 class="pricing-card-name">双人正片</h3><span class="zhengpian-subtitle">棚拍</span></div>
-          <div class="pricing-card-price"><span class="pricing-amount">399</span><span class="pricing-unit">元</span></div>
-          <ul class="pricing-items"><li>9 图，底图保底 200+</li><li>前期策划执行案</li><li>修容 + 调色 + 小 bug 处理</li></ul>
-        </div>
-        <div class="pricing-card pricing-card--zhengpian" data-animate>
-          <div class="zhengpian-header"><h3 class="pricing-card-name">双人正片</h3><span class="zhengpian-subtitle">外景</span></div>
-          <div class="pricing-card-price"><span class="pricing-amount">599</span><span class="pricing-unit">元</span></div>
-          <ul class="pricing-items"><li>9 图，底图保底 200+</li><li>前期策划执行案</li><li>修容 + 调色 + 小 bug 处理</li></ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- 正片增值服务 -->
-    <div class="pricing-addons">
-      <h2 class="pricing-section-title">正片增值服务</h2>
-      <div class="addons-grid">
-        <div class="addon-item" data-animate><span class="addon-label">2D 特效合成</span><span class="addon-price">30<em>起/张</em></span></div>
-        <div class="addon-item" data-animate><span class="addon-label">3D 特效合成</span><span class="addon-price">需沟通</span></div>
-      </div>
-    </div>
-
-    <!-- 正片注意事项 -->
-    <div class="pricing-notes">
-      <h2 class="pricing-section-title">正片注意事项</h2>
-      <div class="notes-list">
-        <div class="note-item" data-animate><span class="note-num">1</span><div class="note-content"><span class="note-title">定金</span><span class="note-desc">正片定金 150 元</span></div></div>
-        <div class="note-item" data-animate><span class="note-num">2</span><div class="note-content"><span class="note-title">出图工期</span><span class="note-desc">正片出图工期 7~14 天，如有特效合成可能会因工作量需延迟</span></div></div>
-        <div class="note-item" data-animate><span class="note-num">3</span><div class="note-content"><span class="note-title">迟到说明</span><span class="note-desc">单主迟到一小时默认取消拍摄（提前说明可延迟最多一小时）</span></div></div>
-        <div class="note-item" data-animate><span class="note-num">4</span><div class="note-content"><span class="note-title">路费说明</span><span class="note-desc">有地铁直达无需单主报销，目的地离地铁超过 2 公里需单主报销</span></div></div>
-      </div>
-    </div>
-
-    <!-- 查看更多 -->
-    <div class="pricing-social">
-      <p>如需要查看更多例图</p>
-      <p>可以查看同名 <strong>小红书</strong>、<strong>抖音</strong> ~</p>
-    </div>
-
-    <!-- 联系方式 -->
-    <div class="pricing-bottom-cta">
-      <h2>联系方式</h2>
-      <div class="pricing-contact">
-        <span>QQ：2166783550</span>
-        <span class="pricing-contact-sep">·</span>
-        <span>VX：anzzbfly</span>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="site-footer">
-  &copy; 2026 氷子. All rights reserved.<br>
-  <span style="font-size:0.7rem">✧ 本站成立于 2026-06-25 ✧ 已运行 <span id="uptimeClock"></span> (｡･∀･)ﾉﾞ嗨</span>
-</footer>
-
-<!-- 灯箱 -->
-<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
-  <div class="lightbox-content" onclick="event.stopPropagation()">
-    <button class="lightbox-close" onclick="closeLightbox()" aria-label="关闭">&times;</button>
-    <button class="lightbox-prev" onclick="navigateLightbox(-1)" aria-label="上一张">&larr;</button>
-    <button class="lightbox-next" onclick="navigateLightbox(1)" aria-label="下一张">&rarr;</button>
-    <img id="lightboxImg" src="" alt="">
-    <div class="lightbox-info" id="lightboxInfo"></div>
+  <div class="menu-foot">
+    <span class="menu-contact">QQ 2166783550</span>
+    <span class="menu-contact">微信 anzzbfly</span>
+    <span>HSUKO — VISUAL RÉSUMÉ / 2026</span>
   </div>
 </div>
 
-<!-- ============ 数据 & 逻辑 ============ -->
+<!-- ================= Content ================= -->
+<main id="main">
+<div class="guide-lines" aria-hidden="true">
+  <span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+
+  <!-- ===== Works ===== -->
+  <section class="page-section active" id="page-gallery" aria-labelledby="heroTitle">
+    <header class="hero">
+      <div class="hero-stage">
+        <figure class="hero-photo hero-photo--a">
+          <img src="public/previews/04/04-1.jpg" alt="芳泽霞 — 女神异闻录 P5 棚拍" width="640" height="960" fetchpriority="high" decoding="async">
+          <figcaption>No.04 / 芳泽霞</figcaption>
+        </figure>
+        <figure class="hero-photo hero-photo--b">
+          <img src="public/previews/01/01-1.jpg" alt="柴郡 — 碧蓝航线 场照" width="5440" height="3627" loading="lazy" decoding="async">
+          <figcaption>No.01 / 柴郡</figcaption>
+        </figure>
+
+        <p class="hero-vertical">HSUKO — PHOTOGRAPHIC ARCHIVE / 2026</p>
+        <p class="hero-issue">ISSUE 01 — VISUAL RÉSUMÉ</p>
+
+        <h1 class="hero-title" id="heroTitle">
+          <span class="sr-only">氷子作品集 — 视觉系摄影记录</span>
+          <span class="hero-word" aria-hidden="true" data-text="PORTRAIT">PORTRAIT</span>
+        </h1>
+
+        <p class="hero-stamp">Cosplay / Portrait / Field<br>Ten works in archive</p>
+      </div>
+
+      <div class="hero-foot">
+        <div>
+          <p class="hero-cn">视觉系摄影记录</p>
+          <p class="hero-sub">Cosplay · Portrait · Field<br>Visual résumé of HSUKO</p>
+        </div>
+        <p class="hero-contact"><span>约拍 / BOOKING</span><strong>QQ 2166783550</strong><strong>微信 anzzbfly</strong></p>
+        <div class="hero-count">
+          <span id="heroCount">10</span>
+          <span class="hero-count-label">Works<br>in archive</span>
+        </div>
+      </div>
+
+      <div class="marquee" aria-label="Cosplay, Portrait, Field, 2026, HSUKO, Visual Archive">
+        <div class="marquee-track">
+          <div class="marquee-group">
+            <span class="marquee-item">HSUKO</span><span class="marquee-item">COSPLAY</span><span class="marquee-item">PORTRAIT</span><span class="marquee-item">FIELD</span><span class="marquee-item">2026</span>
+            <span class="marquee-item">HSUKO</span><span class="marquee-item">COSPLAY</span><span class="marquee-item">PORTRAIT</span><span class="marquee-item">FIELD</span><span class="marquee-item">2026</span>
+            <span class="marquee-item">HSUKO</span><span class="marquee-item">COSPLAY</span><span class="marquee-item">PORTRAIT</span><span class="marquee-item">FIELD</span><span class="marquee-item">2026</span>
+          </div>
+          <div class="marquee-group" aria-hidden="true">
+            <span class="marquee-item">HSUKO</span><span class="marquee-item">COSPLAY</span><span class="marquee-item">PORTRAIT</span><span class="marquee-item">FIELD</span><span class="marquee-item">2026</span>
+            <span class="marquee-item">HSUKO</span><span class="marquee-item">COSPLAY</span><span class="marquee-item">PORTRAIT</span><span class="marquee-item">FIELD</span><span class="marquee-item">2026</span>
+            <span class="marquee-item">HSUKO</span><span class="marquee-item">COSPLAY</span><span class="marquee-item">PORTRAIT</span><span class="marquee-item">FIELD</span><span class="marquee-item">2026</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="works" aria-labelledby="worksTitle">
+      <div class="works-head">
+        <p class="kicker">02 — Selected Works / 收录</p>
+        <div class="works-title-row">
+          <h2 class="works-title" id="worksTitle">WORK<em>INDEX</em></h2>
+          <p class="works-note"><strong>10 records</strong><br>Rotated on every visit<br>Cosplay · Studio · Location</p>
+        </div>
+
+        <nav class="filter-bar" aria-label="作品筛选">
+          <span class="filter-label">Filter /</span>
+          <div class="filter-list" id="filterBar">
+            <button class="filter-btn active" type="button" data-tag="全部" aria-pressed="true">全部</button>
+          </div>
+        </nav>
+      </div>
+      <div class="gallery" id="galleryGrid"></div>
+    </section>
+  </section>
+
+  <!-- ===== Notes ===== -->
+  <section class="page-section" id="page-notes" aria-labelledby="notesTitle">
+    <article class="reading-page">
+      <header class="page-head">
+        <p class="kicker">FILE 02 / Session Notes — 拍摄须知</p>
+        <h1 class="display-title" id="notesTitle">
+          <span>拍摄</span>
+          <em>注意事项</em>
+        </h1>
+        <p class="reading-intro">为保证拍摄顺利，请在预约前阅读以下约定。准备得越充分，现场越能把时间留给照片。</p>
+        <p class="page-meta-row"><span>Read before booking</span><span>04 sections</span><span>Updated 2026</span></p>
+      </header>
+
+      <div class="notes-body">
+        <section class="note-row">
+          <p class="note-index" aria-hidden="true">01</p>
+          <div>
+            <h2>拍摄前准备</h2>
+            <p>请提前确认拍摄时间与地点，如有变动请至少提前 24 小时沟通</p>
+            <p>拍摄前一晚注意休息，保持良好精神状态</p>
+            <p>建议自备常用化妆品及补妆工具，棚拍可提供基础化妆间</p>
+          </div>
+        </section>
+
+        <section class="note-row">
+          <p class="note-index" aria-hidden="true">02</p>
+          <div>
+            <h2>服装与道具</h2>
+            <p>请自备角色服装、假发及关键道具，出发前再次清点确认</p>
+            <p>建议携带替换便服及平底鞋，方便转场及休息</p>
+            <p>如有特殊道具需求请提前说明，双方协商准备方案</p>
+          </div>
+        </section>
+
+        <section class="note-row">
+          <p class="note-index" aria-hidden="true">03</p>
+          <div>
+            <h2>拍摄现场</h2>
+            <p>棚拍请勿在场内饮食，外景请注意人身及财物安全</p>
+            <p>拍摄中随时沟通，任何不适或想法请直接提出</p>
+            <p>未经摄影师同意，请勿将未处理原片公开发布</p>
+          </div>
+        </section>
+
+        <section class="note-row">
+          <p class="note-index" aria-hidden="true">04</p>
+          <div>
+            <h2>后期与成片</h2>
+            <p>成片交付周期通常为拍摄后 7-14 个工作日</p>
+            <p>精修张数按约定套餐执行，额外加修按单张计费</p>
+            <p>所有成片默认可用于摄影师作品展示，如有异议请提前说明</p>
+          </div>
+        </section>
+      </div>
+    </article>
+  </section>
+
+  <!-- ===== Pricing ===== -->
+  <section class="page-section" id="page-pricing" aria-labelledby="pricingTitle">
+    <article class="reading-page pricing-page">
+      <header class="page-head" data-animate>
+        <p class="kicker">FILE 03 / Rates — 拍摄报价</p>
+        <h1 class="display-title" id="pricingTitle">
+          <span>拍摄</span>
+          <em>报价参考</em>
+        </h1>
+        <p class="reading-intro">以下为场照与正片的参考报价，具体可根据需求协商调整。</p>
+        <p class="page-meta-row"><span>Field · Studio · Location</span><span>CNY / ¥</span><span>Quote 2026</span></p>
+      </header>
+
+      <!-- 场照 -->
+      <div class="price-block" data-animate>
+        <div class="block-head">
+          <span class="block-no">01</span>
+          <h2 class="block-title">场照</h2>
+          <span class="block-note">Field / Three Tiers</span>
+        </div>
+        <div class="price-rows">
+          <article class="price-row">
+            <div>
+              <h3>四图场照</h3>
+              <ul class="price-items">
+                <li>拍摄 + 调色简修</li>
+                <li>数量 4 图</li>
+                <li>拍摄时长约 30min</li>
+              </ul>
+            </div>
+            <div class="price-figure"><span class="cur">¥</span>80</div>
+          </article>
+          <article class="price-row">
+            <div>
+              <h3>六图场照</h3>
+              <ul class="price-items">
+                <li>拍摄 + 调色简修</li>
+                <li>数量 6 图</li>
+                <li>拍摄时长约 30min</li>
+              </ul>
+            </div>
+            <div class="price-figure"><span class="cur">¥</span>120</div>
+          </article>
+          <article class="price-row">
+            <div>
+              <h3>九图场照</h3>
+              <ul class="price-items">
+                <li>拍摄 + 调色简修</li>
+                <li>数量 9 图</li>
+                <li>拍摄时长约 30min</li>
+              </ul>
+            </div>
+            <div class="price-figure"><span class="cur">¥</span>180</div>
+          </article>
+        </div>
+      </div>
+
+      <!-- 场照增值服务 -->
+      <div class="price-block" data-animate>
+        <div class="block-head">
+          <span class="block-no">02</span>
+          <h2 class="block-title">场照增值服务</h2>
+          <span class="block-note">Add-ons</span>
+        </div>
+        <div class="addons-grid">
+          <div class="addon-row">
+            <span class="addon-label">精修半合成</span>
+            <span class="addon-price"><span aria-hidden="true">¥</span>20<em>/ 张</em></span>
+          </div>
+          <div class="addon-row">
+            <span class="addon-label">双人场照</span>
+            <span class="addon-price">单人价格 × 2</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 场照注意事项 -->
+      <div class="price-block" data-animate>
+        <div class="block-head">
+          <span class="block-no">03</span>
+          <h2 class="block-title">场照注意事项</h2>
+          <span class="block-note">Field / Terms</span>
+        </div>
+        <div class="pn-list">
+          <div class="pn-row">
+            <span class="pn-no">01</span>
+            <span class="pn-title">流程</span>
+            <span class="pn-desc">定金定档 → 拍摄 → 尾款 → 返图</span>
+          </div>
+          <div class="pn-row">
+            <span class="pn-no">02</span>
+            <span class="pn-title">返图周期</span>
+            <span class="pn-desc">漫展结束晚上返底图，选图后 7~14 天内返简/精修图</span>
+          </div>
+          <div class="pn-row">
+            <span class="pn-no">03</span>
+            <span class="pn-title">定金</span>
+            <span class="pn-desc">定金 50%，跑单定金不退</span>
+          </div>
+          <div class="pn-row">
+            <span class="pn-no">04</span>
+            <span class="pn-title">拍摄时长</span>
+            <span class="pn-desc">漫展当天会给具体灯阵位置，拍摄时长约 30min 左右</span>
+          </div>
+          <div class="pn-row">
+            <span class="pn-no">05</span>
+            <span class="pn-title">返图格式</span>
+            <span class="pn-desc">返图默认 JPG，如有需要 RAW 可提出</span>
+          </div>
+          <div class="pn-row">
+            <span class="pn-no">06</span>
+            <span class="pn-title">动作准备</span>
+            <span class="pn-desc">需提前准备动作，只提供动作指导和修正</span>
+          </div>
+          <div class="pn-row">
+            <span class="pn-no">07</span>
+            <span class="pn-title">成片授权</span>
+            <span class="pn-desc">成片默认可发社交平台，如不同意需提前说明</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 正片 -->
+      <div class="price-block" data-animate>
+        <div class="block-head">
+          <span class="block-no">04</span>
+          <h2 class="block-title">正片</h2>
+          <span class="block-note">Studio &amp; Location</span>
+        </div>
+        <div class="price-rows">
+          <article class="price-row">
+            <div>
+              <h3>单人正片 <span class="price-tag">棚拍</span></h3>
+              <ul class="price-items">
+                <li>9 图，底图保底 100+</li>
+                <li>前期策划执行案</li>
+                <li>修容 + 调色 + 小 bug 处理</li>
+              </ul>
+            </div>
+            <div class="price-figure"><span class="cur">¥</span>299</div>
+          </article>
+          <article class="price-row">
+            <div>
+              <h3>单人正片 <span class="price-tag">外景</span></h3>
+              <ul class="price-items">
+                <li>9 图，底图保底 100+</li>
+                <li>前期策划执行案</li>
+                <li>修容 + 调色 + 小 bug 处理</li>
+              </ul>
+            </div>
+            <div class="price-figure"><span class="cur">¥</span>399</div>
+          </article>
+          <article class="price-row">
+            <div>
+              <h3>双人正片 <span class="price-tag">棚拍</span></h3>
+              <ul class="price-items">
+                <li>9 图，底图保底 200+</li>
+                <li>前期策划执行案</li>
+                <li>修容 + 调色 + 小 bug 处理</li>
+              </ul>
+            </div>
+            <div class="price-figure"><span class="cur">¥</span>399</div>
+          </article>
+          <article class="price-row">
+            <div>
+              <h3>双人正片 <span class="price-tag">外景</span></h3>
+              <ul class="price-items">
+                <li>9 图，底图保底 200+</li>
+                <li>前期策划执行案</li>
+                <li>修容 + 调色 + 小 bug 处理</li>
+              </ul>
+            </div>
+            <div class="price-figure"><span class="cur">¥</span>599</div>
+          </article>
+        </div>
+      </div>
+
+      <!-- 正片增值服务 -->
+      <div class="price-block" data-animate>
+        <div class="block-head">
+          <span class="block-no">05</span>
+          <h2 class="block-title">正片增值服务</h2>
+          <span class="block-note">Post-production</span>
+        </div>
+        <div class="addons-grid">
+          <div class="addon-row">
+            <span class="addon-label">2D 特效合成</span>
+            <span class="addon-price"><span aria-hidden="true">¥</span>30<em>起 / 张</em></span>
+          </div>
+          <div class="addon-row">
+            <span class="addon-label">3D 特效合成</span>
+            <span class="addon-price">需沟通</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 正片注意事项 -->
+      <div class="price-block" data-animate>
+        <div class="block-head">
+          <span class="block-no">06</span>
+          <h2 class="block-title">正片注意事项</h2>
+          <span class="block-note">Studio / Terms</span>
+        </div>
+        <div class="pn-list">
+          <div class="pn-row">
+            <span class="pn-no">01</span>
+            <span class="pn-title">定金</span>
+            <span class="pn-desc">正片定金 150 元</span>
+          </div>
+          <div class="pn-row">
+            <span class="pn-no">02</span>
+            <span class="pn-title">出图工期</span>
+            <span class="pn-desc">正片出图工期 7~14 天，如有特效合成可能会因工作量需延迟</span>
+          </div>
+          <div class="pn-row">
+            <span class="pn-no">03</span>
+            <span class="pn-title">迟到说明</span>
+            <span class="pn-desc">单主迟到一小时默认取消拍摄（提前说明可延迟最多一小时）</span>
+          </div>
+          <div class="pn-row">
+            <span class="pn-no">04</span>
+            <span class="pn-title">路费说明</span>
+            <span class="pn-desc">有地铁直达无需单主报销，目的地离地铁超过 2 公里需单主报销</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="social-strip" data-animate>
+        <div>
+          <p class="social-kicker">MORE / 更多例图</p>
+          <p class="social-line">同名 <em>小红书</em> · <em>抖音</em></p>
+        </div>
+        <span class="social-arrow" aria-hidden="true">↗</span>
+      </div>
+
+      <div class="contact-block" data-animate>
+        <div class="contact-inner">
+          <div class="contact-card" id="contactCard">
+            <div class="contact-head">
+              <div>
+                <p class="contact-kicker">Booking / 约拍联系方式</p>
+                <p class="contact-title">LET’S <em>SHOOT.</em></p>
+              </div>
+              <div class="contact-side">
+                <span class="contact-tag">Open / 2026</span>
+                <p class="contact-note">档期 · 报价 · 合作<br>备注「约拍」优先回复</p>
+              </div>
+            </div>
+
+            <div class="contact-grid">
+              <button class="contact-item" type="button" data-copy="2166783550" aria-label="复制 QQ 号 2166783550">
+                <span class="contact-chan">QQ</span>
+                <span class="contact-value">2166 783 550</span>
+                <span class="contact-copy"><span>Copy</span><b aria-hidden="true">↗</b></span>
+              </button>
+              <button class="contact-item" type="button" data-copy="anzzbfly" aria-label="复制微信号 anzzbfly">
+                <span class="contact-chan">WeChat / 微信</span>
+                <span class="contact-value">anzzbfly</span>
+                <span class="contact-copy"><span>Copy</span><b aria-hidden="true">↗</b></span>
+              </button>
+            </div>
+
+            <p class="contact-status" id="contactStatus" role="status" aria-live="polite"></p>
+
+            <div class="contact-foot">
+              <span>Direct booking — 点击号码即可复制</span>
+              <span>同名 <em>小红书</em> · <em>抖音</em> · 氷子</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="marquee marquee--dark">
+    <div class="marquee-track">
+      <div class="marquee-group">
+        <span class="marquee-item">HSUKO</span><span class="marquee-item">COSPLAY</span><span class="marquee-item">PORTRAIT</span><span class="marquee-item">FIELD</span><span class="marquee-item">2026</span>
+        <span class="marquee-item">HSUKO</span><span class="marquee-item">COSPLAY</span><span class="marquee-item">PORTRAIT</span><span class="marquee-item">FIELD</span><span class="marquee-item">2026</span>
+        <span class="marquee-item">HSUKO</span><span class="marquee-item">COSPLAY</span><span class="marquee-item">PORTRAIT</span><span class="marquee-item">FIELD</span><span class="marquee-item">2026</span>
+      </div>
+      <div class="marquee-group" aria-hidden="true">
+        <span class="marquee-item">HSUKO</span><span class="marquee-item">COSPLAY</span><span class="marquee-item">PORTRAIT</span><span class="marquee-item">FIELD</span><span class="marquee-item">2026</span>
+        <span class="marquee-item">HSUKO</span><span class="marquee-item">COSPLAY</span><span class="marquee-item">PORTRAIT</span><span class="marquee-item">FIELD</span><span class="marquee-item">2026</span>
+        <span class="marquee-item">HSUKO</span><span class="marquee-item">COSPLAY</span><span class="marquee-item">PORTRAIT</span><span class="marquee-item">FIELD</span><span class="marquee-item">2026</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-inner">
+    <p class="footer-logo">HSUKO<sup>®</sup></p>
+    <p class="footer-meta">
+      © 2026 氷子 — VISUAL RÉSUMÉ<br>
+      本站成立于 2026-06-25<br>
+      UPTIME <strong id="uptimeClock"></strong>
+      <span class="footer-contact">QQ 2166783550 · 微信 anzzbfly</span>
+    </p>
+    <div class="footer-actions">
+      <span>HSUKO / PHOTOGRAPHIC CATALOGUE / VOL.01</span>
+      <button class="footer-top" type="button" data-page-link="gallery">Back to Index ↑</button>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= Global BOOK NOW sticker ================= -->
+<button class="book-now" id="bookNow" type="button" data-page-link="pricing" aria-label="BOOK NOW — 前往拍摄报价页">
+  <span class="book-now__en" aria-hidden="true">BOOK<br>NOW</span>
+  <span class="book-now__cn" aria-hidden="true">约拍 / 2026</span>
+</button>
+
+<!-- ================= Lightbox ================= -->
+<div class="lightbox" id="lightboxOverlay" role="dialog" aria-modal="true" aria-label="作品大图" aria-hidden="true">
+  <button class="lb-close" id="lbClose" type="button" aria-label="关闭">&times;</button>
+  <button class="lb-arrow lb-arrow--prev" id="lbPrev" type="button" aria-label="上一张">&larr;</button>
+  <button class="lb-edge lb-edge--prev" id="lbEdgePrev" type="button" aria-label="上一张" tabindex="-1"></button>
+
+  <div class="lb-frame" id="lbFrame">
+    <div class="lb-stage" id="lbStage">
+      <img class="lb-img" id="lightboxImgA" alt="" decoding="async">
+      <img class="lb-img" id="lightboxImgB" alt="" decoding="async">
+    </div>
+    <div class="lb-bar">
+      <p class="lb-info" id="lightboxInfo"></p>
+      <p class="lb-index" id="lightboxIndex"></p>
+    </div>
+  </div>
+
+  <button class="lb-edge lb-edge--next" id="lbEdgeNext" type="button" aria-label="下一张" tabindex="-1"></button>
+  <button class="lb-arrow lb-arrow--next" id="lbNext" type="button" aria-label="下一张">&rarr;</button>
+</div>
+
+<div class="cursor" aria-hidden="true">
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"><span>VIEW</span></div>
+</div>
+
 <script>
-// ========== 作品数据 ==========
+// ========== 作品数据（结构不变；color 仅供旧版本兼容，已中性化且不再参与渲染） ==========
 const photos = [
-  { id:'01',title:'柴郡',ip:'碧蓝航线',model:'',tags:['#场照'],color:'#AADDD4',h:1.4, images:['01-1.jpg','01-2.jpg'] },
-  { id:'02',title:'麦晓雯',ip:'三角洲行动',model:'花阳',tags:['#场照','#半合成'],color:'#C5D9D5',h:1.5, images:['02-1.jpg'] },
-  { id:'03',title:'枫与铃',ip:'枫与铃',model:'柚子&昭',tags:['#场照'],color:'#E6DFDF',h:1.2, images:['03-1.jpg'] },
-  { id:'04',title:'芳泽霞',ip:'女神异闻录P5',model:'哼唧P5学妹',tags:['#场照','#半合成'],color:'#7FEFD0',h:1.6, images:['04-1.jpg','04-2.jpg','04-3.jpg'] },
-  { id:'05',title:'愚夜密函W',ip:'明日方舟',model:'酱油',tags:['#场照','#半合成'],color:'#B5D8CF',h:1.3, images:['05-1.jpg'] },
-  { id:'06',title:'环状水星',ip:'重返未来1999',model:'铁板乐狗',tags:['#场照','#半合成'],color:'#D9CFCF',h:1.1, images:['06-1.jpg'] },
-  { id:'07',title:'阿尔比恩',ip:'碧蓝航线',model:'葡萄',tags:['#棚拍','#正片'],color:'#C2D4D9',h:1.5, images:['07-1.jpg','07-2.jpg'] },
-  { id:'08',title:'芙宁娜',ip:'原神',model:'菠萝头',tags:['#棚拍','#正片'],color:'#D4D0DE',h:1.4, images:['08-1.jpg','08-2.jpg','08-3.jpg'] },
-  { id:'09',title:'尤诺',ip:'鸣潮',model:'柚苏',tags:['#棚拍','#正片'],color:'#C5D9D5',h:1.3, images:['09-1.jpg','09-2.jpg'] },
-  { id:'10',title:'千咲',ip:'鸣潮',model:'琉砂',tags:['#外景','#正片'],color:'#E6DFDF',h:1.3, images:['10-1.jpg'] },
+  { id:'01',title:'柴郡',ip:'碧蓝航线',model:'',tags:['#场照'],color:'#141416',h:1.4, images:['01-1.jpg','01-2.jpg'] },
+  { id:'02',title:'麦晓雯',ip:'三角洲行动',model:'花阳',tags:['#场照','#半合成'],color:'#141416',h:1.5, images:['02-1.jpg'] },
+  { id:'03',title:'枫与铃',ip:'枫与铃',model:'柚子&昭',tags:['#场照'],color:'#141416',h:1.2, images:['03-1.jpg'] },
+  { id:'04',title:'芳泽霞',ip:'女神异闻录P5',model:'哼唧P5学妹',tags:['#场照','#半合成'],color:'#141416',h:1.6, images:['04-1.jpg','04-2.jpg','04-3.jpg'] },
+  { id:'05',title:'愚夜密函W',ip:'明日方舟',model:'酱油',tags:['#场照','#半合成'],color:'#141416',h:1.3, images:['05-1.jpg'] },
+  { id:'06',title:'环状水星',ip:'重返未来1999',model:'铁板乐狗',tags:['#场照','#半合成'],color:'#141416',h:1.1, images:['06-1.jpg'] },
+  { id:'07',title:'阿尔比恩',ip:'碧蓝航线',model:'葡萄',tags:['#棚拍','#正片'],color:'#141416',h:1.5, images:['07-1.jpg','07-2.jpg'] },
+  { id:'08',title:'芙宁娜',ip:'原神',model:'菠萝头',tags:['#棚拍','#正片'],color:'#141416',h:1.4, images:['08-1.jpg','08-2.jpg','08-3.jpg'] },
+  { id:'09',title:'尤诺',ip:'鸣潮',model:'柚苏',tags:['#棚拍','#正片'],color:'#141416',h:1.3, images:['09-1.jpg','09-2.jpg'] },
+  { id:'10',title:'千咲',ip:'鸣潮',model:'琉砂',tags:['#外景','#正片'],color:'#141416',h:1.3, images:['10-1.jpg'] },
 ];
 
-	// 随机排序（Fisher-Yates 洗牌，每次刷新顺序不同）
-	for(let i=photos.length-1;i>0;i--){
-	  const j=Math.floor(Math.random()*(i+1));
-	  [photos[i],photos[j]]=[photos[j],photos[i]];
-	}
+// ========== 轮询计数：每次刷新前进一格（顺序轮转，不随机） ==========
+let visitIndex = 0;
+try{
+  const KEY='hsuko.rotation.v1';
+  const stored=Number(localStorage.getItem(KEY));
+  visitIndex = Number.isFinite(stored) ? Math.max(0,Math.floor(stored)) : 0;
+  localStorage.setItem(KEY, String(visitIndex+1));
+}catch(e){ visitIndex = 0; }
+
+// 顺序轮转作品顺序（从存档顺序整体左移一位，每次刷新换下一组）
+const rotation = visitIndex % photos.length;
+photos.push(...photos.splice(0,rotation));
+
+// ========== 置顶主图轮询 ==========
+(function rotateHero(){
+  const n=photos.length;
+  if(!n) return;
+  const heroPair=[
+    {sel:'.hero-photo--a', photo:photos[0]},
+    {sel:'.hero-photo--b', photo:photos[Math.floor(n/2)]}
+  ];
+  heroPair.forEach(({sel,photo})=>{
+    const fig=document.querySelector(sel);
+    if(!fig || !photo) return;
+    const img=fig.querySelector('img');
+    const cap=fig.querySelector('figcaption');
+    const file=photo.images && photo.images[0];
+    if(img && file){
+      img.src=`public/previews/${photo.id}/${file}`;
+      img.alt=`${photo.title} — ${photo.ip}`;
+    }
+    if(cap) cap.textContent=`No.${photo.id} / ${photo.title}`;
+  });
+})();
 
 // 构建灯箱平面图片列表（每组多图展开为独立条目，左右键顺序浏览）
 const lightboxImages = [];
@@ -483,17 +2420,247 @@ function getAllTags(){
   return [...s].sort((a,b)=>a.localeCompare(b,'zh'));
 }
 
-// ========== 页面切换 ==========
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g, ch => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  })[ch]);
+}
+
+function pad2(n){ return String(n).padStart(2,'0'); }
+
+// ========== 页面切换（同一套纸面，切换章节） ==========
+let currentPage = 'gallery';
+
 function switchPage(page){
+  const target = document.getElementById('page-'+page);
+  if(!target) return;
+
+  currentPage = page;
+  document.documentElement.dataset.page = page;
+  document.body.dataset.page = page;
+
   document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
-  document.getElementById('page-'+page).classList.add('active');
-  document.getElementById('nav-'+page).classList.add('active');
+  target.classList.add('active');
+
+  document.querySelectorAll('[data-page-link]').forEach(link=>{
+    const on = link.dataset.pageLink === page;
+    link.classList.toggle('active', on);
+    if(on){ link.setAttribute('aria-current','page'); }
+    else{ link.removeAttribute('aria-current'); }
+  });
+
+  closeMenu(false);
+  document.getElementById('topNav').classList.remove('is-hidden');
+  window.scrollTo(0,0);
+
   // 价格页动画重播
   if(page==='pricing'){
     const els=document.querySelectorAll('#page-pricing [data-animate]');
-    els.forEach((el,i)=>{el.style.animation='none';el.offsetHeight;el.style.animation='';el.style.animationDelay=i*100+'ms';});
+    els.forEach((el,i)=>{
+      el.style.animation='none';
+      el.offsetHeight;
+      el.style.animation='';
+      el.style.animationDelay=i*100+'ms';
+    });
   }
+}
+
+document.querySelectorAll('[data-page-link]').forEach(link=>{
+  link.addEventListener('click', event=>{
+    event.preventDefault();
+    switchPage(link.dataset.pageLink);
+  });
+});
+
+// ========== 导航：向下隐藏，向上出现 ==========
+(function initNavScroll(){
+  const nav = document.getElementById('topNav');
+  let lastY = window.scrollY || 0;
+
+  window.addEventListener('scroll', ()=>{
+    if(document.body.classList.contains('menu-open') || lightboxOpen) return;
+    const y = window.scrollY || 0;
+    if(y < 96){
+      nav.classList.remove('is-hidden');
+    }else if(y > lastY + 8){
+      nav.classList.add('is-hidden');
+    }else if(y < lastY - 8){
+      nav.classList.remove('is-hidden');
+    }
+    lastY = y;
+  }, {passive:true});
+})();
+
+// ========== 移动端目录覆盖层 ==========
+const navToggle = document.getElementById('navToggle');
+const menuOverlay = document.getElementById('menuOverlay');
+let menuOpen = false;
+
+function closeMenu(returnFocus = false){
+  if(!menuOpen) return;
+  menuOpen = false;
+  document.body.classList.remove('menu-open');
+  navToggle.setAttribute('aria-expanded','false');
+  navToggle.setAttribute('aria-label','打开菜单');
+  menuOverlay.setAttribute('aria-hidden','true');
+  if(returnFocus){
+    navToggle.focus({preventScroll:true});
+  }
+}
+
+navToggle.addEventListener('click', ()=>{
+  if(menuOpen){
+    closeMenu(true);
+    return;
+  }
+  menuOpen = true;
+  document.body.classList.add('menu-open');
+  navToggle.setAttribute('aria-expanded','true');
+  navToggle.setAttribute('aria-label','关闭菜单');
+  menuOverlay.setAttribute('aria-hidden','false');
+  document.getElementById('topNav').classList.remove('is-hidden');
+  const first = menuOverlay.querySelector('a');
+  if(first){
+    // Overlay 由 visibility:hidden 切换而来，下一帧前 focus() 可能被忽略。
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      if(menuOpen) first.focus({preventScroll:true});
+    }));
+    setTimeout(()=>{
+      if(menuOpen && !menuOverlay.contains(document.activeElement)){
+        first.focus({preventScroll:true});
+      }
+    }, 120);
+  }
+});
+
+window.addEventListener('resize', ()=>{
+  if(window.innerWidth >= 900) closeMenu(false);
+}, {passive:true});
+
+// ========== 联系方式：一键复制 ==========
+(function initContactCopy(){
+  const status = document.getElementById('contactStatus');
+  const card = document.getElementById('contactCard');
+  const items = document.querySelectorAll('.contact-item[data-copy]');
+  if(!items.length) return;
+
+  const copyText = async text => {
+    if(navigator.clipboard && window.isSecureContext){
+      try{
+        await navigator.clipboard.writeText(text);
+        return;
+      }catch(err){
+        /* 权限被拒时回退到 execCommand */
+      }
+    }
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly','');
+    ta.style.cssText = 'position:fixed;top:-1000px;left:0;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    ta.remove();
+    if(!ok) throw new Error('copy failed');
+  };
+
+  items.forEach(item=>{
+    const label = item.querySelector('.contact-copy span');
+    const chan = item.querySelector('.contact-chan');
+    const original = label ? label.textContent : '';
+    let timer;
+
+    item.addEventListener('click', async ()=>{
+      const value = item.dataset.copy || '';
+      try{
+        await copyText(value);
+        item.classList.add('is-copied');
+        if(card) card.classList.add('is-copied');
+        if(label) label.textContent = 'Copied';
+        if(status) status.textContent = `${chan ? chan.textContent.trim() : ''} ${value} 已复制`;
+      }catch(err){
+        if(status) status.textContent = `复制失败，请手动记录：${value}`;
+      }
+      clearTimeout(timer);
+      timer = setTimeout(()=>{
+        item.classList.remove('is-copied');
+        if(card) card.classList.remove('is-copied');
+        if(label) label.textContent = original;
+        if(status) status.textContent = '';
+      }, 2000);
+    });
+  });
+})();
+
+// ========== 轮询拼贴：六组预置构图按刷新顺序轮转 ==========
+// 行内成组落位：两图一组（5+6 / 5+7 栏）或三图一组（4+4+4 栏）。
+// 每套构图由固定种子生成，刷新时按 0→1→…→5→0 轮询，不再随机。
+const rowPatterns = {
+  2: [[5,6],[6,5],[5,7],[7,5]],
+  3: [[4,4,4]]
+};
+const LAYOUT_VARIANTS = 6;
+let layoutVariant = ((visitIndex % LAYOUT_VARIANTS)+LAYOUT_VARIANTS)%LAYOUT_VARIANTS;
+function seededRandom(seed){
+  let a=seed>>>0;
+  return function(){
+    a=(a+0x6D2B79F5)>>>0;
+    let t=Math.imul(a^(a>>>15),1|a);
+    t=(t+Math.imul(t^(t>>>7),61|t))^t;
+    return ((t^(t>>>14))>>>0)/4294967296;
+  };
+}
+function randomRowSizes(n,rnd){
+  const sizes=[];
+  while(n>0){
+    if(n<=3){ sizes.push(n); break; }
+    if(n===4){ sizes.push(2,2); break; }
+    const size=rnd()<.62?2:3;
+    sizes.push(size);
+    n-=size;
+  }
+  return sizes;
+}
+function applyGalleryLayout(variantIndex=layoutVariant){
+  const grid=document.getElementById('galleryGrid');
+  if(!grid) return;
+  const rnd=seededRandom(0x9E3779B9 + variantIndex*0x85EBCA6B);
+  const cards=[...grid.querySelectorAll('.work-card')];
+  const sizes=randomRowSizes(cards.length,rnd);
+  let idx=0;
+  sizes.forEach(size=>{
+    const group=cards.slice(idx,idx+size);
+    idx+=size;
+    const patterns=rowPatterns[size]||rowPatterns[2];
+    const spans=patterns[Math.floor(rnd()*patterns.length)];
+    const free=12-spans.reduce((a,b)=>a+b,0);
+    let col=1+Math.floor(rnd()*(Math.max(0,free)+1));
+    group.forEach((card,k)=>{
+      card.style.setProperty('--c-start',col);
+      card.style.setProperty('--c-span',spans[k]);
+      col+=spans[k];
+      const baseLift = k===0 ? -(rnd()*5) : -(rnd()*9+1);
+      const lift=baseLift+(rnd()*1.6-.8);
+      const rot=rnd()*5.2-2.6;
+      card.style.setProperty('--lift',lift.toFixed(2)+'vw');
+      card.style.setProperty('--rot',rot.toFixed(2)+'deg');
+    });
+  });
+  // 首行不允许向上顶进标题/筛选区（隐藏卡片不参与测量）
+  const gridTop=grid.getBoundingClientRect().top;
+  cards.forEach(card=>{
+    if(!card.getClientRects().length) return;
+    const top=card.getBoundingClientRect().top;
+    if(top<gridTop){
+      const fixed=(parseFloat(getComputedStyle(card).marginTop)||0)+(gridTop-top);
+      card.style.setProperty('--lift',(fixed/window.innerWidth*100).toFixed(2)+'vw');
+    }
+  });
+  document.documentElement.dataset.layout=String(variantIndex);
+}
+function nextGalleryLayout(){
+  layoutVariant=(layoutVariant+1)%LAYOUT_VARIANTS;
+  applyGalleryLayout(layoutVariant);
 }
 
 // ========== 渲染画廊 ==========
@@ -501,143 +2668,377 @@ function switchPage(page){
   const grid=document.getElementById('galleryGrid');
   const bar=document.getElementById('filterBar');
 
-  // 生成筛选按钮
+  // 生成筛选按钮（展示去掉 # 的标签；data-tag 保持一致）
   getAllTags().forEach(tag=>{
     const btn=document.createElement('button');
+    btn.type='button';
     btn.className='filter-btn';
     btn.dataset.tag=tag;
-    btn.textContent=tag;
+    btn.setAttribute('aria-pressed','false');
+    btn.textContent=tag.replace(/^#/,'');
     bar.appendChild(btn);
   });
 
-  // 生成卡片
+  // 生成卡片：图片 → 编号 → 作品名 → IP/出镜 → 标签
   photos.forEach((p,i)=>{
-    const card=document.createElement('div');
-    card.className='artwork-card';
+    const card=document.createElement('article');
+    card.className='work-card';
     card.dataset.tags=p.tags.join(',');
-    card.style.cursor='pointer';
-    card.onclick=()=>openLightbox(photoStartIdx[i]);
+    card.tabIndex=0;
+    card.setAttribute('role','button');
+    card.setAttribute('aria-label',`查看作品 ${p.id} ${p.title}`);
+    card.addEventListener('click', ()=>openLightbox(photoStartIdx[i]));
+    card.addEventListener('keydown', e=>{
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault();
+        openLightbox(photoStartIdx[i]);
+      }
+    });
 
-    const h=p.h||1.3;
     const imgs=p.images||[];
     const firstImg=imgs.length>0?'public/previews/'+p.id+'/'+imgs[0]:null;
+    const tagText=p.tags.map(t=>escapeHTML(t.replace(/^#/,''))).join(' · ');
+    const tagSide=p.tags.map(t=>escapeHTML(t.replace(/^#/,''))).join(' / ');
+    const countText=imgs.length>1?`01 / ${pad2(imgs.length)}`:'';
+
     card.innerHTML=`
-      <div class="image-mask">
-        ${firstImg?`<img class="cover-img" data-src="${firstImg}" alt="${p.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="aspect-ratio:3/4;object-fit:cover;min-height:${Math.round(220*h)}px">`:''}
-        <div class="placeholder-img" data-label="${p.ip} · ${p.title}" style="aspect-ratio:3/4;background:linear-gradient(145deg,${p.color} 0%,var(--bg-deep) 70%);min-height:${Math.round(220*h)}px;${firstImg?'display:none':'display:flex'}">
-          <span style="font-size:2rem;opacity:0.15">📷</span>
-        </div>
-        ${imgs.length>1?`<span class="img-count-badge">${imgs.length}张</span>`:''}
+      <div class="work-media">
+        ${firstImg?`<img class="cover-img" data-src="${escapeHTML(firstImg)}" alt="${escapeHTML(p.title)} — ${escapeHTML(p.ip)}" loading="lazy" decoding="async">`:''}
+        <div class="work-placeholder ${firstImg?'':'is-shown'}" aria-hidden="true">${firstImg?'LOADING / '+escapeHTML(p.id):'NO IMAGE / '+escapeHTML(p.id)}</div>
+        <span class="work-halftone" aria-hidden="true"></span>
+        <span class="work-acid" aria-hidden="true"></span>
+        <span class="work-scan" aria-hidden="true"></span>
+        ${countText?`<span class="work-count" aria-hidden="true">${countText}</span>`:''}
+        <span class="work-side" aria-hidden="true">${tagSide} / HSUKO</span>
+        <span class="work-index-mark" aria-hidden="true">${escapeHTML(p.id)}</span>
       </div>
-      <div class="card-info">
-        <span class="ip-tag">${p.ip}</span>
-        <h3>${p.title}</h3>
-        <p class="credit-line">出镜：${p.model}</p>
-        <div class="card-tags">
-          ${p.tags.map(t=>`<span class="card-tag-badge">${t}</span>`).join('')}
+      <div class="work-caption">
+        <p class="work-no" aria-hidden="true">${escapeHTML(p.id)}</p>
+        <div>
+          <h3 class="work-title">${escapeHTML(p.title)}</h3>
+          <p class="work-meta">${escapeHTML(p.ip)} · 出镜 ${escapeHTML(p.model || '—')}</p>
+          <p class="work-tags">${tagText}</p>
         </div>
       </div>
     `;
     grid.appendChild(card);
   });
 
+  const heroCount=document.getElementById('heroCount');
+  if(heroCount) heroCount.textContent=String(photos.length).padStart(2,'0');
+
+  applyGalleryLayout();
+
   // ========== 懒加载：Intersection Observer ==========
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
-      const img = entry.target.querySelector('.cover-img');
+      const card = entry.target;
+      const img = card.querySelector('.cover-img');
+      const placeholder = card.querySelector('.work-placeholder');
       if (img && img.dataset.src) {
-        img.src = img.dataset.src;
         img.onload = () => img.classList.add('loaded');
-        img.onerror = function() {
-          this.style.display = 'none';
-          this.nextElementSibling.style.display = 'flex';
+        img.onerror = () => {
+          img.style.display = 'none';
+          if(placeholder) placeholder.classList.add('is-shown');
         };
+        img.src = img.dataset.src;
       }
-      io.unobserve(entry.target);
+      io.unobserve(card);
     });
   }, { rootMargin: '300px' });
-  document.querySelectorAll('.artwork-card').forEach(card => io.observe(card));
+
+  document.querySelectorAll('.work-card').forEach(card => io.observe(card));
 })();
 
 // ========== 筛选逻辑 ==========
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded', ()=>{
   const bar=document.getElementById('filterBar');
-  bar.addEventListener('click',e=>{
+  bar.addEventListener('click', e=>{
     const btn=e.target.closest('.filter-btn');
     if(!btn)return;
     const tag=btn.dataset.tag||'全部';
-    bar.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.artwork-card').forEach(card=>{
+    bar.querySelectorAll('.filter-btn').forEach(b=>{
+      const on = b===btn;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    document.querySelectorAll('.work-card').forEach(card=>{
       if(tag==='全部'){card.classList.remove('hidden');return;}
       const t=card.dataset.tags||'';
       card.classList.toggle('hidden',!t.includes(tag));
     });
+    nextGalleryLayout();
   });
 });
 
 // ========== 灯箱 ==========
+let lightboxOpen = false;
+let lightboxScrollY = 0;
+let lightboxActiveLayer = 'a';
+let lightboxRequest = 0;
+let lightboxReturnFocus = null;
+
+function lockBodyScroll(){
+  lightboxScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+  document.body.style.position='fixed';
+  document.body.style.top=`-${lightboxScrollY}px`;
+  document.body.style.left='0';
+  document.body.style.right='0';
+  document.body.style.width='100%';
+}
+
+function unlockBodyScroll(){
+  document.body.style.position='';
+  document.body.style.top='';
+  document.body.style.left='';
+  document.body.style.right='';
+  document.body.style.width='';
+  window.scrollTo(0, lightboxScrollY);
+}
+
+function svgPlaceholder(p){
+  const label = escapeHTML(p.title || 'IMAGE');
+  const sub = escapeHTML((p.ip || '') + (p.model ? ' / ' + p.model : ''));
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+    <rect width="800" height="1000" fill="#F1F0EC"/>
+    <rect x="24" y="24" width="752" height="952" fill="none" stroke="#111111" stroke-width="4"/>
+    <line x1="48" y1="64" x2="752" y2="64" stroke="#111111" stroke-width="1" opacity=".25"/>
+    <line x1="48" y1="936" x2="752" y2="936" stroke="#111111" stroke-width="1" opacity=".25"/>
+    <text x="400" y="500" text-anchor="middle" fill="#111111" font-size="34" font-family="Georgia,serif">${label}</text>
+    <text x="400" y="548" text-anchor="middle" fill="#737373" font-size="18" font-family="Courier New,monospace">${sub}</text>
+  </svg>`;
+  return 'data:image/svg+xml,'+encodeURIComponent(svg);
+}
+
+function updateLightboxInfo(p, index){
+  const info=document.getElementById('lightboxInfo');
+  const counter=document.getElementById('lightboxIndex');
+  const group = p.totalInGroup>1 ? ` / ${p.imageIndex+1} of ${p.totalInGroup}` : '';
+  const model = p.model ? ` · 出镜 ${escapeHTML(p.model)}` : '';
+  info.innerHTML = `<span class="lb-no">No.${escapeHTML(p.id)}</span><span class="lb-title">${escapeHTML(p.title)}</span><span class="lb-meta">${escapeHTML(p.ip)}${model}${group}</span>`;
+  counter.textContent = `${pad2(index+1)} / ${pad2(lightboxImages.length)}`;
+}
+
+function paintLightbox(p){
+  const a=document.getElementById('lightboxImgA');
+  const b=document.getElementById('lightboxImgB');
+  const incoming = lightboxActiveLayer === 'a' ? b : a;
+  const outgoing = lightboxActiveLayer === 'a' ? a : b;
+  const token = ++lightboxRequest;
+
+  const commit = ()=>{
+    if(token !== lightboxRequest) return;
+    incoming.classList.add('is-visible');
+    outgoing.classList.remove('is-visible');
+    lightboxActiveLayer = incoming === a ? 'a' : 'b';
+  };
+
+  incoming.onload = commit;
+  incoming.onerror = ()=>{
+    incoming.onerror = null;
+    incoming.src = svgPlaceholder(p);
+  };
+  incoming.alt = `${p.title} — ${p.ip}`;
+  incoming.src = p.src || svgPlaceholder(p);
+
+  if(incoming.complete && incoming.naturalWidth > 0){
+    requestAnimationFrame(commit);
+  }
+}
+
 function openLightbox(index){
   const p=lightboxImages[index];
-  const overlay=document.getElementById('lightboxOverlay');
-  const img=document.getElementById('lightboxImg');
-  const info=document.getElementById('lightboxInfo');
+  if(!p) return;
 
-  // 有真实图片就用真实图片，否则 fallback 到 SVG placeholder
-  if(p.src){
-    img.src=p.src;
-    img.onerror=function(){img.src=svgPlaceholder(p);img.onerror=null;};
-  } else {
-    img.src=svgPlaceholder(p);
+  const overlay=document.getElementById('lightboxOverlay');
+
+  if(!lightboxOpen){
+    lightboxReturnFocus = document.activeElement;
+    lockBodyScroll();
+    overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden','false');
+    lightboxOpen = true;
+    // 可见性过渡开始后再移交焦点；同帧内 visibility 仍为 hidden，focus() 会被忽略。
+    const focusClose = () => {
+      if(!lightboxOpen) return;
+      if(!overlay.contains(document.activeElement)){
+        document.getElementById('lbClose').focus({preventScroll:true});
+      }
+    };
+    requestAnimationFrame(() => requestAnimationFrame(focusClose));
+    setTimeout(focusClose, 120);
   }
-  img.alt=p.title;
 
-  // 组装信息：组内有N张时显示 "第 n/N 张"
-  let groupInfo='';
-  if(p.totalInGroup>1) groupInfo=` [${p.imageIndex+1}/${p.totalInGroup}]`;
-  info.textContent=`${p.title} — ${p.ip} | 出镜：${p.model}${groupInfo}`;
-  overlay.classList.add('active');
   overlay.dataset.currentIndex=String(index);
+  updateLightboxInfo(p, index);
+  paintLightbox(p);
 }
-function svgPlaceholder(p){
-  return 'data:image/svg+xml,'+encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="${Math.round(400*(p.h||1.3))}" viewBox="0 0 600 ${Math.round(400*(p.h||1.3))}">
-      <defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:${p.color}"/>
-        <stop offset="100%" style="stop-color:#E6DFDF"/>
-      </linearGradient></defs>
-      <rect width="600" height="${Math.round(400*(p.h||1.3))}" fill="url(#g)"/>
-      <text x="300" y="${Math.round(200*(p.h||1.3))}" text-anchor="middle" fill="rgba(0,0,0,0.08)" font-size="80" font-family="sans-serif">📷</text>
-      <text x="300" y="${Math.round(200*(p.h||1.3))+60}" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="18" font-family="sans-serif">${p.title} · ${p.ip}</text>
-    </svg>`);
-}
+
 function closeLightbox(){
-  document.getElementById('lightboxOverlay').classList.remove('active');
-}
-function navigateLightbox(dir){
+  if(!lightboxOpen) return;
   const overlay=document.getElementById('lightboxOverlay');
-  const cur=parseInt(overlay.dataset.currentIndex||'0');
+  overlay.classList.remove('active');
+  overlay.setAttribute('aria-hidden','true');
+  lightboxOpen = false;
+  unlockBodyScroll();
+  if(lightboxReturnFocus && typeof lightboxReturnFocus.focus === 'function'){
+    lightboxReturnFocus.focus({preventScroll:true});
+  }
+  lightboxReturnFocus = null;
+}
+
+function navigateLightbox(dir){
+  if(!lightboxOpen) return;
+  const overlay=document.getElementById('lightboxOverlay');
+  const cur=parseInt(overlay.dataset.currentIndex||'0',10);
   const next=(cur+dir+lightboxImages.length)%lightboxImages.length;
   openLightbox(next);
 }
-document.addEventListener('keydown',e=>{
-  const overlay=document.getElementById('lightboxOverlay');
-  if(!overlay.classList.contains('active'))return;
-  if(e.key==='Escape')closeLightbox();
-  if(e.key==='ArrowLeft')navigateLightbox(-1);
-  if(e.key==='ArrowRight')navigateLightbox(1);
+
+document.getElementById('lightboxOverlay').addEventListener('click', closeLightbox);
+document.getElementById('lbFrame').addEventListener('click', e=>e.stopPropagation());
+document.getElementById('lbClose').addEventListener('click', e=>{ e.stopPropagation(); closeLightbox(); });
+document.getElementById('lbPrev').addEventListener('click', e=>{ e.stopPropagation(); navigateLightbox(-1); });
+document.getElementById('lbNext').addEventListener('click', e=>{ e.stopPropagation(); navigateLightbox(1); });
+document.getElementById('lbEdgePrev').addEventListener('click', e=>{ e.stopPropagation(); navigateLightbox(-1); });
+document.getElementById('lbEdgeNext').addEventListener('click', e=>{ e.stopPropagation(); navigateLightbox(1); });
+
+// 滑动手势：只识别横向、不产生位移动画，切换仍是 400ms 交叉淡入。
+(function initLightboxSwipe(){
+  const stage=document.getElementById('lbStage');
+  let startX=0, startY=0, tracking=false;
+
+  stage.addEventListener('touchstart', e=>{
+    if(e.touches.length !== 1) return;
+    startX=e.touches[0].clientX;
+    startY=e.touches[0].clientY;
+    tracking=true;
+  }, {passive:true});
+
+  stage.addEventListener('touchend', e=>{
+    if(!tracking) return;
+    tracking=false;
+    const dx=e.changedTouches[0].clientX-startX;
+    const dy=e.changedTouches[0].clientY-startY;
+    if(Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(dy)){
+      navigateLightbox(dx < 0 ? 1 : -1);
+    }
+  }, {passive:true});
+})();
+
+// 模态层内的 Tab 循环：焦点不落入被覆盖的页面。
+function trapFocus(e, root){
+  const focusables=[...root.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])')]
+    .filter(el=>{
+      const cs=getComputedStyle(el);
+      return cs.display!=='none' && cs.visibility!=='hidden' && el.getClientRects().length>0;
+    });
+  if(!focusables.length) return;
+  const first=focusables[0];
+  const last=focusables[focusables.length-1];
+  const outside=!root.contains(document.activeElement);
+  if(e.shiftKey && (outside || document.activeElement===first)){
+    e.preventDefault();
+    last.focus({preventScroll:true});
+  }else if(!e.shiftKey && (outside || document.activeElement===last)){
+    e.preventDefault();
+    first.focus({preventScroll:true});
+  }
+}
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='Tab' && lightboxOpen){
+    trapFocus(e, document.getElementById('lightboxOverlay'));
+    return;
+  }
+  if(e.key==='Tab' && menuOpen){
+    trapFocus(e, menuOverlay);
+    return;
+  }
+  if(e.key==='Escape' && lightboxOpen){
+    closeLightbox();
+    return;
+  }
+  if(e.key==='Escape' && menuOpen){
+    closeMenu(true);
+    return;
+  }
+  if(!lightboxOpen) return;
+  if(e.key==='ArrowLeft'){ e.preventDefault(); navigateLightbox(-1); }
+  if(e.key==='ArrowRight'){ e.preventDefault(); navigateLightbox(1); }
 });
 
-// ========== 随机背景 ==========
-(function initBg(){
-  const bgColors=['#C5D9D5','#AADDD4','#E6DFDF','#7FEFD0','#D4EDE8'];
-  const c=bgColors[Math.floor(Math.random()*bgColors.length)];
-  document.getElementById('bgLayer').style.background=`
-    radial-gradient(ellipse at 30% 20%, ${c} 0%, transparent 60%),
-    radial-gradient(ellipse at 70% 60%, rgba(127,239,208,0.25) 0%, transparent 50%),
-    var(--bg-deep)
-  `;
+// ========== 自定义光标（仅精确指针） ==========
+(function initCursor(){
+  if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  const cursor=document.querySelector('.cursor');
+  if(!cursor) return;
+  const dot=cursor.querySelector('.cursor-dot');
+  const ring=cursor.querySelector('.cursor-ring');
+
+  document.documentElement.classList.add('has-cursor');
+
+  let mx=window.innerWidth/2, my=window.innerHeight/2;
+  let active=false;
+
+  window.addEventListener('pointermove', e=>{
+    mx=e.clientX; my=e.clientY;
+    if(!active){
+      active=true;
+      cursor.classList.add('is-active');
+    }
+  }, {passive:true});
+
+  document.addEventListener('pointerover', e=>{
+    if(!(e.target instanceof Element)) return;
+    const card=e.target.closest('.work-card');
+    const interactive=e.target.closest('a,button,.filter-btn,[role="button"],input,textarea,select');
+    ring.classList.toggle('is-view', !!card);
+    ring.classList.toggle('is-link', !!interactive && !card);
+  });
+
+  document.addEventListener('mouseleave', ()=>cursor.classList.remove('is-active'));
+  document.addEventListener('mouseenter', ()=>cursor.classList.add('is-active'));
+
+  function loop(){
+    dot.style.transform=`translate3d(${mx}px,${my}px,0) translate(-50%,-50%)`;
+    ring.style.transform=`translate3d(${mx}px,${my}px,0) translate(-50%,-50%)`;
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ========== 作品卡片 3D 磁吸倾斜（仅精确指针） ==========
+(function initTilt(){
+  if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  const grid=document.getElementById('galleryGrid');
+  if(!grid) return;
+
+  grid.addEventListener('pointermove', e=>{
+    if(!(e.target instanceof Element)) return;
+    const card=e.target.closest('.work-card');
+    if(!card) return;
+    const media=card.querySelector('.work-media');
+    if(!media) return;
+    const r=media.getBoundingClientRect();
+    if(!r.width || !r.height) return;
+    const px=(e.clientX-r.left)/r.width-.5;
+    const py=(e.clientY-r.top)/r.height-.5;
+    media.style.setProperty('--rx',(-py*5).toFixed(2)+'deg');
+    media.style.setProperty('--ry',(px*5).toFixed(2)+'deg');
+  }, {passive:true});
+
+  grid.addEventListener('pointerout', e=>{
+    if(!(e.target instanceof Element)) return;
+    const card=e.target.closest('.work-card');
+    if(!card) return;
+    if(e.relatedTarget && card.contains(e.relatedTarget)) return;
+    const media=card.querySelector('.work-media');
+    if(!media) return;
+    media.style.setProperty('--rx','0deg');
+    media.style.setProperty('--ry','0deg');
+  });
 })();
 
 // ========== 运行时间计时器 ==========
@@ -655,6 +3056,5 @@ document.addEventListener('keydown',e=>{
   tick();setInterval(tick,1000);
 })();
 </script>
-
 </body>
 </html>

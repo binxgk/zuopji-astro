@@ -1,146 +1,166 @@
-# hebiko-astro — 摄影作品集站点
+# 氷子 / HSUKO — 视觉系摄影图录
 
-基于 [hebiko.cn](https://hebiko.cn) 风格，用 Astro 构建的二次元/Cosplay 摄影作品集站点。
+> **Visual Résumé · Issue 01 · 2026**
+> Cosplay / Portrait / Field —— 十件作品的私人图录。
 
-## 技术栈
+一个**单文件、零构建**的摄影作品集站点：`index.html` 一份文件装下全部页面、样式、脚本与交互，双击即可浏览，丢到任何静态托管即可上线。
 
-- **框架**: Astro 5.x（静态生成 SSG）
-- **语言**: TypeScript
-- **样式**: 纯 CSS（暗色主题 + 毛玻璃 + 瀑布流）
-- **日历**: FullCalendar 5.11.3（CDN 引入）
-- **部署**: 静态 HTML，可部署到任何静态托管服务
+---
 
-## 项目结构
+## 关于这个版本
+
+**本站是完全重新构筑的版本，与 hebiko.cn 及其风格没有任何关系。**
+
+早期的骨架（暗色主题 + 毛玻璃 + 瀑布流 + 随机打乱顺序）已经被整体废弃，视觉语言、排版系统、页面结构与交互模型全部重写：
+
+| | 旧版（已废弃） | 当前版本 |
+| --- | --- | --- |
+| 视觉语言 | 暗色 + 毛玻璃 + 柔光 | 纸白 / 墨黑 + 信号橙、电光青双强调色，halftone 网点、硬投影、颗粒 |
+| 排版 | 居中 Hero + 常规字阶 | 瑞士栅格 + 编辑设计字阶，`clamp()` 流体排版，展签式四级信息层级 |
+| 页面模型 | 多页 Astro 构建 | 单文件三页 SPA（作品索引 / 拍摄须知 / 价格参考），500ms 无位移交叉淡入 |
+| 作品顺序 | 每次随机打乱 | 本地计数轮转，每次刷新整体左移一位，Hero 主图同步轮换 |
+| 构建 | `npm install` + `npm run build` | 无需构建、无需依赖，字体走 Google Fonts CDN |
+
+旧版 Astro 源码仍保留在 `src/` 目录下作为归档参考，当前站点已不再依赖它。当时的完整设计决策记录见 [`DESIGN-NOTES.md`](./DESIGN-NOTES.md)（585 行，逐条可回查）。
+
+---
+
+## 特性
+
+- **单文件交付** — `index.html` 内联全部 CSS / JS / 数据，约 3000 行，无打包工具、无框架、无 npm 依赖
+- **三页 SPA** — 作品索引、拍摄须知、价格参考，用 `#page-*` 哈希路由切换，前进后退可用
+- **杂志式 Hero** — 两张主图轮换、竖排刊头、Issue 编号、跑马灯（marquee）循环带
+- **作品索引** — 标签筛选（全部 / #场照 / #棚拍 / #外景 / #正片 / #半合成）+ CSS Grid 画廊 + 悬停展签
+- **灯箱** — 每组多图展开为平面序列，键盘 ← → / Esc 操作，触屏 44px 侧边热区，焦点循环与焦点归还
+- **轮转机制** — `localStorage` 记录访问计数（键 `hsuko.rotation.v1`），顺序轮转而非随机，同一访客每次刷新看到不同首屏
+- **性能** — 图片 `loading="lazy"` + `IntersectionObserver` 懒加载、封面 `fetchpriority="high"`、`content-visibility` 与 `will-change` 收敛
+- **可访问性** — 跳过链接、`aria-current` / `aria-pressed` / `aria-modal`、44px 最小触控目标、`prefers-reduced-motion` 降级、纯键盘可完成全部操作
+- **纯前端管理台** — `admin.html` 提供作品与价格的可视化编辑、批量操作、导入导出 JSON、重置草稿
+
+---
+
+## 目录结构
 
 ```
-hebiko-astro/
+zuopji-astro/
+├── index.html              # 主站：单文件站点（内联 CSS / JS / 作品数据）
+├── admin.html              # 管理台：作品与价格的纯前端编辑器（导出 site-config.json）
+├── DESIGN-NOTES.md         # 设计决策记录：理论依据、取舍、实测证据
 ├── public/
-│   ├── favicon.svg            # 站点图标
-│   └── previews/              # 图片目录（放你的作品图片）
-├── src/
-│   ├── data/
-│   │   ├── photos.ts          # 作品数据（替换为你的作品）
-│   │   └── schedule.ts        # 日程数据（替换为你的安排）
-│   ├── layouts/
-│   │   └── BaseLayout.astro   # 全站布局（导航栏+灯箱+弹窗）
-│   ├── pages/
-│   │   ├── index.astro        # 首页：作品集瀑布流
-│   │   └── schedule.astro     # 日程页：月历视图
-│   ├── styles/
-│   │   └── global.css         # 全局样式
-│   └── env.d.ts               # 类型声明
-├── astro.config.mjs           # Astro 配置
-├── package.json
-├── tsconfig.json
-└── README.md
+│   ├── favicon.ico
+│   └── previews/           # 作品图片，按作品 id 分目录
+│       ├── 01/01-1.jpg 01-2.jpg
+│       ├── 02/02-1.jpg
+│       ├── 03/03-1.jpg
+│       └── ...
+├── src/                    # 上一代 Astro 版本（归档，当前站点不依赖）
+│   ├── data/site-config.json
+│   ├── layouts/BaseLayout.astro
+│   ├── pages/{index,schedule,pricing,admin}.astro
+│   └── styles/global.css
+├── astro.config.mjs        # 仅归档版使用
+├── package.json            # 仅归档版使用
+└── tsconfig.json           # 仅归档版使用
 ```
 
-## 逐步搭建指南
+---
 
-### 第一步：环境准备
+## 快速开始
 
-确保电脑已安装 Node.js 18+（推荐 20+）：
+### 直接打开
+
+双击 `index.html` 即可。所有样式与脚本都内联，作品图走相对路径 `public/previews/…`，无需服务器。
+
+想更接近真实环境（哈希路由、字体缓存行为一致），起一个本地静态服务器即可：
 
 ```bash
-node -v   # 应显示 v18.x 或更高
-npm -v    # 应显示 9.x 或更高
+# 任选其一
+npx serve .
+python -m http.server 8080
 ```
 
-如未安装，前往 [nodejs.org](https://nodejs.org/) 下载安装。
+### 需要联网的部分
 
-### 第二步：安装依赖
+- **字体**：Google Fonts（Bodoni Moda / Courier Prime / Space Grotesk / Noto Serif SC / Noto Sans SC）。离线时会回退到系统衬线/无衬线，排版不塌但气质会变。
+- **图片**：全部本地，无外链。
 
-在项目根目录下运行：
+---
 
-```bash
-npm install
-```
+## 维护内容
 
-这会安装 Astro、TypeScript 等依赖。
+### 1. 增删作品
 
-### 第三步：准备图片
+作品数据内联在 `index.html` 底部的 `const photos = [...]`（约第 2348 行）：
 
-将你的摄影作品图片放入 `public/previews/` 目录下。建议使用 jpg 格式，宽度 800-1200px 即可。
-
-### 第四步：修改数据
-
-**作品数据** — 编辑 `src/data/photos.ts`：
-
-```ts
+```js
 {
-  id: '01',
-  title: '角色名',      // 显示在卡片上
-  ip: '作品来源',       // 如"原神""鸣潮"
-  model: '模特名',      // 出镜模特
-  tags: ['#高调', '#外景'],  // 摄影标签，用于筛选
-  image: '/previews/你的文件名.jpg',
+  id: '11',                    // 作品编号，同时是图片目录名
+  title: '下江小春',            // 角色名
+  ip: '碧蓝档案',               // 作品出处
+  model: '屁屁',                // 出镜模特
+  tags: ['#外景'],              // 标签，自动汇总进筛选栏
+  color: '#141416',            // 旧版占位色，已中性化，当前不参与渲染
+  h: 1.3,                      // 高宽比系数（1.0–2.0），决定卡片占位高度
+  images: ['11-1.jpg']         // 图片文件名，放在 public/previews/11/ 下
 }
 ```
 
-**日程数据** — 编辑 `src/data/schedule.ts`：
+`id` 必须与图片目录同名，图片路径由 `public/previews/{id}/{文件名}` 拼出。
 
-```ts
-{ title: '14时 角色名 地点', date: '2026-07-15' },
-```
+### 2. 用管理台改（推荐，免手写数组）
 
-### 第五步：修改站点信息
+打开 `admin.html`：
 
-**站点名称** — 编辑 `src/layouts/BaseLayout.astro` 第 8 行，修改 `title` 和 `description` 默认值。
+- 修改保存在浏览器 `localStorage` 的 `aura_admin_config` 键中，**不会自动写回源码**
+- 支持增删改作品、调整图片顺序、编辑标签、批量删除、编辑价格与加购项
+- 「导出 JSON」下载完整的 `site-config.json`，覆盖到 `src/data/site-config.json`
+- 「导入 JSON」可从备份恢复；「重置」回到内置默认值
 
-**联系信息** — 编辑 `src/pages/index.astro`，修改 `.contact-line` 段落中的联系方式。
+> 注意：当前主站读的是 `index.html` 里的内联数组。管理台导出的是 `src/data/site-config.json`（归档 Astro 版的数据源）。把导出的内容同步进 `index.html` 的 `photos` 数组后刷新，改动才会出现在前台。
 
-**模特选图密码** — 编辑 `src/layouts/BaseLayout.astro` 第 161 行，修改 `validCodes` 数组。
+### 3. 图片规范
 
-**随机背景图** — 编辑 `src/layouts/BaseLayout.astro` 第 23 行，修改 `backgrounds` 数组。
+- 目录：`public/previews/{作品id}/{作品id}-{序号}.jpg`
+- 格式：JPG，长边 1200–2000px，单张控制在 500KB 以内（首屏 Hero 优先）
+- 文件名**全小写**，与 `photos[].images` 中写法严格一致 —— 站点常部署在区分大小写的 Linux 主机上，`03-1.JPG` 与 `03-1.jpg` 是两个不同文件
 
-### 第六步：本地预览
+---
 
-```bash
-npm run dev
-```
+## 部署
 
-浏览器访问 `http://localhost:4321` 即可预览。
+纯静态，`index.html` 与 `public/` 放在同一目录即可：
 
-### 第七步：构建部署
+- **GitHub Pages** — 把仓库设为 Pages 源（main 分支根目录），保持 `index.html` 与 `public/` 同级
+- **Vercel / Netlify / Cloudflare Pages** — 无需构建命令，输出目录填仓库根目录（或 `/`）
+- **任意静态服务器 / 对象存储** — 上传 `index.html`、`admin.html`、`public/` 三个对象即可
 
-```bash
-npm run build
-```
+若要部署到子路径（如 `example.com/works/`），确认 `index.html` 中的 `public/previews/…` 相对路径与所在层级一致。
 
-构建产物在 `dist/` 目录下，可直接部署到：
+---
 
-- **GitHub Pages**: 将 `dist/` 推送到 `gh-pages` 分支
-- **Vercel / Netlify**: 连接仓库，构建命令 `npm run build`，输出目录 `dist`
-- **Cloudflare Pages**: 同上配置
-- **任意静态服务器**: 将 `dist/` 内容上传即可
+## 设计说明
 
-### 第八步：自定义样式
+[`DESIGN-NOTES.md`](./DESIGN-NOTES.md) 记录了每一处视觉选择的依据与无法同时满足时的取舍，包括：瑞士国际主义的栅格执行、编辑设计六变量的具体化、博物馆展签的四级信息制度、流体排版的 clamp 公式表、8px 基线、44px 热区、WCAG 对比度实测结论，以及 11 条任务书内部冲突的处理方式。
 
-编辑 `src/styles/global.css`，所有颜色变量在 `:root` 中定义：
+配色 token（`index.html` 的 `:root`）：
 
 ```css
---bg-deep: #0a0c10;       /* 最深背景色 */
---bg-card: #111317;        /* 卡片背景色 */
---accent: #3a6ea5;         /* 主题强调色 */
---text-primary: #eef2f5;   /* 主文字色 */
+--bg-paper:      #F4F3F0;  /* 纸白 */
+--ink-black:     #090909;  /* 墨黑 */
+--accent-orange: #FF3E00;  /* 信号橙 */
+--accent-cyan:   #00F0FF;  /* 电光青 */
+--hazard-yellow: #FFD600;  /* 警示黄 */
 ```
 
-## 功能说明
+---
 
-- **瀑布流作品集**：CSS column-count 实现，自动适配两列/单列
-- **标签筛选**：点击筛选栏标签，按摄影风格过滤作品
-- **灯箱大图**：点击作品卡片弹出大图，支持键盘左右切换
-- **模特选图入口**：密码保护弹窗，可配置合法特征码
-- **约拍日程**：FullCalendar 月视图，展示已安排的拍摄日期
-- **毛玻璃背景**：随机选取背景图，模糊后作为页面底纹
+## 更新记录
 
-## 常见问题
+- **2026-10** — 全站重写为单文件版本，彻底脱离 hebiko.cn 风格；新增杂志式 Hero、轮询式首屏轮转、三页 SPA 路由、纯前端管理台；修正 `03-1.JPG` 与引用大小写不一致的问题
+- **更早** — Astro 版本的构建与迭代记录（见 `src/`，仅作归档）
 
-**Q: 图片不显示？**  
-A: 检查图片是否放在 `public/previews/` 下，且 `photos.ts` 中的 `image` 路径以 `/previews/` 开头。
+---
 
-**Q: 日历不显示？**  
-A: FullCalendar 通过 CDN 加载，确保网络可访问 `cdn.jsdelivr.net`。
+## 联系
 
-**Q: 如何修改主题色？**  
-A: 修改 `global.css` 中 `:root` 的 `--accent` 变量值即可。
+约拍 / 合作：QQ **2166783550** · 微信 **anzzbfly**

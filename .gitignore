@@ -3,3 +3,13 @@ dist/
 .env
 .DS_Store
 *.log
+
+# Astro 构建缓存
+.astro/
+.output/
+
+# 视觉回归验证产物（截图、探针脚本、报告，约 100MB，不入库）
+.verify/
+
+# 本地临时目录
+_repo_probe/
