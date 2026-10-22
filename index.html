@@ -561,14 +561,14 @@ main{position:relative;z-index:1;background:var(--bg-paper)}
 .hero-contact{
   border-left:4px solid var(--accent-orange);
   padding-left:clamp(12px,1.6vw,20px);
-  font:400 .7rem/1.9 var(--mono);
-  letter-spacing:.14em;
+  font:400 .86rem/1.85 var(--mono);
+  letter-spacing:.1em;
   text-transform:uppercase;
 }
 .hero-contact span{
   display:block;
-  font-size:.82em;
-  letter-spacing:.26em;
+  font-size:.74em;
+  letter-spacing:.22em;
   color:var(--grey);
 }
 .hero-contact strong{
@@ -1074,9 +1074,10 @@ main{position:relative;z-index:1;background:var(--bg-paper)}
 }
 .price-items{
   display:flex;flex-wrap:wrap;gap:4px 0;
-  margin-top:10px;
-  font:400 .7rem/1.8 var(--mono);
-  letter-spacing:.1em;
+  margin-top:12px;
+  /* 套餐明细是正文内容（不是元信息），字号向 .note-row p 的 .93rem 靠拢 */
+  font:400 clamp(.86rem,1.05vw,.95rem)/1.85 var(--mono);
+  letter-spacing:.045em;
   color:var(--ink-soft);
 }
 .price-items li + li::before{content:" / ";color:var(--grey);white-space:pre}
@@ -1200,6 +1201,21 @@ main{position:relative;z-index:1;background:var(--bg-paper)}
   letter-spacing:-.035em;
 }
 .social-line em{font-style:italic;font-weight:400}
+.social-line .social-link{
+  color:inherit;
+  text-decoration:none;
+  display:inline-block;
+  padding:0 .06em;
+  border-bottom:3px solid currentColor;
+  transition:background-color .22s ease,color .22s ease,border-color .22s ease;
+}
+.social-line .social-link:hover,
+.social-line .social-link:focus-visible{
+  background:var(--ink-black);
+  color:var(--accent-orange);
+  border-bottom-color:var(--ink-black);
+  outline:none;
+}
 .social-arrow{
   font-family:var(--serif);
   font-size:clamp(2.4rem,5vw,5rem);
@@ -1705,8 +1721,8 @@ body.menu-open .book-now{opacity:0;pointer-events:none}
   .hero-foot{grid-template-columns:1fr auto;gap:12px 16px;padding-top:18px}
   .hero-cn{font-size:1.28rem}
   .hero-sub{font-size:.62rem;letter-spacing:.18em;margin-top:8px}
-  .hero-contact{font-size:.64rem;letter-spacing:.12em;line-height:1.8}
-  .hero-contact span{font-size:.58rem;letter-spacing:.2em}
+  .hero-contact{font-size:.8rem;letter-spacing:.08em;line-height:1.75}
+  .hero-contact span{font-size:.64rem;letter-spacing:.18em}
   .hero-count #heroCount{font-size:3.3rem}
   .hero-count-label{font-size:.56rem;letter-spacing:.16em}
   .marquee-item{height:30px;padding:0 8px;gap:8px;font-size:.56rem;letter-spacing:.12em}
@@ -1760,7 +1776,7 @@ body.menu-open .book-now{opacity:0;pointer-events:none}
   .price-row{padding:18px 0;gap:12px}
   .price-row h3{font-size:1.2rem}
   .price-row::before{top:24px;height:0;border-bottom-width:2px}
-  .price-items{font-size:.64rem;letter-spacing:.05em}
+  .price-items{font-size:.88rem;letter-spacing:.03em;line-height:1.8}
   .price-figure{font-size:clamp(3.4rem,15vw,4.6rem);padding-left:10px}
   .price-figure .unit{display:block;margin:8px 0 0;font-size:.62rem;letter-spacing:.14em}
   .addons-grid{grid-template-columns:1fr}
@@ -2235,7 +2251,7 @@ body.menu-open .book-now{opacity:0;pointer-events:none}
       <div class="social-strip" data-animate>
         <div>
           <p class="social-kicker">MORE / 更多例图</p>
-          <p class="social-line">同名 <em>小红书</em> · <em>抖音</em></p>
+          <p class="social-line">同名 <a class="social-link" href="https://xhslink.cn/o/1QdnQuGBLzR" target="_blank" rel="noopener noreferrer" aria-label="在小红书查看同名例图（新窗口打开）"><em>小红书</em></a> · <a class="social-link" href="https://v.douyin.com/BqORL4QbkAM/" target="_blank" rel="noopener noreferrer" aria-label="在抖音查看同名例图（新窗口打开）"><em>抖音</em></a></p>
         </div>
         <span class="social-arrow" aria-hidden="true">↗</span>
       </div>
@@ -2257,7 +2273,7 @@ body.menu-open .book-now{opacity:0;pointer-events:none}
             <div class="contact-grid">
               <button class="contact-item" type="button" data-copy="2166783550" aria-label="复制 QQ 号 2166783550">
                 <span class="contact-chan">QQ</span>
-                <span class="contact-value">2166 783 550</span>
+                <span class="contact-value">2166783550</span>
                 <span class="contact-copy"><span>Copy</span><b aria-hidden="true">↗</b></span>
               </button>
               <button class="contact-item" type="button" data-copy="anzzbfly" aria-label="复制微信号 anzzbfly">
